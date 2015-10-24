@@ -42,7 +42,7 @@ namespace JPEG
         {
             Color[,] outputArray2D;
             outputArray2D = new Color[2, 2];
-
+            //alle 3Vector Koordinaten
             for (int y = 0; y < pixelMaxX; y++)
             {
                 for (int x = 0; x < pixelMaxX; x++)
@@ -50,8 +50,7 @@ namespace JPEG
                     outputArray2D[y, x].a = inputArray2D[y, x].a;
                 }
             }
-
-
+            //alle 1Vector Koordinaten
             for (int y = 0; y < pixelMaxY;y= y+input_compression)
             {
                 for (int x = 0; x < pixelMaxX; x=x + input_compression)
