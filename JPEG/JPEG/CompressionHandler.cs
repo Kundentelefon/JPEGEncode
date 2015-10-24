@@ -38,7 +38,7 @@ namespace JPEG
         /// </summary>
         /// <param name="input_compression"></param>
         /// <returns></returns>
-        public Color[,] lokaleMittelung(int input_compression)
+        public Color[,] localAveraging(int input_compression)
         {
             Color[,] outputArray2D;
             outputArray2D = new Color[2, 2];
