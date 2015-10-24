@@ -28,9 +28,30 @@ namespace JPEG
             pixelY = inputY;
         }
 
-        public Color[,] compressLine2D(int input_compression)
+        public Color[,] compressLine_schemaC(int input_compression)
         {
             compression = input_compression;
+            Color tempColor = new Color();
+   
+            for (int y = 0; y < pixelY; y++)
+            {
+                for (int x = 0; x < pixelX; x++)
+                {
+                    tempColor = input_array[y, x];
+                    output_array_2D[y, x].a = tempColor.a;
+                }
+            }
+
+
+            for (int y = 0; y<pixelY; y+ input_compression)
+            {
+                for(int x = 0; x<pixelX; x+input_compression)
+                {
+                    tempColor = input_array[y, x];
+                    output_array_2D[y, x].b = tempColor.b;
+                    output_array_2D[y, x].c = tempColor.c;
+                }
+            }
 
 
             return output_array_2D;
