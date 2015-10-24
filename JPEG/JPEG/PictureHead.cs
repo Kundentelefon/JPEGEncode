@@ -12,5 +12,9 @@ namespace JPEG
         private int pixelMaxX;
         private int pixelMaxY;
         private int compression;
+        //
+        byte aAbtastschema;
+        byte bAbtastschema;
+        byte cAbtastschema;
     }
 }

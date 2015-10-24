@@ -11,8 +11,8 @@ namespace JPEG
         public void testZickZackbyte()
         {
             byte[,] test = new byte[4, 6] { { 1, 2, 6, 7, 14, 15 }, { 3, 5, 8, 13, 16, 21 }, { 4, 9, 12, 17, 20, 22 }, { 10, 11, 18, 19, 23, 24 } };
-            byte[,] test2 = new byte[4, 7] { { 0, 1, 5, 6, 13, 14, 21 }, { 2, 4, 7, 12, 15, 20, 22 }, { 3, 8, 11, 16, 19, 23, 26 }, { 9, 10, 17, 18, 24, 25, 27 } };
-            byte[,] test3 = new byte[5, 7] { { 0, 1, 5, 6, 14, 15, 24 }, { 2, 4, 7, 13, 16, 23, 25 }, { 3, 8, 12, 17, 22, 26, 31 }, { 9, 11, 18, 21, 27, 30, 32 }, { 10, 19, 20, 28, 29, 33, 34 } };
+            byte[,] test2 = new byte[4, 7] { { 1, 2, 6, 7, 14, 15, 22 }, { 3, 5, 8, 13, 16, 21, 23 }, { 4, 9, 12, 17, 20, 24, 27 }, { 10, 11, 18, 19, 25, 26, 28 } };
+            byte[,] test3 = new byte[5, 7] { { 1, 2, 6, 7, 15, 16, 25 }, { 3, 5, 8, 14, 17, 24, 26 }, { 4, 9, 13, 18, 23, 27, 32 }, { 10, 12, 19, 22, 28, 31, 33 }, { 11, 20, 21, 29, 30, 34, 35 } };
             byte[,] test4 = new byte[5, 6] { { 1, 2, 6, 7, 15, 16 }, { 3, 5, 8, 14, 17, 24 }, { 4, 9, 13, 18, 23, 25 }, { 10, 12, 19, 22, 26, 29 }, { 11, 20, 21, 27, 28, 30 } };
 
             byte[,] test5 = new byte[6, 4] { { 1, 2, 6, 7 }, { 3, 5, 8, 14 }, { 4, 9, 13, 15 }, { 10, 12, 16, 21 }, { 11, 17, 20, 22 }, { 18, 19, 23, 24 } };
@@ -22,15 +22,66 @@ namespace JPEG
             //var test2= test.GetLength(0);
             //var test3 = test.GetLength(1);
             Math testmath = new Math();
-            //var res = testmath.ZickZackScanByte(test);
-            //var res2 = testmath.ZickZackScanByte(test2);
-            //var res3 = testmath.ZickZackScanByte(test3);
-            //var res4 = testmath.ZickZackScanByte(test4);
+            byte[] restest = new byte[24];
+            byte[] restest2 = new byte[28];
+            byte[] restest3 = new byte[35];
+            byte[] restest4 = new byte[30];
+            for (byte i = 0; i < 24; i++)
+            {
+                restest[i] = (byte)(i+1);
+            }
+            for (byte i = 0; i < 28; i++)
+            {
+                restest2[i] = (byte)(i+1);
+            }
+            for (byte i = 0; i < 35; i++)
+            {
+                restest3[i] = (byte)(i+1);
+            }
+            for (byte i = 0; i < 30; i++)
+            {                
+                restest4[i] = (byte)(i +1);
+            }
+            var result1 = false;
+            var res = testmath.ZickZackScanByte(test);            
+            var res2 = testmath.ZickZackScanByte(test2);
+            var res3 = testmath.ZickZackScanByte(test3);
+            var res4 = testmath.ZickZackScanByte(test4);
+            if (res.SequenceEqual(restest)&& res2.SequenceEqual(restest2) && res3.SequenceEqual(restest3) && res4.SequenceEqual(restest4))
+            {
+                result1 = true;
+            }
+
+            byte[] restest5 = new byte[24];
+            byte[] restest6 = new byte[42];
+            byte[] restest7 = new byte[35];
+            byte[] restest8 = new byte[30];
+            for (byte i = 0; i < 24; i++)
+            {
+                restest5[i] = (byte)(i + 1);
+            }
+            for (byte i = 0; i < 42; i++)
+            {
+                restest6[i] = (byte)(i + 1);
+            }
+            for (byte i = 0; i < 35; i++)
+            {
+                restest7[i] = (byte)(i + 1);
+            }
+            for (byte i = 0; i < 30; i++)
+            {
+                restest8[i] = (byte)(i + 1);
+            }
+            var result2 = false;
             //passt
             var res5 = testmath.ZickZackScanByte(test5);
             var res6 = testmath.ZickZackScanByte(test6);
             var res7 = testmath.ZickZackScanByte(test7);
             var res8 = testmath.ZickZackScanByte(test8);
+            if (res5.SequenceEqual(restest5) && res6.SequenceEqual(restest6) && res7.SequenceEqual(restest7) && res8.SequenceEqual(restest8))
+            {
+                result2 = true;
+            }
         }
     }
 }
