@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace JPEG
 {
+    /// <summary>
+    /// konsturktor mit farbschema    
+    /// </summary>
     class Picture
     {
         PictureHead Head;

@@ -9,53 +9,51 @@ namespace JPEG
     class CompressionHandler
     {
         
-        Color[] output_array;
-        Color[,] output_array_2D;
-        Color[] input_array;
-        Color[,] input_array_2D;
-        int pixelX;
-        int pixelY;
-        int compression;
+        Color[] outputArray;
+        Color[,] outputArray2D;
+        Color[] inputArray;
+        Color[,] inputArray2D;
+        int pixelMaxX;
+        int pixelMaxY;
         public CompressionHandler(Color[] color_array)
         {
-            input_array = color_array;
+            inputArray = color_array;
 
         }
 
-        public CompressionHandler(Color[,] color_array, int inputX, int inputY)
+        public CompressionHandler(Color[,] colorArray, int inputMaxX, int inputMaxY)
         {
-            input_array_2D = color_array;
-            pixelX = inputX;
-            pixelY = inputY;
+            inputArray2D = colorArray;
+            pixelMaxX = inputMaxX;
+            pixelMaxY = inputMaxY;
         }
-
+        /// <summary>
+        /// festes Abtastschema 4:2:0
+        /// </summary>
+        /// <param name="input_compression"></param>
+        /// <returns></returns>
         public Color[,] compressLine_schemaC(int input_compression)
         {
-            compression = input_compression;
-            Color tempColor = new Color();
+            outputArray2D = new Color[2, 2];
 
-            for (int y = 0; y < pixelY; y++)
+            for (int y = 0; y < pixelMaxX; y++)
             {
-                for (int x = 0; x < pixelX; x++)
+                for (int x = 0; x < pixelMaxX; x++)
                 {
-                    tempColor = input_array[y, x];
-                    output_array_2D[y, x].a = tempColor.a;
+                    outputArray2D[y, x].a = inputArray2D[y, x].a;
                 }
             }
 
 
-            for (int y = 0; y < pixelY; y + input_compression)
+            for (int y = 0; y < pixelMaxY;y= y+input_compression)
             {
-                for (int x = 0; x < pixelX; x + input_compression)
+                for (int x = 0; x < pixelMaxX; x=x + input_compression)
                 {
-                    tempColor = input_array[y, x];
-                    output_array_2D[y, x].b = tempColor.b;
-                    output_array_2D[y, x].c = tempColor.c;
+                    outputArray2D[y, x].b = inputArray2D[y, x].b;
+                    outputArray2D[y, x].c = inputArray2D[y, x].c;
                 }
             }
-
-
-            return output_array_2D;
+            return outputArray2D;
         }
 
     }
