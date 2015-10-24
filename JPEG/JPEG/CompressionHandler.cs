@@ -8,56 +8,60 @@ namespace JPEG
 {
     class CompressionHandler
     {
-        
-        Color[] output_array;
-        Color[,] output_array_2D;
-        Color[] input_array;
-        Color[,] input_array_2D;
-        int pixelX;
-        int pixelY;
-        int compression;
-        public CompressionHandler(Color[] color_array)
+        Color[,] outputArray2D;
+        Color[,] inputArray2D;
+        int pixelMaxX;
+        int pixelMaxY;
+        byte aAbtastschema;
+        byte bAbtastschema;
+        byte cAbtastschema;
+        byte Farbschema;
+        public CompressionHandler(Color[,] inputArray2D, int pixelMaxX, int pixelMaxY)
         {
-            input_array = color_array;
-
+            this.inputArray2D = inputArray2D;
+            this.pixelMaxX = pixelMaxX;
+            this.pixelMaxY = pixelMaxY;
         }
-
-        public CompressionHandler(Color[,] color_array, int inputX, int inputY)
+        public CompressionHandler(Color[,] inputArray2D, int pixelMaxX, int pixelMaxY, byte aAbtastschema, byte bAbtastschema,
+            byte cAbtastschema, byte Farbschema)
         {
-            input_array_2D = color_array;
-            pixelX = inputX;
-            pixelY = inputY;
+            this.inputArray2D = inputArray2D;
+            this.pixelMaxX = pixelMaxX;
+            this.pixelMaxY = pixelMaxY;
+            this.aAbtastschema= aAbtastschema;
+            this.bAbtastschema = bAbtastschema;
+            this.cAbtastschema = cAbtastschema;
+            this.Farbschema = Farbschema;
         }
-
-        public Color[,] compressLine_schemaC(int input_compression)
+        /// <summary>
+        /// festes Abtastschema 4:2:0, Farbschema egal
+        /// </summary>
+        /// <param name="input_compression"></param>
+        /// <returns></returns>
+        public Color[,] lokaleMittelung(int input_compression)
         {
-            compression = input_compression;
-            Color tempColor = new Color();
- 
-
-            for (int y = 0; y < pixelY; y++)
+            Color[,] outputArray2D;
+            outputArray2D = new Color[2, 2];
+            //alle 3Vector Koordinaten
+            for (int y = 0; y < pixelMaxX; y++)
             {
-                for (int x = 0; x < pixelX; x++)
+                for (int x = 0; x < pixelMaxX; x++)
                 {
-                    tempColor = input_array_2D[y, x];
-                    output_array_2D[y, x].a = tempColor.a;
+                    outputArray2D[y, x].a = inputArray2D[y, x].a;
                 }
             }
-
-
-            for (int y = 0; y < pixelY; y + input_compression)
+            //alle 1Vector Koordinaten
+            for (int y = 0; y < pixelMaxY;y= y+input_compression)
             {
-                for (int x = 0; x < pixelX; x + input_compression)
+                for (int x = 0; x < pixelMaxX; x=x + input_compression)
                 {
-                    tempColor = input_array_2D[y, x];
-                    output_array_2D[y, x].b = tempColor.b;
-                    output_array_2D[y, x].c = tempColor.c;
+                    outputArray2D[y, x].b = inputArray2D[y, x].b;
+                    outputArray2D[y, x].c = inputArray2D[y, x].c;
                 }
+                }
+            return outputArray2D;
             }
 
-
-            return output_array_2D;
-        }
 
     }
 
