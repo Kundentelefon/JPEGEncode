@@ -9,8 +9,8 @@ namespace JPEG
     class PictureHead
     {
         private int ratio;
-        private int pixelX;
-        private int pixelY;
+        private int pixelMaxX;
+        private int pixelMaxY;
         private int compression;
     }
 }
