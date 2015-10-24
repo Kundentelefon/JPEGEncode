@@ -8,11 +8,10 @@ namespace JPEG
 {
     class PictureHead
     {
-        private int ratio;
+        byte Farbschema;
         private int pixelMaxX;
         private int pixelMaxY;
-        private int compression;
-        //
+        //fals leer wird  4:4:4 genommen
         byte aAbtastschema;
         byte bAbtastschema;
         byte cAbtastschema;
