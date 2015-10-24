@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Color.cs" />
+    <Compile Include="Compression_Handler.cs" />
     <Compile Include="Picture.cs" />
     <Compile Include="PictureData.cs" />
     <Compile Include="PictureHead.cs" />
