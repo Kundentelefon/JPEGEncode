@@ -8,32 +8,39 @@ namespace JPEG
 {
     class CompressionHandler
     {
-        
-        Color[] outputArray;
         Color[,] outputArray2D;
-        Color[] inputArray;
         Color[,] inputArray2D;
         int pixelMaxX;
         int pixelMaxY;
-        public CompressionHandler(Color[] color_array)
+        byte aAbtastschema;
+        byte bAbtastschema;
+        byte cAbtastschema;
+        byte Farbschema;
+        public CompressionHandler(Color[,] inputArray2D, int pixelMaxX, int pixelMaxY)
         {
-            inputArray = color_array;
-
+            this.inputArray2D = inputArray2D;
+            this.pixelMaxX = pixelMaxX;
+            this.pixelMaxY = pixelMaxY;
         }
-
-        public CompressionHandler(Color[,] colorArray, int inputMaxX, int inputMaxY)
+        public CompressionHandler(Color[,] inputArray2D, int pixelMaxX, int pixelMaxY, byte aAbtastschema, byte bAbtastschema,
+            byte cAbtastschema, byte Farbschema)
         {
-            inputArray2D = colorArray;
-            pixelMaxX = inputMaxX;
-            pixelMaxY = inputMaxY;
+            this.inputArray2D = inputArray2D;
+            this.pixelMaxX = pixelMaxX;
+            this.pixelMaxY = pixelMaxY;
+            this.aAbtastschema= aAbtastschema;
+            this.bAbtastschema = bAbtastschema;
+            this.cAbtastschema = cAbtastschema;
+            this.Farbschema = Farbschema;
         }
         /// <summary>
-        /// festes Abtastschema 4:2:0
+        /// festes Abtastschema 4:2:0, Farbschema egal
         /// </summary>
         /// <param name="input_compression"></param>
         /// <returns></returns>
-        public Color[,] compressLine_schemaC(int input_compression)
+        public Color[,] lokaleMittelung(int input_compression)
         {
+            Color[,] outputArray2D;
             outputArray2D = new Color[2, 2];
 
             for (int y = 0; y < pixelMaxX; y++)
@@ -55,6 +62,7 @@ namespace JPEG
             }
             return outputArray2D;
         }
+
 
     }
 
