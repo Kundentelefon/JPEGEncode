@@ -8,8 +8,8 @@ namespace JPEG
 {
     class Color
     {
-        private int a;
-        private int b;
-        private int c;
+        private byte a;
+        private byte b;
+        private byte c;
     }
 }
