@@ -27,117 +27,283 @@ namespace JPEG
                 kp = kpold;
                 if (zustand == 0)
                 {
-                    if (x == 0)
+                    if (y == 0)
                     {
                         x++;
-                        returnArray[index] = InputByteArray[y,x];
+                        returnArray[index] = InputByteArray[y, x];
                         index++;
                         kpold = kp + 1;
-                        while (kp <= 0)
+                        while (kp >= 0)
                         {
-                            y++;
                             x--;
-                            returnArray[index] = InputByteArray[y,x];
+                            y++;
+                            returnArray[index] = InputByteArray[y, x];
                             index++;
-                        }
-                    }
-                    else if (y == 0)
-                    {
-                        y++;
-                        returnArray[index] = InputByteArray[y,x];
-                        index++;
-                        kpold = kp + 1;
-                        while (kp <= 0)
-                        {
-                            y--;
-                            x++;
-                            returnArray[index] = InputByteArray[y,x];
-                            index++;
+                            kp--;
                         }
 
+                    }
+                    else if (x == 0)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        kpold = kp + 1;
+                        while (kp >= 0)
+                        {
+                            x++;
+                            y--;
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
+                        }
                     }
                     if (ymax == y)
                     {
                         zustand = 1;
                     }
-                }
-                else if (zustand == 1)
-                {
-                    if (x == 0)
+                    else if (xmax == x)
+                    {
+                        zustand = 1;
+                    }
+                    else if (x + 1 == xmax && y == 0)
                     {
                         x++;
-                        returnArray[index] = InputByteArray[y,x];
+                        returnArray[index] = InputByteArray[y, x];
                         index++;
-                        while (kp <= 0)
+                        kpold++;
+                        kp = kpold;
+                        zustand++;
+                        while (kp > 0)
+                        {
+                            x--;
+                            y++;
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
+                        }
+                    }
+                    else if (y + 1 == ymax && x == 0)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        kpold++;
+                        kp = kpold;
+                        zustand++;
+                        while (kp > 0)
                         {
                             y--;
                             x++;
-                            returnArray[index] = InputByteArray[y,x];
+                            returnArray[index] = InputByteArray[y, x];
                             index++;
+                            kp--;
+                        }
+                    }
+                }
+                else if (zustand == 1 && xmax > ymax)
+                {
+                    if (xmax == x)
+                    {
+                        zustand = 2;
+                    }
+                    else if (x + 1 == xmax && y == 0)
+                    {
+                        x++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        zustand++;
+                    }
+                    else if (y + 1 == ymax && x == 0)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        zustand++;
+                    }
+                    else if (x == 0)
+                    {
+                        x++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        while (kp > 0)
+                        {
+                            y--;
+                            x++;
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
                         }
                     }
                     else if (y == 0)
                     {
                         x++;
-                        returnArray[index] = InputByteArray[y,x];
+                        returnArray[index] = InputByteArray[y, x];
                         index++;
-                        while (kp <= 0)
+                        while (kp > 0)
                         {
                             y++;
                             x--;
-                            returnArray[index] = InputByteArray[y,x];
+                            returnArray[index] = InputByteArray[y, x];
                             index++;
+                            kp--;
                         }
                     }
-                    if (xmax == x)
+                    else if (x == xmax)
                     {
-                        zustand = 2;
-                    }
-
-                }
-                else if (zustand == 2)
-                {
-                    if (x == xmax)
-                    {
-                        while (kp <= 0)
-                        {
-                            y++;
-                            x--;
-                            returnArray[index] = InputByteArray[y,x];
-                            index++;
-                        }
                         x++;
-                        returnArray[index] = InputByteArray[y,x];
+                        returnArray[index] = InputByteArray[y, x];
                         index++;
-                        kpold = kp - 1;
+                        while (kp > 0)
+                        {
+                            y++;
+                            x--;
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
+                        }
                     }
-                    if (y == ymax)
+                    else if (y == ymax)
                     {
-                        while (kp <= 0)
+                        x++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        while (kp > 0)
                         {
                             y--;
                             x++;
-                            returnArray[index] = InputByteArray[y,x];
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
+                        }
+                    }
+                }
+                else if (zustand == 1 && xmax < ymax)
+                {
+                    if (ymax == y)
+                    {
+                        zustand = 2;
+                    }
+                    else if (x + 1 == xmax && y == 0)
+                    {
+                        x++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        zustand++;
+                    }
+                    else if (y + 1 == ymax && x == 0)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        zustand++;
+                    }
+                    else if (x == 0)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        while (kp > 0)
+                        {
+                            y--;
+                            x++;
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
+                        }
+                    }
+                    else if (y == 0)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        while (kp > 0)
+                        {
+                            y++;
+                            x--;
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
+                        }
+                    }
+                    else if (x == xmax)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        while (kp > 0)
+                        {
+                            y++;
+                            x--;
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
+                        }
+                    }
+                    else if (y == ymax)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        while (kp > 0)
+                        {
+                            y--;
+                            x++;
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
+                        }
+                    }
+                }
+                else if (zustand == 2)
+                {
+                    if (x == xmax && y == 0 && (xmax % 2) != 1)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        kp--;
+                        kpold--;
+                        index++;
+                    }
+                    else if (y == ymax && x == 0 && (ymax % 2) == 1)
+                    {
+                        x++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        kp--;
+                        kpold--;
+                    }
+                    if (x == xmax)
+                    {
+                        while (kp > 0)
+                        {
+                            y++;
+                            x--;
+                            returnArray[index] = InputByteArray[y, x];
+                            kp--;
                             index++;
                         }
-                        y++;
-                        returnArray[index] = InputByteArray[y,x];
+                        x++;
+                        returnArray[index] = InputByteArray[y, x];
                         index++;
-                        kpold = kp - 1;
+                        kpold = kpold - 1;
+                    }
+                    else if (y == ymax)
+                    {
+                        while (kp > 0)
+                        {
+                            y--;
+                            x++;
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
+                        }
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        kpold = kpold - 1;
                     }
 
-                }
-                if (x + 1 == xmax && y == 0)
-                {
-                    x++;
-                    returnArray[index] = InputByteArray[y,x];
-                    index++;
-                }
-                else if (y + 1 == xmax && x == 0)
-                {
-                    y++;
-                    returnArray[index] = InputByteArray[y,x];
-                    index++;
                 }
             }
             return (returnArray);
@@ -194,6 +360,10 @@ namespace JPEG
                         }
                     }
                     if (ymax == y)
+                    {
+                        zustand = 1;
+                    }
+                    else if (xmax == x)
                     {
                         zustand = 1;
                     }
@@ -309,9 +479,86 @@ namespace JPEG
                         }
                     }                    
                 }
+                else if (zustand == 1 && xmax < ymax)
+                {
+                    if (ymax == y)
+                    {
+                        zustand = 2;
+                    }
+                    else if (x + 1 == xmax && y == 0)
+                    {
+                        x++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        zustand++;
+                    }
+                    else if (y + 1 == ymax && x == 0)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        zustand++;
+                    }
+                    else if (x == 0)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        while (kp > 0)
+                        {
+                            y--;
+                            x++;
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
+                        }
+                    }
+                    else if (y == 0)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        while (kp > 0)
+                        {
+                            y++;
+                            x--;
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
+                        }
+                    }
+                    else if (x == xmax)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        while (kp > 0)
+                        {
+                            y++;
+                            x--;
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
+                        }
+                    }
+                    else if (y == ymax)
+                    {
+                        y++;
+                        returnArray[index] = InputByteArray[y, x];
+                        index++;
+                        while (kp > 0)
+                        {
+                            y--;
+                            x++;
+                            returnArray[index] = InputByteArray[y, x];
+                            index++;
+                            kp--;
+                        }
+                    }
+                }
                 else if (zustand == 2)
-                {                    
-                    if (x == xmax && y == 0 && (xmax%2)!=1)
+                {
+                    if (x == xmax && y == 0 && (xmax % 2) != 1)
                     {
                         y++;
                         returnArray[index] = InputByteArray[y, x];
@@ -319,14 +566,13 @@ namespace JPEG
                         kpold--;
                         index++;
                     }
-                    else if (y == ymax && x == 0 && (xmax % 2) != 1)
+                    else if (y == ymax && x == 0 && (ymax % 2) == 1)
                     {
                         x++;
                         returnArray[index] = InputByteArray[y, x];
                         index++;
                         kp--;
                         kpold--;
-                        zustand++;
                     }
                     if (x == xmax)
                     {
@@ -343,36 +589,6 @@ namespace JPEG
                         index++;
                         kpold = kpold - 1;
                     }
-                    //else if (y == 0)
-                    //{
-                    //    y++;
-                    //    returnArray[index] = InputByteArray[y, x];
-                    //    index++;
-                    //    kpold = kpold - 1;
-                    //    while (kp > 0)
-                    //    {
-                    //        y++;
-                    //        x--;
-                    //        returnArray[index] = InputByteArray[y, x];
-                    //        index++;
-                    //        kp--;
-                    //    }
-                    //}                    
-                    //else if (x == 0)
-                    //{
-                    //    x++;
-                    //    returnArray[index] = InputByteArray[y, x];
-                    //    index++;
-                    //    kpold = kpold - 1;
-                    //    while (kp > 0)
-                    //    {
-                    //        y--;
-                    //        x++;
-                    //        returnArray[index] = InputByteArray[y, x];
-                    //        index++;
-                    //        kp--;
-                    //    }
-                    //}
                     else if (y == ymax)
                     {
                         while (kp > 0)

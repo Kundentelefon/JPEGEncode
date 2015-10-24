@@ -12,8 +12,8 @@ namespace JPEG
 	{
 		static void Main(string[] args)
 		{
-            Test test = new Test();
-            test.testZickZackbyte();
+			Test test = new Test();
+			test.testZickZackbyte();
 		}
 
 		public void ReverseZickZack(int[]inputList,int maxx, int maxy)
