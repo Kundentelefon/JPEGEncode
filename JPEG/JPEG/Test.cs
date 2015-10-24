@@ -8,7 +8,7 @@ namespace JPEG
 {
     class Test
     {
-        public void testZickZackbyte()
+        public bool testZickZackbyte()
         {
             byte[,] test = new byte[4, 6] { { 1, 2, 6, 7, 14, 15 }, { 3, 5, 8, 13, 16, 21 }, { 4, 9, 12, 17, 20, 22 }, { 10, 11, 18, 19, 23, 24 } };
             byte[,] test2 = new byte[4, 7] { { 1, 2, 6, 7, 14, 15, 22 }, { 3, 5, 8, 13, 16, 21, 23 }, { 4, 9, 12, 17, 20, 24, 27 }, { 10, 11, 18, 19, 25, 26, 28 } };
@@ -19,8 +19,7 @@ namespace JPEG
             byte[,] test6 = new byte[7, 6] { { 1, 2, 6, 7, 15, 16 }, { 3, 5, 8, 14, 17, 27 }, { 4, 9, 13, 18, 26, 28 }, { 10, 12, 19, 25, 29, 36 }, { 11, 20, 24, 30, 35, 37 }, { 21, 23, 31, 34, 38, 41 }, { 22, 32, 33, 39, 40, 42 } };
             byte[,] test7 = new byte[7, 5] { { 1, 2, 6, 7, 15 }, { 3, 5, 8, 14, 16 }, { 4, 9, 13, 17, 25 }, { 10, 12, 18, 24, 26 }, { 11, 19, 23, 27, 32 }, { 20, 22, 28, 31, 33 }, { 21, 29, 30, 34, 35 } };
             byte[,] test8 = new byte[6, 5] { { 1, 2, 6, 7, 15 }, { 3, 5, 8, 14, 16 }, { 4, 9, 13, 17, 24 }, { 10, 12, 18, 23, 25 }, { 11, 19, 22, 26, 29 }, { 20, 21, 27, 28, 30 } };
-            //var test2= test.GetLength(0);
-            //var test3 = test.GetLength(1);
+
             Math testmath = new Math();
             byte[] restest = new byte[24];
             byte[] restest2 = new byte[28];
@@ -82,6 +81,11 @@ namespace JPEG
             {
                 result2 = true;
             }
+            if (result1 && result2)
+            {
+                return (true);
+            }
+            return (false);
         }
     }
 }
