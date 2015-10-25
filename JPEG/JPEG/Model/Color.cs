@@ -9,5 +9,8 @@ namespace JPEG
     // TODO: Change class name. System.Drawing already has a Color class
     class Color
     {
+        public byte a;
+        public byte b;
+        public byte c;
     }
 }

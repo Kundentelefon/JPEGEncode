@@ -8,7 +8,7 @@ namespace JPEG
 {
     class PictureData
     {
-        private Color[] PictureZickZack;
-        private Color[,] PictureYX;
+         Color[] PictureZickZack;
+         Color[,] PictureYX;
     }
 }
