@@ -43,7 +43,7 @@ namespace JPEG
             Color[,] outputArray2D;
             outputArray2D = new Color[pixelMaxY, pixelMaxX];
             //alle 3Vector Koordinaten
-            for (int y = 0; y < pixelMaxX; y++)
+            for (int y = 0; y < pixelMaxY; y++)
             {
                 for (int x = 0; x < pixelMaxX; x++)
                 {

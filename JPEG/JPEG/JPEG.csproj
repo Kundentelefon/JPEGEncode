@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Color.cs" />
+    <Compile Include="Color3.cs" />
     <Compile Include="CompressionHandler.cs" />
     <Compile Include="ReaderWriter.cs" />
     <Compile Include="stuff\Matrixnotused.cs" />
