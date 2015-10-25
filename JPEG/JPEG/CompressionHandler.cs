@@ -112,6 +112,7 @@ namespace JPEG
 
                     tempArray[y, x].Color3DivisionB(count);
                     tempArray[y, x].Color3DivisionC(count);
+                    tempArray[y, x].a = outputArray2D[y, x].a;
                     outputArray2D[y, x] = tempArray[y, x];
                 }
             }
@@ -130,31 +131,31 @@ namespace JPEG
         }
 
         // fixed compression 444 to 422
-        public Color[,] LocalAveraging444To422(int inputCompression)
-        {
-            // Picture are not smaller, because each pixel are saved -> later a ColorChannel solution must be implemented
-            // PictureColorChannel inputData = new PictureColorChannel(inputArray2D);
+        //public Color[,] LocalAveraging444To422(int inputCompression)
+        //{
+        //    // Picture are not smaller, because each pixel are saved -> later a ColorChannel solution must be implemented
+        //    // PictureColorChannel inputData = new PictureColorChannel(inputArray2D);
             
-            int rows = inputArray2D.GetLength(0);
-            int cols = inputArray2D.GetLength(1);
+        //    int rows = inputArray2D.GetLength(0);
+        //    int cols = inputArray2D.GetLength(1);
 
-            for (int rowIdx = 0; rowIdx < rows; rowIdx++)
-            {
-                for (int colIdx = 0; colIdx < cols; colIdx++)
-                {
-                    Color newPixel = new Color
-                    {
-                        a = inputArray2D[rowIdx, colIdx].a,
-                        // bitwise operation to duplicate only every second column pixel 
-                        b = inputArray2D[rowIdx, colIdx & ~0x1].b,
-                        c = inputArray2D[rowIdx, colIdx & ~0x1].c
-                    };
-                    outputArray2D[rowIdx, colIdx] = newPixel;
-                }
-            }
+        //    for (int rowIdx = 0; rowIdx < rows; rowIdx++)
+        //    {
+        //        for (int colIdx = 0; colIdx < cols; colIdx++)
+        //        {
+        //            Color newPixel = new Color
+        //            {
+        //                a = inputArray2D[rowIdx, colIdx].a,
+        //                // bitwise operation to duplicate only every second column pixel 
+        //                b = inputArray2D[rowIdx, colIdx & ~0x1].b,
+        //                c = inputArray2D[rowIdx, colIdx & ~0x1].c
+        //            };
+        //            outputArray2D[rowIdx, colIdx] = newPixel;
+        //        }
+        //    }
 
-            return outputArray2D;
-        }
+        //    return outputArray2D;
+        //}
     }
 
 }

@@ -23,9 +23,7 @@ namespace JPEG
         }
         public void Color3AdditionA(Color3 inputColor)
         {
-            a += inputColor.a;
-            
-           
+            a += inputColor.a;         
         }
 
         public void Color3AdditionB(Color3 inputColor)
