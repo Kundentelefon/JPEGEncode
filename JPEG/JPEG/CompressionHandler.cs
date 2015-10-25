@@ -69,11 +69,14 @@ namespace JPEG
                         if (z > pixelMaxX) break;
                         else
                         {
-                            outputArray2D[y, x].b = (byte) ((outputArray2D[y, x].b + inputArray2D[y, z].b) / 2);
-                            outputArray2D[y, x].c = (byte)((outputArray2D[y, x].c + inputArray2D[y, z].c) / 2);
+                            outputArray2D[y, x].b = (byte) (outputArray2D[y, x].b + inputArray2D[y, z].b);
+                            outputArray2D[y, x].c = (byte) (outputArray2D[y, x].c + inputArray2D[y, z].c);
                         }
 
                     }
+                    outputArray2D[y, x].b = (byte) (outputArray2D[y, x].b / inputCompression);
+                    outputArray2D[y, x].c = (byte)(outputArray2D[y, x].c / inputCompression);
+
                 }
             }
 
@@ -87,12 +90,15 @@ namespace JPEG
                         if (z > pixelMaxY) break;
                         else
                 {
-                            outputArray2D[y, x].b = (byte)((outputArray2D[y, x].b + outputArray2D[z, x].b) / 2);
-                            outputArray2D[y, x].c = (byte)((outputArray2D[y, x].c + outputArray2D[z, x].c) / 2);
-                            outputArray2D[z, x].b = null; //Lösche Farbinformationen aus den aktuellen Pixeln
-                            outputArray2D[z, x].c = null;
+                            outputArray2D[y, x].b = (byte)(outputArray2D[y, x].b + outputArray2D[z, x].b);
+                            outputArray2D[y, x].c = (byte)(outputArray2D[y, x].c + outputArray2D[z, x].c);
+                            outputArray2D[z, x].b = 0; //Lösche Farbinformationen aus den aktuellen Pixeln
+                            outputArray2D[z, x].c = 0;
                         }
+
                     }
+                    outputArray2D[y, x].b = (byte) (outputArray2D[y, x].b / inputCompression);
+                    outputArray2D[y, x].c = (byte) (outputArray2D[y, x].c / inputCompression);
                 }
             }
 
