@@ -112,7 +112,7 @@ namespace JPEG
 
                     tempArray[y, x].Color3DivisionB(count);
                     tempArray[y, x].Color3DivisionC(count);
-                    tempArray[y, x].a = outputArray2D[y, x].a;
+                    tempArray[y, x].a = inputArray2D[y, x].a;
                     outputArray2D[y, x] = tempArray[y, x];
                 }
             }
