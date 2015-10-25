@@ -58,7 +58,6 @@
     <Compile Include="Model\PictureColorChannel.cs" />
     <Compile Include="PPMreader.cs" />
     <Compile Include="ReaderWriter.cs" />
-    <Compile Include="stuff\Matrixnotused.cs" />
     <Compile Include="Model\Picture.cs" />
     <Compile Include="Model\PictureData.cs" />
     <Compile Include="Model\PictureHead.cs" />
