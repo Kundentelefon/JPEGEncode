@@ -1,4 +1,5 @@
 ﻿using JPEG.Model;
+using MathNet.Numerics.LinearAlgebra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace JPEG
 {
     class Test
     {
+        Mathloc testmath = new Mathloc();
         public bool testZickZackbyte()
         {
             byte[,] test = new byte[4, 6] { { 1, 2, 6, 7, 14, 15 }, { 3, 5, 8, 13, 16, 21 }, { 4, 9, 12, 17, 20, 22 }, { 10, 11, 18, 19, 23, 24 } };
@@ -21,33 +23,33 @@ namespace JPEG
             byte[,] test7 = new byte[7, 5] { { 1, 2, 6, 7, 15 }, { 3, 5, 8, 14, 16 }, { 4, 9, 13, 17, 25 }, { 10, 12, 18, 24, 26 }, { 11, 19, 23, 27, 32 }, { 20, 22, 28, 31, 33 }, { 21, 29, 30, 34, 35 } };
             byte[,] test8 = new byte[6, 5] { { 1, 2, 6, 7, 15 }, { 3, 5, 8, 14, 16 }, { 4, 9, 13, 17, 24 }, { 10, 12, 18, 23, 25 }, { 11, 19, 22, 26, 29 }, { 20, 21, 27, 28, 30 } };
 
-            Math testmath = new Math();
+            
             byte[] restest = new byte[24];
             byte[] restest2 = new byte[28];
             byte[] restest3 = new byte[35];
             byte[] restest4 = new byte[30];
             for (byte i = 0; i < 24; i++)
             {
-                restest[i] = (byte)(i+1);
+                restest[i] = (byte)(i + 1);
             }
             for (byte i = 0; i < 28; i++)
             {
-                restest2[i] = (byte)(i+1);
+                restest2[i] = (byte)(i + 1);
             }
             for (byte i = 0; i < 35; i++)
             {
-                restest3[i] = (byte)(i+1);
+                restest3[i] = (byte)(i + 1);
             }
             for (byte i = 0; i < 30; i++)
-            {                
-                restest4[i] = (byte)(i +1);
+            {
+                restest4[i] = (byte)(i + 1);
             }
             var result1 = false;
-            var res = testmath.ZickZackScanByte(test);            
+            var res = testmath.ZickZackScanByte(test);
             var res2 = testmath.ZickZackScanByte(test2);
             var res3 = testmath.ZickZackScanByte(test3);
             var res4 = testmath.ZickZackScanByte(test4);
-            if (res.SequenceEqual(restest)&& res2.SequenceEqual(restest2) && res3.SequenceEqual(restest3) && res4.SequenceEqual(restest4))
+            if (res.SequenceEqual(restest) && res2.SequenceEqual(restest2) && res3.SequenceEqual(restest3) && res4.SequenceEqual(restest4))
             {
                 result1 = true;
             }
@@ -89,13 +91,26 @@ namespace JPEG
             return (false);
 
 
-            //
+            //Color example
             Color[] Colortest = new Color[10];
             Color3 col3 = new Color3();
             Color1 col1 = new Color1();
 
             Colortest[1] = col3;
             Colortest[2] = col1;
+
         }
+        public bool conversionTest()
+        {
+
+            byte[] testvect = { 255, 200, 0 };
+            var temp = testmath.RGBtoYUV(testvect);
+            var temp2 = testmath.YUVtoRGB(temp);
+
+
+            return (false);
+        }
+
+        
     }
 }

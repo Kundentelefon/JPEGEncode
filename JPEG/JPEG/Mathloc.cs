@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MathNet.Numerics.LinearAlgebra;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JPEG
 {
-    class Math
+    class Mathloc
     {
         public Object[] ZickZackScan(Object[,] InputByteArray)
         {
@@ -608,6 +609,42 @@ namespace JPEG
                 }                
             }
             return (returnArray);
+        }
+
+        public byte[] RGBtoYUV(byte[] inputvector)
+        {
+            double[] vector = Array.ConvertAll(inputvector, b => Convert.ToDouble(b));
+            double[,] RGBToYUVFullRangeMa = { { 0.299, 0.587, 0.114 }, { -0.169, -0.331, 0.500 }, { 0.500, -0.419, -0.081 } };
+            double[] RGBToYUVFullRangeVec = { 0.0, 128.0, 128.0 };
+            var m = Matrix<double>.Build.DenseOfArray(RGBToYUVFullRangeMa);
+            var v = Vector<double>.Build.DenseOfArray(RGBToYUVFullRangeVec);
+            var v2 = Vector<double>.Build.DenseOfArray(vector);
+
+            var RGBTOYUVFullRange = v + m * v2;
+            var resconrgbtoyuv = Array.ConvertAll(RGBTOYUVFullRange.ToArray(), b => Convert.ToByte(rundezweihundertfunfundfunfzig(b)));
+            return (resconrgbtoyuv);
+        }
+        public byte[] YUVtoRGB(byte[] inputvector)
+        {
+            double[] vector = Array.ConvertAll(inputvector, b => Convert.ToDouble(b));
+            double[,] FullRangeYUVToRGBMa = { { 1, 0, 1.4 }, { 1, -0.343, -0.711 }, { 1, 1.765, 0 } };
+            double[] FullRangeYUVToRGBVec = { 0, -128, -128 };
+            var v = Vector<double>.Build.DenseOfArray(vector);
+            var m = Matrix<double>.Build.DenseOfArray(FullRangeYUVToRGBMa);
+            var v2 = Vector<double>.Build.DenseOfArray(FullRangeYUVToRGBVec);
+            v = v + v2;
+            var yuvfullrangetorgb = m * v;
+            var resconyuvtorgb = Array.ConvertAll(yuvfullrangetorgb.ToArray(), b => Convert.ToByte(rundezweihundertfunfundfunfzig(b)));
+            return (resconyuvtorgb);
+        }
+
+        public double rundezweihundertfunfundfunfzig(double input)
+        {
+            if (input>255)
+            {
+                return (255.0);
+            }
+            return (input);
         }
     }
 }
