@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Color.cs" />
     <Compile Include="CompressionHandler.cs" />
+    <Compile Include="ReaderWriter.cs" />
     <Compile Include="stuff\Matrixnotused.cs" />
     <Compile Include="Picture.cs" />
     <Compile Include="PictureData.cs" />
