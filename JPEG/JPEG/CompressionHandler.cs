@@ -41,7 +41,7 @@ namespace JPEG
         public Color[,] localAveraging(int input_compression)
         {
             Color[,] outputArray2D;
-            outputArray2D = new Color[2, 2];
+            outputArray2D = new Color[pixelMaxY, pixelMaxX];
             //alle 3Vector Koordinaten
             for (int y = 0; y < pixelMaxX; y++)
             {
