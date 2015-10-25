@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JPEG.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -86,6 +87,15 @@ namespace JPEG
                 return (true);
             }
             return (false);
+
+
+            //
+            Color[] Colortest = new Color[10];
+            Color3 col3 = new Color3();
+            Color1 col1 = new Color1();
+
+            Colortest[1] = col3;
+            Colortest[2] = col1;
         }
     }
 }
