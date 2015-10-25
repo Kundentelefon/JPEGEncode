@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JPEG.Model;
 
 namespace JPEG
 {
     class CompressionHandler
     {
         Color[,] outputArray2D;
-        Color[,] inputArray2D;
+        Color3[,] inputArray2D;
         int pixelMaxX;
         int pixelMaxY;
         byte aPattern; // y
@@ -26,7 +27,7 @@ namespace JPEG
         //}
 
         // Only if no values are given, default values are set to 0
-        public CompressionHandler(Color[,] inputArray2D, int pixelMaxX, int pixelMaxY, 
+        public CompressionHandler(Color3[,] inputArray2D, int pixelMaxX, int pixelMaxY, 
             byte aPattern = 0, byte bPattern = 0, byte cPattern = 0, byte colorPattern = 0)
         {
             this.inputArray2D = inputArray2D;
@@ -55,11 +56,13 @@ namespace JPEG
             {
                 for (int x = 0; x < pixelMaxX; x++)
                 {
-                    outputArray2D[y, x].a = inputArray2D[y, x].a;
+                    outputArray2D[y, x] = inputArray2D[y, x].ConvertToColor1();
                 }
             }
 
             //Alle Werte auf der x-Achse werden abhängig der Kompression in den ersten Pixel gespeichert
+            Color3[,] tempArray;
+            tempArray = new Color3[pixelMaxX, pixelMaxY];
             for(int y = 0; y< pixelMaxY; y++)
             {
                 for(int x = 0; x<pixelMaxX; x = x+inputCompression)
@@ -70,15 +73,17 @@ namespace JPEG
                         if (z > pixelMaxX) break;
                         else
                         {
-                        
-                            outputArray2D[y, x].b += inputArray2D[y, z].b;
-                            outputArray2D[y, x].c += inputArray2D[y, z].c;
+                            tempArray[y, x].Color3AdditionB(inputArray2D[y, z]);
+                            //outputArray2D[y, x].b += inputArray2D[y, z].b;
+                            tempArray[y, x].Color3AdditionC(inputArray2D[y, z]);
+                            // outputArray2D[y, x].c += inputArray2D[y, z].c;
                            
                         }
                         count++;
                     }
-                    outputArray2D[y, x].b = (byte) (outputArray2D[y, x].b / count);
-                    outputArray2D[y, x].c = (byte) (outputArray2D[y, x].c / count);
+                    tempArray[y, x].Color3DivisionB(count);
+                    tempArray[y, x].Color3DivisionC(count);
+                    //outputArray2D[y, x].c = (byte) (outputArray2D[y, x].c / count);
 
                 }
             }
@@ -94,16 +99,20 @@ namespace JPEG
                         if (z > pixelMaxY) break;
                         else
                         {
-                        
-                            outputArray2D[y, x].b += outputArray2D[z, x].b;                          
-                            outputArray2D[y, x].c += outputArray2D[z, x].c;
-                            outputArray2D[z, x].b = 0; //Lösche Farbinformationen aus den aktuellen Pixeln
-                            outputArray2D[z, x].c = 0;
+                            tempArray[y, x].Color3AdditionB(tempArray[z, x]);
+                            tempArray[y, x].Color3AdditionC(tempArray[z, x]);
+                            //outputArray2D[y, x].b += outputArray2D[z, x].b;                          
+                            //outputArray2D[y, x].c += outputArray2D[z, x].c;
+
                         }
                         count++;
                     }
-                    outputArray2D[y, x].b = (byte) (outputArray2D[y, x].b / count);
-                    outputArray2D[y, x].c = (byte) (outputArray2D[y, x].c / count);
+                    //outputArray2D[y, x].b = (byte) (outputArray2D[y, x].b / count);
+                    //outputArray2D[y, x].c = (byte) (outputArray2D[y, x].c / count);
+
+                    tempArray[y, x].Color3DivisionB(count);
+                    tempArray[y, x].Color3DivisionC(count);
+                    outputArray2D[y, x] = tempArray[y, x];
                 }
             }
 
