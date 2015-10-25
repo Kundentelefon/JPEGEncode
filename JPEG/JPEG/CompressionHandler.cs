@@ -51,7 +51,7 @@ namespace JPEG
         {
             Color[,] outputArray2D;
             outputArray2D = new Color[pixelMaxY, pixelMaxX];
-            //alle 3Vector Koordinaten
+            //Konstrukt befüllt die Ausgabe mit Color1 Werten (Y-Farbe)
             for (int y = 0; y < pixelMaxY; y++)
             {
                 for (int x = 0; x < pixelMaxX; x++)
@@ -60,14 +60,14 @@ namespace JPEG
                 }
             }
 
-            //Alle Werte auf der x-Achse werden abhängig der Kompression in den ersten Pixel gespeichert
+            //Alle Werte auf der x-Achse werden abhängig der Kompression in den ersten Pixel des Intervalls gespeichert
             Color3[,] tempArray;
             tempArray = new Color3[pixelMaxX, pixelMaxY];
             for(int y = 0; y< pixelMaxY; y++)
             {
                 for(int x = 0; x<pixelMaxX; x = x+inputCompression)
                 {
-                    int count = 0;
+                    int count = 0;//Schrittzähler um bei ungerader Auflösung korrekte Mittelung zu erhalten
                     for (int z = x; z<x+inputCompression; z++)
                     {
                         if (z > pixelMaxX) break;
@@ -118,6 +118,7 @@ namespace JPEG
             }
 
             return outputArray2D;
+           
             //alle 1Vector Koordinaten
             //for (int y = 0; y < pixelMaxY;y= y+inputCompression)
             //{
