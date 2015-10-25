@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace JPEG
 {
+    // TODO: Change class name. System.Drawing already has a Color class
     class Color
     {
         public byte a;
