@@ -41,6 +41,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,6 +53,9 @@
   <ItemGroup>
     <Compile Include="Color.cs" />
     <Compile Include="CompressionHandler.cs" />
+    <Compile Include="PictureColorChannel.cs" />
+    <Compile Include="PPMreader.cs" />
+    <Compile Include="ReaderWriter.cs" />
     <Compile Include="stuff\Matrixnotused.cs" />
     <Compile Include="Picture.cs" />
     <Compile Include="PictureData.cs" />
