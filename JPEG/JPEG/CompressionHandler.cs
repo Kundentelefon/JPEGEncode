@@ -64,18 +64,21 @@ namespace JPEG
             {
                 for(int x = 0; x<pixelMaxX; x = x+inputCompression)
                 {
+                    int count = 0;
                     for (int z = x; z<x+inputCompression; z++)
                     {
                         if (z > pixelMaxX) break;
                         else
                         {
-                            outputArray2D[y, x].b = (byte) (outputArray2D[y, x].b + inputArray2D[y, z].b);
-                            outputArray2D[y, x].c = (byte) (outputArray2D[y, x].c + inputArray2D[y, z].c);
+                        
+                            outputArray2D[y, x].b += inputArray2D[y, z].b;
+                            outputArray2D[y, x].c += inputArray2D[y, z].c;
+                           
                         }
-
+                        count++;
                     }
-                    outputArray2D[y, x].b = (byte) (outputArray2D[y, x].b / inputCompression);
-                    outputArray2D[y, x].c = (byte)(outputArray2D[y, x].c / inputCompression);
+                    outputArray2D[y, x].b = (byte) (outputArray2D[y, x].b / count);
+                    outputArray2D[y, x].c = (byte) (outputArray2D[y, x].c / count);
 
                 }
             }
@@ -85,20 +88,22 @@ namespace JPEG
             {
                 for(int x = 0; x<pixelMaxX; x = x+inputCompression)
                 {
+                    int count = 0;
                     for(int z = y+1; z< y+inputCompression; z++)
-            {
+                    {
                         if (z > pixelMaxY) break;
                         else
-                {
-                            outputArray2D[y, x].b = (byte)(outputArray2D[y, x].b + outputArray2D[z, x].b);
-                            outputArray2D[y, x].c = (byte)(outputArray2D[y, x].c + outputArray2D[z, x].c);
+                        {
+                        
+                            outputArray2D[y, x].b += outputArray2D[z, x].b;                          
+                            outputArray2D[y, x].c += outputArray2D[z, x].c;
                             outputArray2D[z, x].b = 0; //Lösche Farbinformationen aus den aktuellen Pixeln
                             outputArray2D[z, x].c = 0;
                         }
-
+                        count++;
                     }
-                    outputArray2D[y, x].b = (byte) (outputArray2D[y, x].b / inputCompression);
-                    outputArray2D[y, x].c = (byte) (outputArray2D[y, x].c / inputCompression);
+                    outputArray2D[y, x].b = (byte) (outputArray2D[y, x].b / count);
+                    outputArray2D[y, x].c = (byte) (outputArray2D[y, x].c / count);
                 }
             }
 
