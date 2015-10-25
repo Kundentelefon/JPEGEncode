@@ -30,7 +30,7 @@ namespace JPEG
                 for (int y = 0; y < bitmap.Height; y++)
                 {
                     var bitmapPixel = bitmap.GetPixel(x, y);
-                    // gets RGB from each pixel
+                    // sets RGB for each pixel
                     Color newPixel = new Color
                     {
                         a = bitmapPixel.R,
@@ -43,7 +43,7 @@ namespace JPEG
 
             CompressionHandler compressionHandler = new CompressionHandler(picture, bitmap.Width, bitmap.Height);
 
-            // compressionhandler dont nead parameter yet
+            // compressionhandler dont neednead parameter yet
             Color[,] result = compressionHandler.LocalAveraging444To422(0xDEAD);
 
             Bitmap resultImage = new Bitmap(bitmap.Width, bitmap.Height);

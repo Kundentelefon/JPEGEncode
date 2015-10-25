@@ -12,10 +12,10 @@ namespace JPEG
         Color[,] inputArray2D;
         int pixelMaxX;
         int pixelMaxY;
-        byte aAbtastschema; // y
-        byte bAbtastschema; // cb
-        byte cAbtastschema; // cr
-        byte Farbschema;
+        byte aPattern; // y
+        byte bPattern; // cb
+        byte cPattern; // cr
+        byte ColorPattern;
 
 
         //public CompressionHandler(Color[,] inputArray2D, int pixelMaxX, int pixelMaxY)
@@ -27,22 +27,22 @@ namespace JPEG
 
         // Only if no values are given, default values are set to 0
         public CompressionHandler(Color[,] inputArray2D, int pixelMaxX, int pixelMaxY, 
-            byte aAbtastschema = 0, byte bAbtastschema = 0, byte cAbtastschema = 0, byte Farbschema = 0)
+            byte aPattern = 0, byte bPattern = 0, byte cPattern = 0, byte colorPattern = 0)
         {
             this.inputArray2D = inputArray2D;
             this.pixelMaxX = pixelMaxX;
             this.pixelMaxY = pixelMaxY;
-            this.aAbtastschema= aAbtastschema;
-            this.bAbtastschema = bAbtastschema;
-            this.cAbtastschema = cAbtastschema;
-            this.Farbschema = Farbschema;
+            this.aPattern= aPattern;
+            this.bPattern = bPattern;
+            this.cPattern = cPattern;
+            this.ColorPattern = colorPattern;
 
             outputArray2D = new Color[inputArray2D.GetLength(0), inputArray2D.GetLength(1)];
         }
 
 
         /// <summary>
-        /// festes Abtastschema 4:2:0, Farbschema egal
+        /// fixed sampling scheme 4:2:0, colorPattern not considered
         /// </summary>
         /// <param name="inputCompression"></param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace JPEG
         {
             Color[,] outputArray2D;
             outputArray2D = new Color[pixelMaxY, pixelMaxX];
-            // alle 3Vector Koordinaten
+            // all 3Vector coordinates
             for (int y = 0; y < pixelMaxX; y++)
             {
                 for (int x = 0; x < pixelMaxX; x++)
@@ -58,7 +58,7 @@ namespace JPEG
                     outputArray2D[y, x].a = inputArray2D[y, x].a;
                 }
             }
-            // alle 1Vector Koordinaten
+            // all 1Vector coordinates
             for (int y = 0; y < pixelMaxY;y= y+ inputCompression)
             {
                 for (int x = 0; x < pixelMaxX; x=x + inputCompression)
@@ -70,7 +70,7 @@ namespace JPEG
             return outputArray2D;
         }
 
-        // Kunde solution
+        // fixed compression 444 to 422
         public Color[,] LocalAveraging444To422(int inputCompression)
         {
             // Picture are not smaller, because each pixel are saved -> later a ColorChannel solution must be implemented
