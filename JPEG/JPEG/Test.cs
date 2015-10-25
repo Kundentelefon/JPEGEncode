@@ -104,8 +104,8 @@ namespace JPEG
         {
 
             byte[] testvect = { 255, 200, 0 };
-            var temp = testmath.RGBtoYUV(testvect);
-            var temp2 = testmath.YUVtoRGB(temp);
+            var temp = testmath.RGBToYUV(testvect);
+            var temp2 = testmath.YUVToRGB(temp);
 
 
             return (false);
