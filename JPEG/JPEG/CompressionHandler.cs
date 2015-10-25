@@ -41,25 +41,64 @@ namespace JPEG
         public Color[,] localAveraging(int input_compression)
         {
             Color[,] outputArray2D;
-            outputArray2D = new Color[2, 2];
+            outputArray2D = new Color[pixelMaxY, pixelMaxX];
             //alle 3Vector Koordinaten
-            for (int y = 0; y < pixelMaxX; y++)
+            for (int y = 0; y < pixelMaxY; y++)
             {
                 for (int x = 0; x < pixelMaxX; x++)
                 {
                     outputArray2D[y, x].a = inputArray2D[y, x].a;
                 }
             }
-            //alle 1Vector Koordinaten
-            for (int y = 0; y < pixelMaxY;y= y+input_compression)
+
+            //Alle Werte auf der x-Achse werden abhängig der Kompression in den ersten Pixel gespeichert
+            for(int y = 0; y< pixelMaxY; y++)
             {
-                for (int x = 0; x < pixelMaxX; x=x + input_compression)
+                for(int x = 0; x<pixelMaxX; x = x+input_compression)
                 {
-                    outputArray2D[y, x].b = inputArray2D[y, x].b;
-                    outputArray2D[y, x].c = inputArray2D[y, x].c;
+                    for (int z = x; z<x+input_compression; z++)
+                    {
+                        if (z > pixelMaxX) break;
+                        else
+                        {
+                            outputArray2D[y, x].b = (byte) ((outputArray2D[y, x].b + inputArray2D[y, z].b) / 2);
+                            outputArray2D[y, x].c = (byte)((outputArray2D[y, x].c + inputArray2D[y, z].c) / 2);
+                        }
+
+                    }
                 }
+            }
+
+            //Alle Werte in y-Richtung, abhänig der Kompression werden in den ersten Pixel gespeichert
+            for (int y = 0; y<pixelMaxY; y= y+ input_compression)
+            {
+                for(int x = 0; x<pixelMaxX; x = x+input_compression)
+                {
+                    for(int z = y+1; z< y+input_compression; z++)
+                    {
+                        if (z > pixelMaxY) break;
+                        else
+                        {
+                            outputArray2D[y, x].b = (byte)((outputArray2D[y, x].b + outputArray2D[z, x].b) / 2);
+                            outputArray2D[y, x].c = (byte)((outputArray2D[y, x].c + outputArray2D[z, x].c) / 2);
+                            outputArray2D[z, x].b = null; //Lösche Farbinformationen aus den aktuellen Pixeln
+                            outputArray2D[z, x].c = null;
+                        }
+                    }
                 }
-            return outputArray2D;
+            }
+
+            return outputArray2D;    
+            //alle 1Vector Koordinaten
+            //for (int y = 0; y < pixelMaxY;y= y+input_compression)
+            //{
+            //    for (int x = 0; x < pixelMaxX; x=x + input_compression)
+            //    {
+            //        outputArray2D[y, x].b = inputArray2D[y, x].b;
+            //        outputArray2D[y, x].c = inputArray2D[y, x].c;
+            //    }
+            //    }
+            //return outputArray2D;
             }
 
 
