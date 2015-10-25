@@ -11,7 +11,7 @@ namespace JPEG
     /// </summary>
     class Picture
     {
-        PictureHead Head;
-        PictureData Data;
+        public PictureHead Head;
+        public PictureData Data;
     }
 }
