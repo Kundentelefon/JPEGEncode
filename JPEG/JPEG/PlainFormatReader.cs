@@ -88,7 +88,7 @@ namespace JPEG
                 output = output + " " + reader.ReadLine();
             }
             reader.Close();
-            return Regex.Split(output, " ");
+            return Regex.Split(output, "()+");
         }
 
         //pareses the String-value of the respective element in values into byte, to represent a Color3
