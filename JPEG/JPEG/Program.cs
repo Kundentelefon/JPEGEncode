@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -18,46 +19,24 @@ namespace JPEG
 			var testresult = test.testZickZackbyte();
 			var testresult2 = test.conversionTest();
 
-			//TestChannelResolutionReduction("inputfile", "outputfile");
-		}
+            Bitstream bs = new Bitstream();
+            bs.Write(1, 100);
 
-		//private static void TestChannelResolutionReduction(string inputFile, string outputFile)
-		//{
-		//	// load Bitmap .png
-		//	Bitmap bitmap = new Bitmap(inputFile);
-		//	Color[,] picture = new Color[bitmap.Height, bitmap.Width];
-		//	for (int x = 0; x < bitmap.Width; x++)
-		//	{
-		//		for (int y = 0; y < bitmap.Height; y++)
-		//		{
-		//			var bitmapPixel = bitmap.GetPixel(x, y);
-		//			// sets RGB for each pixel
-		//			Color newPixel = new Color
-		//			{
-		//				a = bitmapPixel.R,
-		//				b = bitmapPixel.G,
-		//				c = bitmapPixel.B
-		//			};
-		//			picture[y, x] = newPixel;
-		//		}
-		//	}
+            //int[] bl = new int[10000000];
+            //      Stopwatch sw = new Stopwatch();
+            //      sw.Start();
+            //for (int i = 0; i < 10000000; i++)
+            //{
+            //          bs.WriteBits(1, bl);
+            //      }
+            //      sw.Stop();
+            //      Console.WriteLine("BitWrite Elapsed={0} ", sw.Elapsed);
+            //      Console.ReadKey();
+            //TestChannelResolutionReduction("inputfile", "outputfile");
 
-		//	CompressionHandler compressionHandler = new CompressionHandler(picture, bitmap.Width, bitmap.Height);
-
-		//	// compressionhandler dont neednead parameter yet
-		//	Color[,] result = compressionHandler.LocalAveraging444To422(0xDEAD);
-
-		//	Bitmap resultImage = new Bitmap(bitmap.Width, bitmap.Height);
-		//	for (int y = 0; y < bitmap.Height; y++)
-		//	{
-		//		for (int x = 0; x < bitmap.Width; x++)
-		//		{
-		//			// draws image
-		//			System.Drawing.Color color = System.Drawing.Color.FromArgb(result[y, x].a, result[y, x].b, result[y, x].c);
-		//			resultImage.SetPixel(x, y, color);
-		//		}
-		//	}
-		//	resultImage.Save(outputFile);
-		//}
+            JPGHeader jpgh = new JPGHeader();
+            jpgh.CreateJPGHead();
+        }
+		
 	}
 }

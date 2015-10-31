@@ -2,6 +2,7 @@
 using MathNet.Numerics.LinearAlgebra;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -111,6 +112,45 @@ namespace JPEG
             return (false);
         }
 
-        
+        //Bitmap test
+        private static void TestChannelResolutionReduction(string inputFile, string outputFile)
+        {
+            // load Bitmap .png
+            Bitmap bitmap = new Bitmap(inputFile);
+            Color[,] picture = new Color[bitmap.Height, bitmap.Width];
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    var bitmapPixel = bitmap.GetPixel(x, y);
+                    // sets RGB for each pixel
+                    Color3 newPixel = new Color3
+                    {
+                        a = bitmapPixel.R,
+                        b = bitmapPixel.G,
+                        c = bitmapPixel.B
+                    };
+                    picture[y, x] = newPixel;
+                }
+            }
+
+        //    CompressionHandler compressionHandler = new CompressionHandler(picture, bitmap.Width, bitmap.Height);
+
+        //    // compressionhandler dont neednead parameter yet
+        //    Color[,] result = compressionHandler.LocalAveraging444To422(0xDEAD);
+
+        //    Bitmap resultImage = new Bitmap(bitmap.Width, bitmap.Height);
+        //    for (int y = 0; y < bitmap.Height; y++)
+        //    {
+        //        for (int x = 0; x < bitmap.Width; x++)
+        //        {
+        //            // draws image
+        //            System.Drawing.Color color = System.Drawing.Color.FromArgb(result[y, x].a, result[y, x].b, result[y, x].c);
+        //            resultImage.SetPixel(x, y, color);
+        //        }
+        //    }
+        //    resultImage.Save(outputFile);
+        }
+
     }
 }
