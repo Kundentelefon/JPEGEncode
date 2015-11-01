@@ -20,9 +20,9 @@ namespace JPEG
         private long bitIndex;
         private byte[] bArray;
 
-        public Bitstream(int bufferSize)
+        public Bitstream(long bufferSizeInBit)
         {
-            bArray = new byte[bufferSize];
+            bArray = new byte[(bufferSizeInBit + ArrayTypeSize - 1) / ArrayTypeSize];
         }
 
         //public static IEnumerable<bool> ReadBits(Stream input)
@@ -42,18 +42,12 @@ namespace JPEG
         //}
 
         //Writes one bit
-        public void AddBits(bool value, int length, int offset = 0)
+        public void AddBits(bool value, int count, int offset = 0)
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-
-            for (int i = offset; i < length + offset; i++)
+            for (int i = offset; i < count + offset; i++)
             {
                 AddBit(value);
             }
-
-            sw.Stop();
-            Console.WriteLine("BitWrite Elapsed={0} ", sw.Elapsed);
         }
 
         public void AddBit(bool value)

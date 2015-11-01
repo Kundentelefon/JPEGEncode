@@ -2,8 +2,10 @@
 using MathNet.Numerics.LinearAlgebra;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -150,6 +152,17 @@ namespace JPEG
         //        }
         //    }
         //    resultImage.Save(outputFile);
+        }
+
+        public static void BitTest()
+        {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            Bitstream bs = new Bitstream(10000000);
+            bs.AddBits(true, 10000000);
+            sw.Stop();
+            Console.WriteLine("BitWrite Elapsed={0} ", sw.Elapsed);
+            Console.ReadKey();
         }
 
     }
