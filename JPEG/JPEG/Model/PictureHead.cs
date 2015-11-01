@@ -9,6 +9,9 @@ namespace JPEG
     class PictureHead
     {
 
+        public int pixelMaxX;
+        public int pixelMaxY;
+
         private static void PictureStart(Bitstream bs)
         {
             //initialises JPG
