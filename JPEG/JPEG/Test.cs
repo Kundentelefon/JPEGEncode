@@ -158,6 +158,7 @@ namespace JPEG
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
+            // test with 10 Mio 1 Bits
             Bitstream bs = new Bitstream(10000000);
             bs.AddBits(true, 10000000);
             sw.Stop();

@@ -8,13 +8,6 @@ namespace JPEG
 {
     class PictureHead
     {
-        byte Farbschema;
-        public int pixelMaxX;
-        public int pixelMaxY;
-        //fals leer wird  4:4:4 genommen
-        byte aAbtastschema;
-        byte bAbtastschema;
-        byte cAbtastschema;
 
         private static void PictureStart(Bitstream bs)
         {
@@ -37,7 +30,6 @@ namespace JPEG
             byte thumbnailWidth = 0;
             byte thumbnailHeight = 0; // no thumbnail
 
-             
             bs.AddShort(0xFFE0); //marker
             bs.AddShort(length); //length
             bs.AddByte(j);
