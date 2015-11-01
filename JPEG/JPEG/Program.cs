@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using HilfeUpdater;
 
 
 namespace JPEG
@@ -19,23 +20,19 @@ namespace JPEG
 			var testresult = test.testZickZackbyte();
 			var testresult2 = test.conversionTest();
 
-            Bitstream bs = new Bitstream();
-            bs.Write(1, 100);
+            Bitstream bs = new Bitstream(100);
+            
+            PictureHead.CreateJPGHead(bs, 900, 1600);
 
-            //int[] bl = new int[10000000];
-            //      Stopwatch sw = new Stopwatch();
-            //      sw.Start();
-            //for (int i = 0; i < 10000000; i++)
-            //{
-            //          bs.WriteBits(1, bl);
-            //      }
-            //      sw.Stop();
-            //      Console.WriteLine("BitWrite Elapsed={0} ", sw.Elapsed);
-            //      Console.ReadKey();
+            bs.WriteToFile(@"C:\Users\Maxwell\Desktop\BitstreamTest.jpg");
+
             //TestChannelResolutionReduction("inputfile", "outputfile");
+            Picture pic = new Picture();
+            ReaderWriter rW = new ReaderWriter();
+            PictureHead pH = new PictureHead();
+            //pic.Head = pH.CreateJPGHead();
 
-            JPGHeader jpgh = new JPGHeader();
-            jpgh.CreateJPGHead();
+            //rW.writePicture("location", pic);
         }
 		
 	}

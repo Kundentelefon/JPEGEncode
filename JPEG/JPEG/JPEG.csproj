@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bitstream.cs" />
-    <Compile Include="JPGHeader.cs" />
     <Compile Include="Model\Color.cs" />
     <Compile Include="Model\Color1.cs" />
     <Compile Include="Model\Color3.cs" />
