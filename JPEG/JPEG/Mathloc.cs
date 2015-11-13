@@ -616,7 +616,7 @@ namespace JPEG
         /// </summary>
         /// <param name="inputvector"></param>
         /// <returns></returns>
-        public byte[] RGBtoYUV(byte[] inputvector)
+        public byte[] RGBToYUV(byte[] inputvector)
         {
             double[] vector = Array.ConvertAll(inputvector, b => Convert.ToDouble(b));
             double[,] RGBToYUVFullRangeMa = { { 0.299, 0.587, 0.114 }, { -0.169, -0.331, 0.500 }, { 0.500, -0.419, -0.081 } };
@@ -626,7 +626,7 @@ namespace JPEG
             var v2 = Vector<double>.Build.DenseOfArray(vector);
 
             var RGBTOYUVFullRange = v + m * v2;
-            var resconrgbtoyuv = Array.ConvertAll(RGBTOYUVFullRange.ToArray(), b => Convert.ToByte(rundezweihundertfunfundfunfzig(b)));
+            var resconrgbtoyuv = Array.ConvertAll(RGBTOYUVFullRange.ToArray(), b => Convert.ToByte(roundmaxColorRange(b)));
             return (resconrgbtoyuv);
         }
         /// <summary>
@@ -635,7 +635,7 @@ namespace JPEG
         /// </summary>
         /// <param name="inputvector"></param>
         /// <returns></returns>
-        public byte[] YUVtoRGB(byte[] inputvector)
+        public byte[] YUVToRGB(byte[] inputvector)
         {
             double[] vector = Array.ConvertAll(inputvector, b => Convert.ToDouble(b));
             double[,] FullRangeYUVToRGBMa = { { 1, 0, 1.4 }, { 1, -0.343, -0.711 }, { 1, 1.765, 0 } };
@@ -645,11 +645,11 @@ namespace JPEG
             var v2 = Vector<double>.Build.DenseOfArray(FullRangeYUVToRGBVec);
             v = v + v2;
             var yuvfullrangetorgb = m * v;
-            var resconyuvtorgb = Array.ConvertAll(yuvfullrangetorgb.ToArray(), b => Convert.ToByte(rundezweihundertfunfundfunfzig(b)));
+            var resconyuvtorgb = Array.ConvertAll(yuvfullrangetorgb.ToArray(), b => Convert.ToByte(roundmaxColorRange(b)));
             return (resconyuvtorgb);
         }
 
-        public double rundezweihundertfunfundfunfzig(double input)
+        public double roundmaxColorRange(double input)
         {
             if (input>255)
             {

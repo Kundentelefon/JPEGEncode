@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JPEG;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -191,6 +192,60 @@ namespace HilfeUpdater
         private void Fileloschen(String input)
         {
             File.Delete(input);
+        }
+
+        public void writePicture(String location,Picture pic)
+        {
+            try{
+                MemoryStream memStream = new MemoryStream();
+                memStream = createHeadStream(pic.Head, memStream);
+                memStream = createBodyStream(pic.Data, memStream);
+                writeByte(location, memStream);
+                memStream.Close();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        public MemoryStream createHeadStream(PictureHead Head, MemoryStream memStream)
+        {
+            return(memStream);
+        }
+        private MemoryStream createBodyStream(PictureData Data, MemoryStream memStream)
+        {
+            return (memStream);
+        }
+        private void writeSegment()
+        {
+
+        }
+        private void writeByte(String location,MemoryStream memStream)
+        {
+            using (FileStream writer = new FileStream(location, FileMode.Create, System.IO.FileAccess.Write))
+            {
+                memStream.CopyTo(writer);
+                //var bytes = new byte[memStream.Length];
+                //memStream.Read(bytes, 0, (int)memStream.Length);
+                //writer.Write(bytes, 0, bytes.Length);
+                memStream.Close();
+            }
+        }
+        private MemoryStream readByte(String location)
+        {
+            MemoryStream memStream = new MemoryStream();
+            using (FileStream writer = new FileStream(location, FileMode.Create, System.IO.FileAccess.Write))
+            {
+                writer.CopyTo(memStream);
+                memStream.Close();
+            }
+            return (memStream);
+        }
+        public MemoryStream memStreamAdd(byte[] byteArray, MemoryStream memStream)
+        {
+            memStream.Write(byteArray, 0, byteArray.Length);
+            memStream.Position = 0;
+            return (memStream);
         }
     }
 }
