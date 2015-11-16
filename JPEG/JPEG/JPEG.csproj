@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D42CF9EC-EF47-4A0A-9C17-D14EF7650D31}</ProjectGuid>
+    <ProjectGuid>{0FBF53B3-1D3A-4A42-B80D-6551F4A241FF}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JPEG</RootNamespace>
@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bitstream.cs" />
+    <Compile Include="HuffmanEncoder.cs" />
+    <Compile Include="HuffmanNode.cs" />
     <Compile Include="Model\Color.cs" />
     <Compile Include="Model\Color1.cs" />
     <Compile Include="Model\Color3.cs" />

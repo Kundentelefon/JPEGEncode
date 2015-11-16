@@ -80,6 +80,11 @@ namespace JPEG
             return 0 != (bArray[index / ArrayTypeSize] & (uint)(1 << (int)(index % ArrayTypeSize)));
         }
 
+        public long GetLength()
+        {
+            return bArray.Length;
+        }
+
         public void WriteToFile(string filePath)
         {
             // uses everything from interface IDisposal eg. Filestream -> automatically throw catches every exception and open closes with finally
