@@ -70,6 +70,23 @@ namespace JPEG
             return nodeList[0];
         }
 
+        //3b
+        //builds the HuffmanTree so that the left child of each node is a leaf with the highest remaining frequency (growing to the right hand side)
+        //NOITCE: the lowest non-leaf node consists of two leafs with the lowest-frequency-leaf (total) as the right child
+        public HuffmanNode CreateRightSidedTreeFromSortedList(List<HuffmanNode> nodeList)
+        {
+            while (nodeList.Count > 1)
+            {
+                int index = nodeList.Count - 1;
+                HuffmanNode nodeLower = nodeList[index];
+                nodeList.RemoveAt(index);
+                HuffmanNode nodeHigher = nodeList[index - 1];
+                nodeList.RemoveAt(index - 1);
+                nodeList.Add(new HuffmanNode(nodeHigher, nodeLower));
+            }
+            return nodeList[0];
+        }
+
         //recurses through the entire tree and stacks up the respective code, then adds the respective symbol and code to the HuffmanTable when reaching a leave
         public void ConvertTreeToTable(List<bool> code, HuffmanNode node) //
         {
