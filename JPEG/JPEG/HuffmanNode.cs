@@ -16,6 +16,7 @@ namespace JPEG
         public HuffmanNode left;
         public HuffmanNode right;
         public bool isLeaf;
+        public bool isDepthNode;
 
         public HuffmanNode(byte value) //Create a HuffmanNode from scratch
         {
@@ -25,6 +26,15 @@ namespace JPEG
             parent = left = right = null;
             
             isLeaf = true;
+            isDepthNode = false;
+        }
+
+        public HuffmanNode(int frequency, HuffmanNode left, HuffmanNode right)
+        {
+            this.left = left;
+            this.right = right;
+            this.frequency = frequency;
+            isDepthNode = true;
         }
 
         public HuffmanNode(HuffmanNode nodeLower, HuffmanNode nodeHigher) //Combine two HuffmanNodes to form a tree

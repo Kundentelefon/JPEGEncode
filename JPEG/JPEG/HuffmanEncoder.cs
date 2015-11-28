@@ -105,6 +105,33 @@ namespace JPEG
             ConvertTreeToTable(code, node.right);
         }
 
+        //3d 
+        public byte[] EncodeToPackageMerge(List<HuffmanNode> nodelist, int depth)
+        {
+            nodelist.Sort((nodeOne, nodeTwo) => nodeOne.frequency.CompareTo(nodeTwo.frequency));
+            //Durchlaufe die Liste entsprechend der Tiefe
+            for (int i = 0; i<depth; i++)
+            {
+                //Prüfe ob eine gerade Anzahl an Elementen in der Liste sind, ansonsten entferne das letzte Element
+                if (nodelist.Count % 2 != 0)
+                    nodelist.RemoveAt(nodelist.Count);
+
+                List<HuffmanNode> tempList = new List<HuffmanNode>();
+                for(int c = 0; i<nodelist.Count; c += 2)
+                {
+                    HuffmanNode mergedNode = new HuffmanNode(nodelist[c].frequency + nodelist[c + 1].frequency, nodelist[c], nodelist[c+1]);
+                    tempList.Add(mergedNode);
+                    
+                }
+                
+
+            }
+
+
+            byte[] weightArray = new byte[];
+            return weightArray;
+        }
+
         //========================================================================================================================================================
         //Encoding and Decooding streams using a Huffman Coding Table
 
