@@ -114,7 +114,7 @@ namespace JPEG
             //Durchlaufe die Liste entsprechend der Tiefe
             for (int i = 2; i <= depth; i++)
             {
-
+                //Bilde Paare und erstelle einen neuen Knoten, alle erstellten Knoten werden in tempList gespeichert
                 List<HuffmanNode> tempList = new List<HuffmanNode>();
                 for(int c = 1; c<nodelist.Count; c += 2)
                 {
