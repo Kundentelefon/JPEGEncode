@@ -226,5 +226,10 @@ namespace JPEG
             }
         }
 
+        public int getsymbolCount()
+        {
+            return huffmanTable.Count();
+        }
+
     }
 }
