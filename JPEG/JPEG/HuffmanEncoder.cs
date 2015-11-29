@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JPEG.Model;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -92,7 +93,7 @@ namespace JPEG
         {
             if (node == null)
                 return;
-            if (node.isLeaf = true)
+            if (node.isLeaf == true)
             {
                 huffmanTable.Add(node.symbol, code);
                 return;
@@ -106,7 +107,7 @@ namespace JPEG
         }
 
         //3d 
-        public Dictionary<byte, int> EncodeToPackageMerge(List<HuffmanNode> inputlist, int depth)
+        public void EncodeToPackageMerge(List<HuffmanNode> inputlist, int depth)
         {
             //Sortierung nach Frequenz
             inputlist.Sort((nodeOne, nodeTwo) => nodeOne.frequency.CompareTo(nodeTwo.frequency));
@@ -114,7 +115,7 @@ namespace JPEG
             //Durchlaufe die Liste entsprechend der Tiefe
             for (int i = 2; i <= depth; i++)
             {
-
+                //Bilde Paare und erstelle einen neuen Knoten, alle erstellten Knoten werden in tempList gespeichert
                 List<HuffmanNode> tempList = new List<HuffmanNode>();
                 for(int c = 1; c<nodelist.Count; c += 2)
                 {
@@ -168,15 +169,65 @@ namespace JPEG
 
 
             }
-
-
-            return valueTable;
+            Dictionary<Byte, int> wertOutput = new Dictionary<byte, int>();
+            foreach (var item in inputlist)
+            {
+                wertOutput.Add(item.symbol,item.frequency);
+            }
+            EncodeToPackageMergeList( valueTable, wertOutput);
         }
+
+
+        public void EncodeToPackageMergeList(Dictionary<Byte, int> input,Dictionary<Byte, int> wertInput)
+        {
+            List<List<Knoten>> baum = new List<List<Knoten>>();
+            int maxValue = input.Values.Max();
+            for (int i = 0; i < maxValue; i++)
+            {
+                baum.Add(new List<Knoten>());
+            }
+            for (int i = maxValue; i > 0; i--)
+            {
+                var matches = input.Where(pair => pair.Value == i)
+                  .Select(pair => pair.Key);                
+                foreach (var item in matches)
+                {
+                    huffmanTable.Add(item, new List<bool>());
+                    baum[i-1].Add(new Knoten(item,wertInput[item]));
+                }
+            }
+            for (int i = maxValue-1; i >= 0; i--)
+            {
+                baum[i]=baum[i].OrderBy(o => o.wert).ToList();
+                bool wert = false;
+
+                for (int ib = 0; ib < baum[i].Count(); ib++)
+                {
+                    foreach (var itemInter in baum[i][ib].punkte)
+                    {
+                        huffmanTable[itemInter].Add(wert);
+                    }
+
+                    if (wert==true&&i!=0)
+                    {
+                        baum[i - 1].Add(new Knoten(new List<byte>(baum[i][ib].punkte), new List<byte>(baum[i][ib - 1].punkte), baum[i][ib].wert + baum[i][ib - 1].wert));
+                    }
+                    else if(ib == baum[i].Count()-1 && i != 0)
+                    {
+                        baum[i - 1].Add(new Knoten(new List<byte>(baum[i][ib].punkte), baum[i][ib].wert));
+                    }
+                    wert= !wert;
+                }
+
+            }
+            
+        }
+
 
         //========================================================================================================================================================
         //Encoding and Decooding streams using a Huffman Coding Table
 
-       public Bitstream Encode(MemoryStream stream)
+        public Bitstream Encode(MemoryStream stream)
         {
             Bitstream encodedOuput = new Bitstream(10000);
 
