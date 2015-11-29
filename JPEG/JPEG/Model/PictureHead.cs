@@ -125,9 +125,9 @@ namespace JPEG
         private static void DHTHeadStandard(Bitstream bs)
         {
             // standards for 2:1 horicontal subsampling
-            ushort length = 0x01A2;
-            byte AC = 0x10;
-            byte DC = 0x00;
+            ushort length = 0x01A2;//DHTheadlänge
+            byte AC = 0x10;//Durchschnittsfrequenz
+            byte DC = 0x00;//min->max Frequenz
 
             byte[] YDCNodes = { 0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };
             byte[] YDCValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
