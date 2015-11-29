@@ -284,9 +284,9 @@ namespace JPEG
             }
         }
 
-        public int getsymbolCount()
+        public SortedList<byte, List<bool>> getHuffmanTable()
         {
-            return huffmanTable.Count();
+            return huffmanTable;
         }
 
     }

@@ -88,27 +88,38 @@ namespace JPEG
             //Huffman-Code with only 1 Bits is not allowed
             //Maximum Huffman depth is 16 
             ushort length;
-            byte hTInformation; // bit 0..3 = number of HT
+            byte hTInformation = 0x00; // bit 0..3 = number of HT
             //bit 4 = type of HT, 0 = DC, 1 = AC
             //bit 5..7 = must be 0
-            byte[] symbolLength; // quantity of symbols with codeLength between 1..16 (Sum of symbols must be <= 256)
+
+            // How many codes with symbol 1
+            byte[] symbolLength = new byte[16]; // quantity of symbols with codeLength between 1..16 (Sum of symbols must be <= 256)
             byte[] table; // n bytes, n = total number of symbols
             
-            HuffmanEncoder hf = new HuffmanEncoder();
-            //hf.CreateHFTree();
-            //length = (ushort) (2 + 1 + 16 + hf.getsymbolCount()); // length = addition of bytes of each segment
-            //hTInformation = hf.getHTInformation();
-            //table = new byte[hf.getsymbolCount()]; // create a table with the size of the number of symbols
+            HuffmanEncoder he = new HuffmanEncoder();
 
-            //if (symbolLength.Length > 16)
-            //{
-            //    throw new Exception("symbolLength darf nicht länger als 16 Byte sein");
-            //}
+            length = (ushort)(2 + 1 + 16 + he.huffmanTable.Count); // length = addition of bytes of each segment
+            table = new byte[he.huffmanTable.Count];
 
-            //bs.AddShort(0xFFc4); //marker
-            //bs.AddShort(length);
-            //bs.WriteByteArray(bs, codeLength, 0);
-            //bs.WriteByteArray(bs, table, 1);
+            //counts for each Values (List<bool>) the number of objects in it and saves it to symbolLength
+            int i = 0;
+            foreach(List<bool> sl in he.huffmanTable.Values)
+            {
+                symbolLength[i] = (byte)sl.Count;
+                i++;
+            }            
+                    
+            int j = 0;
+            foreach (var symbolCount in he.huffmanTable.Keys)
+            {
+                    table[j++] = symbolCount;
+            }
+
+            bs.AddShort(0xFFc4); //marker
+            bs.AddShort(length);
+            bs.AddByte(hTInformation);
+            bs.WriteByteArray(bs, symbolLength, 0);
+            bs.WriteByteArray(bs, table, 0);
         }
 
         private static void DHTHeadStandard(Bitstream bs)
@@ -178,16 +189,16 @@ namespace JPEG
             bs.WriteByteArray(bs, YDCNodes, 1); // 1 is startposition after the byte of HTInformation for YDC
             bs.WriteByteArray(bs, YDCValues, 0);
 
-            bs.AddByte(AC); 
+            bs.AddByte(AC);
             bs.WriteByteArray(bs, YACNodes, 1);
             bs.WriteByteArray(bs, YACValues, 0);
 
             bs.AddByte(DC);
-            bs.WriteByteArray(bs, CbDCNodes, 1); 
+            bs.WriteByteArray(bs, CbDCNodes, 1);
             bs.WriteByteArray(bs, CbDCValues, 0);
 
             bs.AddByte(AC);
-            bs.WriteByteArray(bs, CbACNodes, 1); 
+            bs.WriteByteArray(bs, CbACNodes, 1);
             bs.WriteByteArray(bs, CbACValues, 0);
 
         }
@@ -204,8 +215,9 @@ namespace JPEG
             APP0Head(bs);
             SOF0Head(bs, pHeight, pWidth);
             DHTHeadStandard(bs);
+            DHTHead(bs);
             PictureEnd(bs);
         }
-        
+
     }
 }
