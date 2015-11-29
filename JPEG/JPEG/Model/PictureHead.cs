@@ -95,20 +95,40 @@ namespace JPEG
             // How many codes with symbol 1
             byte[] symbolLength = new byte[16]; // quantity of symbols with codeLength between 1..16 (Sum of symbols must be <= 256)
             byte[] table; // n bytes, n = total number of symbols
-            
+
             HuffmanEncoder he = new HuffmanEncoder();
+            Dictionary<byte, int> test = new Dictionary<byte, int>();
+            Dictionary<byte, int> test2 = new Dictionary<byte, int>();
+            test.Add(0, 4);
+            test.Add(1, 4);
+            test.Add(2, 3);
+            test.Add(3, 2);
+            test.Add(4, 2);
+            test.Add(5, 2);
+            test2.Add(0, 3);
+            test2.Add(1, 3);
+            test2.Add(2, 5);
+            test2.Add(3, 7);
+            test2.Add(4, 14);
+            test2.Add(5, 14);
+            he.EncodeToPackageMergeList(test, test2);
 
             length = (ushort)(2 + 1 + 16 + he.huffmanTable.Count); // length = addition of bytes of each segment
             table = new byte[he.huffmanTable.Count];
 
             //counts for each Values (List<bool>) the number of objects in it and saves it to symbolLength
-            int i = 0;
-            foreach(List<bool> sl in he.huffmanTable.Values)
+
+            for(int k = 0; k < he.huffmanTable.Count; k++)
             {
-                symbolLength[i] = (byte)sl.Count;
-                i++;
-            }            
-                    
+                int temp = 0;
+                foreach (List<bool> sl in he.huffmanTable.Values)
+                {
+                    if (k == sl.Count)
+                        temp++;
+                }
+                symbolLength[k] = (byte)temp;
+            }
+                                   
             int j = 0;
             foreach (var symbolCount in he.huffmanTable.Keys)
             {
