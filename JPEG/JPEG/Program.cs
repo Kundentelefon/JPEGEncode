@@ -20,12 +20,12 @@ namespace JPEG
             //var testresult = test.testZickZackbyte();
             //var testresult2 = test.conversionTest();
 
-          //  Test.BitTest();
-            test.HuffmanDepthTest();
+            //  Test.BitTest();
+            //test.HuffmanDepthTest();
 
-            //Bitstream bs = new Bitstream(100000);
-            //PictureHead.CreateJPGHead(bs, 900, 1600);
-            //bs.WriteToFile(@"C:\Users\Maxwell\Desktop\BitstreamTest.jpg");
+            Bitstream bs = new Bitstream(100000);
+            PictureHead.CreateJPGHead(bs, 900, 1600);
+            bs.WriteToFile(@"C:\Users\Skylake\Desktop\BitstreamTest.jpg");
         }
 		
 	}
