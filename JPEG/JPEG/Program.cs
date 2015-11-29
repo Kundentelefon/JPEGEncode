@@ -20,8 +20,9 @@ namespace JPEG
             //var testresult = test.testZickZackbyte();
             //var testresult2 = test.conversionTest();
 
-          //  Test.BitTest();
-            test.HuffmanDepthTest();
+            //  Test.BitTest();
+            //test.HuffmanDepthTest();
+            test.HuffmanMergeBaum();
 
             //Bitstream bs = new Bitstream(100000);
             //PictureHead.CreateJPGHead(bs, 900, 1600);

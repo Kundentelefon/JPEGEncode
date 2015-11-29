@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0FBF53B3-1D3A-4A42-B80D-6551F4A241FF}</ProjectGuid>
+    <ProjectGuid>{D42CF9EC-EF47-4A0A-9C17-D14EF7650D31}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JPEG</RootNamespace>
@@ -58,6 +58,7 @@
     <Compile Include="Model\Color1.cs" />
     <Compile Include="Model\Color3.cs" />
     <Compile Include="CompressionHandler.cs" />
+    <Compile Include="Model\Knoten.cs" />
     <Compile Include="Model\PictureColorChannel.cs" />
     <Compile Include="PlainFormatReader.cs" />
     <Compile Include="PPMreader.cs" />

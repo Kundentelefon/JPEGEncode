@@ -181,6 +181,25 @@ namespace JPEG
             Console.WriteLine("BitWrite Elapsed={0} ", sw.Elapsed);
             Console.ReadKey();
         }
+        public void HuffmanMergeBaum()
+        {
+            HuffmanEncoder huff = new HuffmanEncoder();
+            Dictionary<byte, int> test = new Dictionary<byte, int>();
+            Dictionary<byte, int> test2 = new Dictionary<byte, int>();
+            test.Add(0,4);
+            test.Add(1, 4);
+            test.Add(2, 3);
+            test.Add(3, 2);
+            test.Add(4, 2);
+            test.Add(5, 2);
+            test2.Add(0, 3);
+            test2.Add(1, 3);
+            test2.Add(2, 5);
+            test2.Add(3, 7);
+            test2.Add(4, 14);
+            test2.Add(5, 14);
+            huff.EncodeToPackageMergeList(test,test2);
+        }
 
     }
 }
