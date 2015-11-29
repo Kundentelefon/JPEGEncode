@@ -46,12 +46,12 @@ namespace JPEG
             if (value)
             {
                 // OR operation allocation at the index position with bitshift to left
-                bArray[bitIndex / ArrayTypeSize] |= (byte) (1 << (int) ((ArrayTypeSize - 1) - (bitIndex % ArrayTypeSize)));
+                bArray[bitIndex / ArrayTypeSize] |= (byte)(1 << (int)((ArrayTypeSize - 1) - (bitIndex % ArrayTypeSize)));
             }
             else
             {
                 // AND operation allocation with bitwise inverse at the index position and bitshift to left
-                bArray[bitIndex / ArrayTypeSize] &= (byte)(~(1 << (int) ((ArrayTypeSize - 1) - (bitIndex % ArrayTypeSize))));
+                bArray[bitIndex / ArrayTypeSize] &= (byte)(~(1 << (int)((ArrayTypeSize - 1) - (bitIndex % ArrayTypeSize))));
             }
 
             bitIndex++;
@@ -71,6 +71,15 @@ namespace JPEG
             for (int i = 0x8000; i > 0; i /= 2)
             {
                 AddBit(0 != (value & i));
+            }
+        }
+
+        public void WriteByteArray(Bitstream bs, byte[] bArray, int startPos)
+        {
+            int length = bArray.Length;
+            for(int i = startPos; i < length; i++)
+            {
+                bs.AddByte(bArray[i]);
             }
         }
 
