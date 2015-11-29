@@ -107,7 +107,7 @@ namespace JPEG
         }
 
         //3d 
-        public Dictionary<byte, int> EncodeToPackageMerge(List<HuffmanNode> inputlist, int depth)
+        public void EncodeToPackageMerge(List<HuffmanNode> inputlist, int depth)
         {
             //Sortierung nach Frequenz
             inputlist.Sort((nodeOne, nodeTwo) => nodeOne.frequency.CompareTo(nodeTwo.frequency));
@@ -169,9 +169,12 @@ namespace JPEG
 
 
             }
-
-
-            return valueTable;
+            Dictionary<Byte, int> wertOutput = new Dictionary<byte, int>();
+            foreach (var item in inputlist)
+            {
+                wertOutput.Add(item.symbol,item.frequency);
+            }
+            EncodeToPackageMergeList( valueTable, wertOutput);
         }
 
 

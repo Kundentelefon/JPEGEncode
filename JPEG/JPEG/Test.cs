@@ -27,7 +27,7 @@ namespace JPEG
             List<HuffmanNode> testList = new List<HuffmanNode> {node1,node5,node3,node6,node2,node4 };
             HuffmanEncoder encoder = new HuffmanEncoder();
             Dictionary<byte, int> testDict = new Dictionary<byte, int>();
-            testDict = encoder.EncodeToPackageMerge(testList, 4);
+            //testDict = encoder.EncodeToPackageMerge(testList, 4);
             
         }
         public bool testZickZackbyte()
