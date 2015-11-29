@@ -222,7 +222,14 @@ namespace JPEG
             }
             
         }
-
+        public void einBitMuster()
+        {
+            List<bool> einBit = new List<bool>();
+            einBit.Add(true);
+            byte match = huffmanTable.FirstOrDefault(x => x.Value==einBit).Key;
+            einBit.Add(false);
+            huffmanTable[match] = einBit;
+        }
 
         //========================================================================================================================================================
         //Encoding and Decooding streams using a Huffman Coding Table
