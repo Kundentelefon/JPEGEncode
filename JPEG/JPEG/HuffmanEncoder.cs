@@ -92,7 +92,7 @@ namespace JPEG
         {
             if (node == null)
                 return;
-            if (node.isLeaf = true)
+            if (node.isLeaf == true)
             {
                 huffmanTable.Add(node.symbol, code);
                 return;
