@@ -115,6 +115,8 @@ namespace JPEG
         {
             // standards for 2:1 horicontal subsampling
             ushort length = 0x01A2;
+            byte AC = 0x10;
+            byte DC = 0x00;
 
             byte[] YDCNodes = { 0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };
             byte[] YDCValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
@@ -172,19 +174,19 @@ namespace JPEG
             bs.AddShort(0xFFc4); //marker
             bs.AddShort(length);
 
-            bs.AddByte(0x00); //HTInformation for YDC
+            bs.AddByte(DC); //HTInformation for YDC
             bs.WriteByteArray(bs, YDCNodes, 1); // 1 is startposition after the byte of HTInformation for YDC
             bs.WriteByteArray(bs, YDCValues, 0);
 
-            bs.AddByte(0x10); 
+            bs.AddByte(AC); 
             bs.WriteByteArray(bs, YACNodes, 1);
             bs.WriteByteArray(bs, YACValues, 0);
 
-            bs.AddByte(0x01);
+            bs.AddByte(DC);
             bs.WriteByteArray(bs, CbDCNodes, 1); 
             bs.WriteByteArray(bs, CbDCValues, 0);
 
-            bs.AddByte(0x11);
+            bs.AddByte(AC);
             bs.WriteByteArray(bs, CbACNodes, 1); 
             bs.WriteByteArray(bs, CbACValues, 0);
 
