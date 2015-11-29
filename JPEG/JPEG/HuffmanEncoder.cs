@@ -106,30 +106,71 @@ namespace JPEG
         }
 
         //3d 
-        public byte[] EncodeToPackageMerge(List<HuffmanNode> nodelist, int depth)
+        public Dictionary<byte, int> EncodeToPackageMerge(List<HuffmanNode> inputlist, int depth)
         {
-            nodelist.Sort((nodeOne, nodeTwo) => nodeOne.frequency.CompareTo(nodeTwo.frequency));
+            //Sortierung nach Frequenz
+            inputlist.Sort((nodeOne, nodeTwo) => nodeOne.frequency.CompareTo(nodeTwo.frequency));
+            List<HuffmanNode> nodelist = new List<HuffmanNode>(inputlist);
             //Durchlaufe die Liste entsprechend der Tiefe
-            for (int i = 0; i<depth; i++)
+            for (int i = 2; i <= depth; i++)
             {
-                //Prüfe ob eine gerade Anzahl an Elementen in der Liste sind, ansonsten entferne das letzte Element
-                if (nodelist.Count % 2 != 0)
-                    nodelist.RemoveAt(nodelist.Count);
 
                 List<HuffmanNode> tempList = new List<HuffmanNode>();
-                for(int c = 0; i<nodelist.Count; c += 2)
+                for(int c = 1; c<nodelist.Count; c += 2)
                 {
-                    HuffmanNode mergedNode = new HuffmanNode(nodelist[c].frequency + nodelist[c + 1].frequency, nodelist[c], nodelist[c+1]);
+                    HuffmanNode mergedNode = new HuffmanNode(nodelist[c-1].frequency + nodelist[c].frequency, nodelist[c-1], nodelist[c]);
                     tempList.Add(mergedNode);
                     
                 }
-                
+
+                nodelist.Clear(); //lösche alte liste
+                nodelist.AddRange(inputlist); // setzte liste auf die Anfangswerte 
+                nodelist.AddRange(tempList); // füge erzeugte knoten der liste hinzu
+                tempList.Clear(); //Lösche alte Knoten für einen neuen Schleifendurchlauf
+
+                //Sortiere neue Liste nach frequency
+                nodelist.Sort((nodeOne, nodeTwo) => nodeOne.frequency.CompareTo(nodeTwo.frequency));
+
+            }
+
+            //---------------Liste mit Knoten wurde erstellt---------------------------------------------
+
+            var valueTable = new Dictionary<byte, int>();
+            for (int i = 0; i<inputlist.Count; i++)
+            {
+                valueTable[inputlist[i].symbol] = inputlist[i].depth;
+            }
+
+            //---------------Liste auf 2n-2 Elemente kürzen-----------------------------------------------
+
+           
+            int cutter = inputlist.Count * 2 - 2;
+            if(nodelist.Count > cutter)
+                nodelist.RemoveRange(cutter, nodelist.Count-cutter);
+
+            //---------------Key/Value Liste für die Kodierungsgewichtung erstellt------------------------
+
+            for (int i = 0; i < nodelist.Count; i++)
+            {
+
+                if (nodelist[i].isDepthNode == true)
+                {
+                    nodelist.Add(nodelist[i].left);
+                    nodelist.Add(nodelist[i].right);
+                    nodelist.Remove(nodelist[i]);
+                    i--;
+                }
+
+                else
+                {
+                    valueTable[nodelist[i].symbol]++;
+                }
+
 
             }
 
 
-            byte[] weightArray = new byte[];
-            return weightArray;
+            return valueTable;
         }
 
         //========================================================================================================================================================
