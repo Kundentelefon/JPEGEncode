@@ -13,6 +13,7 @@ namespace JPEG
     {
         //Variables & Constructors
         public SortedList<byte, List<bool>> huffmanTable;
+        public SortedList<int, HuffmanNode> depthList;
 
         public HuffmanEncoder()
         {
@@ -76,12 +77,12 @@ namespace JPEG
         //NOITCE: the lowest non-leaf node consists of two leafs with the lowest-frequency-leaf (total) as the right child
         public HuffmanNode ReorderTreeToRightSide(HuffmanNode root)
         {
-            SortedList<int, HuffmanNode> depthList = new SortedList<int, HuffmanNode>();
-            GoThroughTree(root, depthList, 0);
+            depthList = new SortedList<int, HuffmanNode>();
+            GoThroughTree(root, 0);
             int maxdepth = depthList.Keys.Max();
             List<HuffmanNode> levelList = new List<HuffmanNode>();
 
-            for (int i = maxdepth; i >= 0; i--)
+            for (int i = maxdepth; i > 0; i--)
             {
                 levelList.Clear();
                 foreach (int key in depthList.Keys)
@@ -96,18 +97,18 @@ namespace JPEG
 
                 while (levelList.Count > 0)
                 {
-                    HuffmanNode newNode = new HuffmanNode(levelList[1], levelList[0]);
+                    HuffmanNode newNode = new HuffmanNode(levelList[levelList.Count - 2], levelList[levelList.Count-1]);
                     newNode.depth = newNode.right.depth;
                     depthList.Add(i - 1, newNode);
 
-                    levelList.RemoveAt(1);
-                    levelList.RemoveAt(0);
+                    levelList.RemoveAt(levelList.Count-1);
+                    levelList.RemoveAt(levelList.Count-1);
                 }
             }
             return depthList[0];
         }
 
-        public void GoThroughTree(HuffmanNode node, SortedList<int, HuffmanNode> depthList, int currentDepth)
+        public void GoThroughTree(HuffmanNode node, int currentDepth)
         {
             if (node.isLeaf)
             {
@@ -117,8 +118,8 @@ namespace JPEG
             else
             {
                 currentDepth++;
-                GoThroughTree(node.left, depthList, currentDepth);
-                GoThroughTree(node.right, depthList, currentDepth);
+                GoThroughTree(node.left, currentDepth);
+                GoThroughTree(node.right, currentDepth);
             }
         }
 
