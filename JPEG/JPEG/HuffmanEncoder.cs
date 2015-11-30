@@ -220,6 +220,7 @@ namespace JPEG
             {
                 baum.Add(new List<Knoten>());
             }
+            //huffmanTable
             for (int i = maxValue; i > 0; i--)
             {
                 var matches = input.Where(pair => pair.Value == i)
@@ -244,7 +245,9 @@ namespace JPEG
 
                     if (wert==true&&i!=0)
                     {
-                        baum[i - 1].Add(new Knoten(new List<byte>(baum[i][ib].punkte), new List<byte>(baum[i][ib - 1].punkte), baum[i][ib].wert + baum[i][ib - 1].wert));
+                        baum[i - 1].Add(new Knoten(new List<byte>(baum[i][ib].punkte),
+                            new List<byte>(baum[i][ib - 1].punkte), 
+                            baum[i][ib].wert + baum[i][ib - 1].wert));
                     }
                     else if(ib == baum[i].Count()-1 && i != 0)
                     {
@@ -252,9 +255,7 @@ namespace JPEG
                     }
                     wert= !wert;
                 }
-
-            }
-            
+            }            
         }
         public void einBitMuster()
         {
@@ -318,9 +319,9 @@ namespace JPEG
             }
         }
 
-        public int getsymbolCount()
+        public SortedList<byte, List<bool>> getHuffmanTable()
         {
-            return huffmanTable.Count();
+            return huffmanTable;
         }
 
     }

@@ -88,35 +88,66 @@ namespace JPEG
             //Huffman-Code with only 1 Bits is not allowed
             //Maximum Huffman depth is 16 
             ushort length;
-            byte hTInformation; // bit 0..3 = number of HT
+            byte hTInformation = 0x00; // bit 0..3 = number of HT
             //bit 4 = type of HT, 0 = DC, 1 = AC
             //bit 5..7 = must be 0
-            byte[] symbolLength; // quantity of symbols with codeLength between 1..16 (Sum of symbols must be <= 256)
+
+            // How many codes with symbol 1
+            byte[] symbolLength = new byte[16]; // quantity of symbols with codeLength between 1..16 (Sum of symbols must be <= 256)
             byte[] table; // n bytes, n = total number of symbols
-            
-            HuffmanEncoder hf = new HuffmanEncoder();
-            //hf.CreateHFTree();
-            //length = (ushort) (2 + 1 + 16 + hf.getsymbolCount()); // length = addition of bytes of each segment
-            //hTInformation = hf.getHTInformation();
-            //table = new byte[hf.getsymbolCount()]; // create a table with the size of the number of symbols
 
-            //if (symbolLength.Length > 16)
-            //{
-            //    throw new Exception("symbolLength darf nicht länger als 16 Byte sein");
-            //}
+            HuffmanEncoder he = new HuffmanEncoder();
+            Dictionary<byte, int> test = new Dictionary<byte, int>();
+            Dictionary<byte, int> test2 = new Dictionary<byte, int>();
+            test.Add(0, 4);
+            test.Add(1, 4);
+            test.Add(2, 3);
+            test.Add(3, 2);
+            test.Add(4, 2);
+            test.Add(5, 2);
+            test2.Add(0, 3);
+            test2.Add(1, 3);
+            test2.Add(2, 5);
+            test2.Add(3, 7);
+            test2.Add(4, 14);
+            test2.Add(5, 14);
+            he.EncodeToPackageMergeList(test, test2);
 
-            //bs.AddShort(0xFFc4); //marker
-            //bs.AddShort(length);
-            //bs.WriteByteArray(bs, codeLength, 0);
-            //bs.WriteByteArray(bs, table, 1);
+            length = (ushort)(2 + 1 + 16 + he.huffmanTable.Count); // length = addition of bytes of each segment
+            table = new byte[he.huffmanTable.Count];
+
+            //counts for each Values (List<bool>) the number of objects in it and saves it to symbolLength
+
+            for(int k = 0; k < he.huffmanTable.Count; k++)
+            {
+                int temp = 0;
+                foreach (List<bool> sl in he.huffmanTable.Values)
+                {
+                    if (k == sl.Count)
+                        temp++;
+                }
+                symbolLength[k] = (byte)temp;
+            }
+                                   
+            int j = 0;
+            foreach (var symbolCount in he.huffmanTable.Keys)
+            {
+                    table[j++] = symbolCount;
+            }
+
+            bs.AddShort(0xFFc4); //marker
+            bs.AddShort(length);
+            bs.AddByte(hTInformation);
+            bs.WriteByteArray(bs, symbolLength, 0);
+            bs.WriteByteArray(bs, table, 0);
         }
 
         private static void DHTHeadStandard(Bitstream bs)
         {
             // standards for 2:1 horicontal subsampling
-            ushort length = 0x01A2;
-            byte AC = 0x10;
-            byte DC = 0x00;
+            ushort length = 0x01A2;//DHTheadlänge
+            byte AC = 0x10;//Durchschnittsfrequenz
+            byte DC = 0x00;//min->max Frequenz
 
             byte[] YDCNodes = { 0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };
             byte[] YDCValues = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
@@ -178,16 +209,16 @@ namespace JPEG
             bs.WriteByteArray(bs, YDCNodes, 1); // 1 is startposition after the byte of HTInformation for YDC
             bs.WriteByteArray(bs, YDCValues, 0);
 
-            bs.AddByte(AC); 
+            bs.AddByte(AC);
             bs.WriteByteArray(bs, YACNodes, 1);
             bs.WriteByteArray(bs, YACValues, 0);
 
             bs.AddByte(DC);
-            bs.WriteByteArray(bs, CbDCNodes, 1); 
+            bs.WriteByteArray(bs, CbDCNodes, 1);
             bs.WriteByteArray(bs, CbDCValues, 0);
 
             bs.AddByte(AC);
-            bs.WriteByteArray(bs, CbACNodes, 1); 
+            bs.WriteByteArray(bs, CbACNodes, 1);
             bs.WriteByteArray(bs, CbACValues, 0);
 
         }
@@ -204,8 +235,9 @@ namespace JPEG
             APP0Head(bs);
             SOF0Head(bs, pHeight, pWidth);
             DHTHeadStandard(bs);
+            DHTHead(bs);
             PictureEnd(bs);
         }
-        
+
     }
 }
