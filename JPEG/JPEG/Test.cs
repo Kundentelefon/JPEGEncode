@@ -14,6 +14,22 @@ namespace JPEG
     class Test
     {
         Mathloc testmath = new Mathloc();
+
+        public void HuffmanDepthTest()
+        {
+            HuffmanNode node1 = new HuffmanNode(1, 1);
+            HuffmanNode node2 = new HuffmanNode(2, 1);
+            HuffmanNode node3 = new HuffmanNode(5, 5);
+            HuffmanNode node4 = new HuffmanNode(7, 7);
+            HuffmanNode node5 = new HuffmanNode(10, 10);
+            HuffmanNode node6 = new HuffmanNode(14, 14);
+
+            List<HuffmanNode> testList = new List<HuffmanNode> {node1,node5,node3,node6,node2,node4 };
+            HuffmanEncoder encoder = new HuffmanEncoder();
+            Dictionary<byte, int> testDict = new Dictionary<byte, int>();
+            //testDict = encoder.EncodeToPackageMerge(testList, 4);
+            
+        }
         public bool testZickZackbyte()
         {
             byte[,] test = new byte[4, 6] { { 1, 2, 6, 7, 14, 15 }, { 3, 5, 8, 13, 16, 21 }, { 4, 9, 12, 17, 20, 22 }, { 10, 11, 18, 19, 23, 24 } };
@@ -164,6 +180,25 @@ namespace JPEG
             sw.Stop();
             Console.WriteLine("BitWrite Elapsed={0} ", sw.Elapsed);
             Console.ReadKey();
+        }
+        public void HuffmanMergeBaum()
+        {
+            HuffmanEncoder huff = new HuffmanEncoder();
+            Dictionary<byte, int> test = new Dictionary<byte, int>();
+            Dictionary<byte, int> test2 = new Dictionary<byte, int>();
+            test.Add(0,4);
+            test.Add(1, 4);
+            test.Add(2, 3);
+            test.Add(3, 2);
+            test.Add(4, 2);
+            test.Add(5, 2);
+            test2.Add(0, 3);
+            test2.Add(1, 3);
+            test2.Add(2, 5);
+            test2.Add(3, 7);
+            test2.Add(4, 14);
+            test2.Add(5, 14);
+            huff.EncodeToPackageMergeList(test,test2);
         }
 
     }
