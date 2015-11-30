@@ -26,7 +26,7 @@ namespace JPEG
 
             Bitstream bs = new Bitstream(100000);
             PictureHead.CreateJPGHead(bs, 900, 1600);
-            bs.WriteToFile(@"C:\Users\Skylake\Desktop\BitstreamTest.jpg");
+            bs.WriteToFile(@"C:\Users\Lappi\Desktop\BitstreamTest.jpg");
         }
 		
 	}

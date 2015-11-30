@@ -97,21 +97,6 @@ namespace JPEG
             byte[] table; // n bytes, n = total number of symbols
 
             HuffmanEncoder he = new HuffmanEncoder();
-            Dictionary<byte, int> test = new Dictionary<byte, int>();
-            Dictionary<byte, int> test2 = new Dictionary<byte, int>();
-            test.Add(0, 4);
-            test.Add(1, 4);
-            test.Add(2, 3);
-            test.Add(3, 2);
-            test.Add(4, 2);
-            test.Add(5, 2);
-            test2.Add(0, 3);
-            test2.Add(1, 3);
-            test2.Add(2, 5);
-            test2.Add(3, 7);
-            test2.Add(4, 14);
-            test2.Add(5, 14);
-            he.EncodeToPackageMergeList(test, test2);
 
             length = (ushort)(2 + 1 + 16 + he.huffmanTable.Count); // length = addition of bytes of each segment
             table = new byte[he.huffmanTable.Count];
