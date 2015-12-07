@@ -12,7 +12,7 @@ namespace JPEG
     class HuffmanEncoder
     {
         //Variables & Constructors
-        public SortedList<byte, List<bool>> huffmanTable;
+        public static SortedList<byte, List<bool>> huffmanTable;
         public SortedList<int, HuffmanNode> depthList;
 
         public HuffmanEncoder()
