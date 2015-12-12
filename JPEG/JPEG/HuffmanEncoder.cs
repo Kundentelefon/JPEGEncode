@@ -12,7 +12,8 @@ namespace JPEG
     class HuffmanEncoder
     {
         //Variables & Constructors
-        public SortedList<byte, List<bool>> huffmanTable;
+        public static SortedList<byte, List<bool>> huffmanTable;
+        public SortedList<int, HuffmanNode> depthList;
 
         public HuffmanEncoder()
         {
@@ -74,18 +75,52 @@ namespace JPEG
         //3b
         //builds the HuffmanTree so that the left child of each node is a leaf with the highest remaining frequency (growing to the right hand side)
         //NOITCE: the lowest non-leaf node consists of two leafs with the lowest-frequency-leaf (total) as the right child
-        public HuffmanNode CreateRightSidedTreeFromSortedList(List<HuffmanNode> nodeList)
+        public HuffmanNode ReorderTreeToRightSide(HuffmanNode root)
         {
-            while (nodeList.Count > 1)
+            depthList = new SortedList<int, HuffmanNode>();
+            GoThroughTree(root, 0);
+            int maxdepth = depthList.Keys.Max();
+            List<HuffmanNode> levelList = new List<HuffmanNode>();
+
+            for (int i = maxdepth; i > 0; i--)
             {
-                int index = nodeList.Count - 1;
-                HuffmanNode nodeLower = nodeList[index];
-                nodeList.RemoveAt(index);
-                HuffmanNode nodeHigher = nodeList[index - 1];
-                nodeList.RemoveAt(index - 1);
-                nodeList.Add(new HuffmanNode(nodeHigher, nodeLower));
+                levelList.Clear();
+                foreach (int key in depthList.Keys)
+                {
+                    if (key == i)
+                    {
+                        levelList.Add(depthList.Values[depthList.Keys.IndexOf(key)]);
+                        depthList.RemoveAt(depthList.Keys.IndexOf(key));
+                    }
+                }
+                levelList.Sort((nodeOne, nodeTwo) => nodeOne.depth.CompareTo(nodeTwo.depth));
+
+                while (levelList.Count > 0)
+                {
+                    HuffmanNode newNode = new HuffmanNode(levelList[levelList.Count - 2], levelList[levelList.Count-1]);
+                    newNode.depth = newNode.right.depth;
+                    depthList.Add(i - 1, newNode);
+
+                    levelList.RemoveAt(levelList.Count-1);
+                    levelList.RemoveAt(levelList.Count-1);
+                }
             }
-            return nodeList[0];
+            return depthList[0];
+        }
+
+        public void GoThroughTree(HuffmanNode node, int currentDepth)
+        {
+            if (node.isLeaf)
+            {
+                node.depth = 0;
+                depthList.Add(currentDepth, node);
+            }
+            else
+            {
+                currentDepth++;
+                GoThroughTree(node.left, currentDepth);
+                GoThroughTree(node.right, currentDepth);
+            }
         }
 
         //recurses through the entire tree and stacks up the respective code, then adds the respective symbol and code to the HuffmanTable when reaching a leave
@@ -186,6 +221,7 @@ namespace JPEG
             {
                 baum.Add(new List<Knoten>());
             }
+            //huffmanTable
             for (int i = maxValue; i > 0; i--)
             {
                 var matches = input.Where(pair => pair.Value == i)
@@ -210,7 +246,9 @@ namespace JPEG
 
                     if (wert==true&&i!=0)
                     {
-                        baum[i - 1].Add(new Knoten(new List<byte>(baum[i][ib].punkte), new List<byte>(baum[i][ib - 1].punkte), baum[i][ib].wert + baum[i][ib - 1].wert));
+                        baum[i - 1].Add(new Knoten(new List<byte>(baum[i][ib].punkte),
+                            new List<byte>(baum[i][ib - 1].punkte), 
+                            baum[i][ib].wert + baum[i][ib - 1].wert));
                     }
                     else if(ib == baum[i].Count()-1 && i != 0)
                     {
@@ -218,9 +256,7 @@ namespace JPEG
                     }
                     wert= !wert;
                 }
-
-            }
-            
+            }            
         }
         public void einBitMuster()
         {
@@ -230,7 +266,7 @@ namespace JPEG
             einBit.Add(false);
             huffmanTable[match] = einBit;
         }
-
+        
         //========================================================================================================================================================
         //Encoding and Decooding streams using a Huffman Coding Table
 
@@ -284,9 +320,9 @@ namespace JPEG
             }
         }
 
-        public int getsymbolCount()
+        public SortedList<byte, List<bool>> getHuffmanTable()
         {
-            return huffmanTable.Count();
+            return huffmanTable;
         }
 
     }
