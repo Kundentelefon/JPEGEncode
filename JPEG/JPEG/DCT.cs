@@ -89,12 +89,12 @@ namespace JPEG
                         for (int j = 0; j < n; j++)
                         {
                             // C(n) condition
-                            if (i == 0)
+                            if (j == 0)
                                 column = (float)(1.0f / Math.Sqrt(2.0f));
                             else
                                 column = 1.0f;
 
-                            subtotal += (float)(Matrix8init[x, y] * row * column * Math.Cos(rowX * i * Math.PI) * Math.Cos(columnY * j * Math.PI));
+                            subtotal += (float)(Matrix8init[i, j] * row * column * Math.Cos(rowX * i * Math.PI) * Math.Cos(columnY * j * Math.PI));
                         } //end loop j
                     } // end loop i
                     Matrix8res[x, y] = (2.0f / n) * subtotal;
@@ -273,7 +273,7 @@ namespace JPEG
                 for (int col = 0; col < cols; col++)
                 {
                     if (col != 0) s += " | ";
-                    s += string.Format("{0,8:#####.00}", matrix[row, col]);
+                    s += string.Format("{0,8:####0.00}", matrix[row, col]);
                 }
 
                 s += "\n";
