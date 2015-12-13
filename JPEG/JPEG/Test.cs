@@ -240,7 +240,7 @@ namespace JPEG
             testDCT1.printMatrix( testDCT1.IDCTdirect( testDCT1.DCTdirect(testMat83) ) );
 
             //test DCT seperated
-           testDCT1.printMatrix(testDCT1.DCTseperated(testMat83));
+           testDCT1.printMatrix(testDCT1.DCTseparated(testMat83));
 
             //test DCT Arai
             testDCT1.printMatrix(testDCT1.DCTArai(testMat83));

@@ -103,7 +103,7 @@ namespace JPEG
             return Matrix8res;
         }
 
-        public float[,] DCTseperated(float[,] Matrix8init)
+        public float[,] DCTseparated(float[,] Matrix8init)
         {
             float[,] Matrix8res = new float[n, n];
             float[,] Matrix8A = new float[n, n];
@@ -123,7 +123,7 @@ namespace JPEG
                 for (int nS = 0; nS < n; nS++)
                 {
                     //fills row and column
-                    Matrix8A[k, nS] = (float)(temp * Math.Sqrt(2.0f / n) * Math.Cos((2.0f * nS) + 1.0f) * ((k * Math.PI) / (2.0f * n)));
+                    Matrix8A[k, nS] = (float)(temp * Math.Sqrt(2.0f / n) * Math.Cos(((2.0f * nS) + 1.0f) * ((k * Math.PI) / (2.0f * n))));
                 }
             } // end Matrix8A fill
 
