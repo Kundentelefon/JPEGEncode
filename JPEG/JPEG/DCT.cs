@@ -124,7 +124,7 @@ namespace JPEG
                 for (int nS = 0; nS < n; nS++)
                 {
                     //fills row and column
-                    Matrix8A[k,n] = (float) (temp * Math.Sqrt(2.0f / n) * Math.Cos( (2.0f * n) + 1.0f) * ( (k * Math.PI) / (2.0f * n) ) );
+                    Matrix8A[k,nS] = (float) (temp * Math.Sqrt(2.0f / n) * Math.Cos( (2.0f * nS) + 1.0f) * ( (k * Math.PI) / (2.0f * n) ) );
                 }
             } // end Matrix8A fill
 
@@ -251,13 +251,13 @@ namespace JPEG
 
         public float CMethod(int num)
         {
-            return (float)Math.Cos(num * Math.PI / 16);
+            return (float)Math.Cos(num * Math.PI / 16.0f);
         }
 
         public float SMethod(int num)
         {
             if (num == 0)
-                return (1 / (2 * (float)Math.Sqrt(2)));
+                return (1 / (2 * (float)Math.Sqrt(2.0f)));
             else
                 return (1 / (4 * CMethod(num)));
         }

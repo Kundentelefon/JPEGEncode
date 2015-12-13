@@ -225,6 +225,8 @@ namespace JPEG
             //test DCT Arai
             testDCT1.printMatrix(testDCT1.DCTArai(testMat8));
 
+            Console.ReadKey();
+
             //TODO: Test if Math.PI needs (float) for performance
         }
     }
