@@ -134,8 +134,6 @@ namespace JPEG
             {
                 for (int j = 0; j < n; j++)
                 {
-                    //resets the result place with 0
-                    Matrix8res[i, j] = 0.0f;
                     for (int k = 0; k < n; k++)
                     {
                         //TODO: performance optimization?
@@ -150,7 +148,7 @@ namespace JPEG
                 {
                     for (int k = 0; k < n; k++)
                     {
-                        Matrix8final[i, j] += Matrix8res[j, k] * Matrix8A[i, k];
+                        Matrix8final[i, j] += Matrix8res[i, k] * Matrix8A[j, k];
                     }
                 }
             } // end Y = AXAT
