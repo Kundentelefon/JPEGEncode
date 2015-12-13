@@ -9,10 +9,10 @@ namespace JPEG
     class DCT
     {
         // fixed value for 8x8 Matrix
-        int n = 8;
+        static int n = 8;
 
         // return value for Tests 
-        public float[,] DCTdirect(float[,] Matrix8init)
+        public static float[,] DCTdirect(float[,] Matrix8init)
         {
             float[,] Matrix8res = new float[n, n];
             float row;
@@ -59,7 +59,7 @@ namespace JPEG
             return Matrix8res;
         }
 
-        public float[,] IDCTdirect(float[,] Matrix8init)
+        public static float[,] IDCTdirect(float[,] Matrix8init)
         {
             float[,] Matrix8res = new float[n, n];
             float row;
@@ -103,7 +103,7 @@ namespace JPEG
             return Matrix8res;
         }
 
-        public float[,] DCTseperated(float[,] Matrix8init)
+        public static float[,] DCTseparated(float[,] Matrix8init)
         {
             float[,] Matrix8res = new float[n, n];
             float[,] Matrix8A = new float[n, n];
@@ -123,7 +123,7 @@ namespace JPEG
                 for (int nS = 0; nS < n; nS++)
                 {
                     //fills row and column
-                    Matrix8A[k, nS] = (float)(temp * Math.Sqrt(2.0f / n) * Math.Cos((2.0f * nS) + 1.0f) * ((k * Math.PI) / (2.0f * n)));
+                    Matrix8A[k, nS] = (float)(temp * Math.Sqrt(2.0f / n) * Math.Cos(((2.0f * nS) + 1.0f) * ((k * Math.PI) / (2.0f * n))));
                 }
             } // end Matrix8A fill
 
@@ -148,7 +148,7 @@ namespace JPEG
             return Matrix8res;
         }
 
-        public float[,] DCTArai(float[,] Matrix8init)
+        public static float[,] DCTArai(float[,] Matrix8init)
         {
             float[,] Matrix8Arai = new float[n, n];
 
@@ -248,12 +248,12 @@ namespace JPEG
             return Matrix8Arai;
         }
 
-        public float CMethod(int num)
+        public static float CMethod(int num)
         {
             return (float)Math.Cos(num * Math.PI / 16.0f);
         }
 
-        public float SMethod(int num)
+        public static float SMethod(int num)
         {
             if (num == 0)
                 return (1 / (2 * (float)Math.Sqrt(2.0f)));
@@ -261,7 +261,7 @@ namespace JPEG
                 return (1 / (4 * CMethod(num)));
         }
 
-        public void printMatrix(float[,] matrix)
+        public static void printMatrix(float[,] matrix)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
