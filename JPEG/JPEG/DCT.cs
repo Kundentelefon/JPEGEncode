@@ -171,7 +171,7 @@ namespace JPEG
             float s7 = SMethod(7);
 
             float a1 = CMethod(4);
-            float a2 = CMethod(2) - CMethod(2);
+            float a2 = CMethod(2) - CMethod(6);
             float a3 = CMethod(4);
             float a4 = CMethod(6) + CMethod(2);
             float a5 = CMethod(6);
