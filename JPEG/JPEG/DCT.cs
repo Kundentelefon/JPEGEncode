@@ -188,7 +188,7 @@ namespace JPEG
                 //phase 1
                 phase1[0] = Matrix8init[pointer, 0] + Matrix8init[pointer, 7];
                 phase1[1] = Matrix8init[pointer, 1] + Matrix8init[pointer, 6];
-                phase1[2] = Matrix8init[pointer, 2] + Matrix8init[pointer, 7];
+                phase1[2] = Matrix8init[pointer, 2] + Matrix8init[pointer, 5];
                 phase1[3] = Matrix8init[pointer, 3] + Matrix8init[pointer, 4];
                 phase1[4] = Matrix8init[pointer, 3] - Matrix8init[pointer, 4];
                 phase1[5] = Matrix8init[pointer, 2] - Matrix8init[pointer, 5];
@@ -260,7 +260,7 @@ namespace JPEG
                 //phase 1
                 phase1[0] = Matrix8Arai[0, pointer] + Matrix8Arai[7, pointer];
                 phase1[1] = Matrix8Arai[1, pointer] + Matrix8Arai[6, pointer];
-                phase1[2] = Matrix8Arai[2, pointer] + Matrix8Arai[7, pointer];
+                phase1[2] = Matrix8Arai[2, pointer] + Matrix8Arai[5, pointer];
                 phase1[3] = Matrix8Arai[3, pointer] + Matrix8Arai[4, pointer];
                 phase1[4] = Matrix8Arai[3, pointer] - Matrix8Arai[4, pointer];
                 phase1[5] = Matrix8Arai[2, pointer] - Matrix8Arai[5, pointer];
@@ -317,14 +317,14 @@ namespace JPEG
                 phase6[6] = (phase5[5] - phase5[6]) * s7;
                 phase6[7] = (phase5[7] - phase5[4]) * s3;
 
-                Matrix8Arai[pointer, 0] = phase6[0];
-                Matrix8Arai[pointer, 1] = phase6[4];
-                Matrix8Arai[pointer, 2] = phase6[2];
-                Matrix8Arai[pointer, 3] = phase6[6];
-                Matrix8Arai[pointer, 4] = phase6[5];
-                Matrix8Arai[pointer, 5] = phase6[1];
-                Matrix8Arai[pointer, 6] = phase6[7];
-                Matrix8Arai[pointer, 7] = phase6[3];
+                Matrix8Arai[0, pointer] = phase6[0];
+                Matrix8Arai[1, pointer] = phase6[4];
+                Matrix8Arai[2, pointer] = phase6[2];
+                Matrix8Arai[3, pointer] = phase6[6];
+                Matrix8Arai[4, pointer] = phase6[5];
+                Matrix8Arai[5, pointer] = phase6[1];
+                Matrix8Arai[6, pointer] = phase6[7];
+                Matrix8Arai[7, pointer] = phase6[3];
             }
 
             return Matrix8Arai;
