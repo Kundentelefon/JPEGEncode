@@ -24,11 +24,11 @@ namespace JPEG
             HuffmanNode node5 = new HuffmanNode(10, 10);
             HuffmanNode node6 = new HuffmanNode(14, 14);
 
-            List<HuffmanNode> testList = new List<HuffmanNode> {node1,node5,node3,node6,node2,node4 };
+            List<HuffmanNode> testList = new List<HuffmanNode> { node1, node5, node3, node6, node2, node4 };
             HuffmanEncoder encoder = new HuffmanEncoder();
             Dictionary<byte, int> testDict = new Dictionary<byte, int>();
             //testDict = encoder.EncodeToPackageMerge(testList, 4);
-            
+
         }
         public bool testZickZackbyte()
         {
@@ -42,7 +42,7 @@ namespace JPEG
             byte[,] test7 = new byte[7, 5] { { 1, 2, 6, 7, 15 }, { 3, 5, 8, 14, 16 }, { 4, 9, 13, 17, 25 }, { 10, 12, 18, 24, 26 }, { 11, 19, 23, 27, 32 }, { 20, 22, 28, 31, 33 }, { 21, 29, 30, 34, 35 } };
             byte[,] test8 = new byte[6, 5] { { 1, 2, 6, 7, 15 }, { 3, 5, 8, 14, 16 }, { 4, 9, 13, 17, 24 }, { 10, 12, 18, 23, 25 }, { 11, 19, 22, 26, 29 }, { 20, 21, 27, 28, 30 } };
 
-            
+
             byte[] restest = new byte[24];
             byte[] restest2 = new byte[28];
             byte[] restest3 = new byte[35];
@@ -152,22 +152,22 @@ namespace JPEG
                 }
             }
 
-        //    CompressionHandler compressionHandler = new CompressionHandler(picture, bitmap.Width, bitmap.Height);
+            //    CompressionHandler compressionHandler = new CompressionHandler(picture, bitmap.Width, bitmap.Height);
 
-        //    // compressionhandler dont neednead parameter yet
-        //    Color[,] result = compressionHandler.LocalAveraging444To422(0xDEAD);
+            //    // compressionhandler dont neednead parameter yet
+            //    Color[,] result = compressionHandler.LocalAveraging444To422(0xDEAD);
 
-        //    Bitmap resultImage = new Bitmap(bitmap.Width, bitmap.Height);
-        //    for (int y = 0; y < bitmap.Height; y++)
-        //    {
-        //        for (int x = 0; x < bitmap.Width; x++)
-        //        {
-        //            // draws image
-        //            System.Drawing.Color color = System.Drawing.Color.FromArgb(result[y, x].a, result[y, x].b, result[y, x].c);
-        //            resultImage.SetPixel(x, y, color);
-        //        }
-        //    }
-        //    resultImage.Save(outputFile);
+            //    Bitmap resultImage = new Bitmap(bitmap.Width, bitmap.Height);
+            //    for (int y = 0; y < bitmap.Height; y++)
+            //    {
+            //        for (int x = 0; x < bitmap.Width; x++)
+            //        {
+            //            // draws image
+            //            System.Drawing.Color color = System.Drawing.Color.FromArgb(result[y, x].a, result[y, x].b, result[y, x].c);
+            //            resultImage.SetPixel(x, y, color);
+            //        }
+            //    }
+            //    resultImage.Save(outputFile);
         }
 
         public static void BitTest()
@@ -186,7 +186,7 @@ namespace JPEG
             HuffmanEncoder huff = new HuffmanEncoder();
             Dictionary<byte, int> test = new Dictionary<byte, int>();
             Dictionary<byte, int> test2 = new Dictionary<byte, int>();
-            test.Add(0,4);
+            test.Add(0, 4);
             test.Add(1, 4);
             test.Add(2, 3);
             test.Add(3, 2);
@@ -198,8 +198,36 @@ namespace JPEG
             test2.Add(3, 7);
             test2.Add(4, 14);
             test2.Add(5, 14);
-            huff.EncodeToPackageMergeList(test,test2);
+            huff.EncodeToPackageMergeList(test, test2);
         }
 
+        public void TestDCT()
+        {
+            float[,] testMat8 = new float[8, 8] {
+                { 16, 11, 10, 16, 24, 40, 51, 61 },
+                { 12, 12, 14, 19, 26, 58, 60, 55 },
+                { 14, 13, 16, 24, 40, 57, 69, 56 },
+                { 14, 17, 22, 29, 51, 87, 80, 62 },
+                { 18, 22, 37, 56, 68, 109, 103, 77 },
+                { 24, 35, 55, 64, 81, 194, 113, 92 },
+                { 49, 64, 78, 87, 103, 121, 120, 101 },
+                { 72, 92, 95, 98, 121, 100, 103, 99 } };
+
+            DCT testDCT1 = new DCT();
+            //test DCT direct
+            testDCT1.printMatrix( testDCT1.DCTdirect(testMat8) );
+            //test DCT direct inverse after DCT direct
+            testDCT1.printMatrix( testDCT1.IDCTdirect( testDCT1.DCTdirect(testMat8) ) );
+
+            //test DCT seperated
+            testDCT1.printMatrix(testDCT1.DCTseperated(testMat8));
+
+            //test DCT Arai
+            testDCT1.printMatrix(testDCT1.DCTArai(testMat8));
+
+            Console.ReadKey();
+
+            //TODO: Test if Math.PI needs (float) for performance
+        }
     }
 }

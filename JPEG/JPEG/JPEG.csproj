@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bitstream.cs" />
+    <Compile Include="DCT.cs" />
     <Compile Include="HuffmanEncoder.cs" />
     <Compile Include="HuffmanNode.cs" />
     <Compile Include="Model\Color.cs" />
