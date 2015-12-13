@@ -14,7 +14,7 @@ namespace JPEG
         // return value for Tests 
         public float[,] DCTdirect(float[,] Matrix8init)
         {
-            float[,] Matrix8res = new float[n,n];
+            float[,] Matrix8res = new float[n, n];
             float row;
             float rowP;
             float column;
@@ -27,7 +27,7 @@ namespace JPEG
                 rowP = i * (float)Math.PI;
                 // C(n) condition
                 if (i == 0)
-                    row = (float) (1.0f / Math.Sqrt(2.0f));
+                    row = (float)(1.0f / Math.Sqrt(2.0f));
                 else
                     row = 1.0f;
 
@@ -37,7 +37,7 @@ namespace JPEG
                     columnP = j * (float)Math.PI;
                     // C(n) condition
                     if (j == 0)
-                        column = (float) (1.0f / Math.Sqrt(2.0f));
+                        column = (float)(1.0f / Math.Sqrt(2.0f));
                     else
                         column = 1.0f;
 
@@ -50,10 +50,10 @@ namespace JPEG
                         //loop for y
                         for (int y = 0; y < n; y++)
                         {
-                            subtotal += (float) (Matrix8init[x,y] * Math.Cos(( ((2.0f * x) + 1.0f) * rowP) / (2.0f * n) ) * Math.Cos( ((2.0f * y) + 1.0f) * columnP) / (2.0f * n) );
+                            subtotal += (float)(Matrix8init[x, y] * Math.Cos((((2.0f * x) + 1.0f) * rowP) / (2.0f * n)) * Math.Cos((((2.0f * y) + 1.0f) * columnP) / (2.0f * n)));
                         } //end loop y
                     } // end loop x
-                   Matrix8res[i, j] = (2.0f / n) * row * column * subtotal;                   
+                    Matrix8res[i, j] = (2.0f / n) * row * column * subtotal;
                 } // end loop j
             } // end loop i
             return Matrix8res;
@@ -72,10 +72,10 @@ namespace JPEG
             {
                 rowX = ((2.0f * x) + 1) / (2.0f * n);
 
-                for(int y = 0; y < n; y++)
+                for (int y = 0; y < n; y++)
                 {
                     columnY = ((2.0f * y) + 1) / (2.0f * n);
-                    
+
                     //resets subtotal to 0
                     subtotal = 0f;
                     for (int i = 0; i < n; i++)
@@ -89,12 +89,12 @@ namespace JPEG
                         for (int j = 0; j < n; j++)
                         {
                             // C(n) condition
-                            if (i == 0)
+                            if (j == 0)
                                 column = (float)(1.0f / Math.Sqrt(2.0f));
                             else
                                 column = 1.0f;
 
-                            subtotal += (float)(Matrix8init[x, y] * row * column * Math.Cos(rowX* i* Math.PI) * Math.Cos(columnY* j* Math.PI) );
+                            subtotal += (float)(Matrix8init[i, j] * row * column * Math.Cos(rowX * i * Math.PI) * Math.Cos(columnY * j * Math.PI));
                         } //end loop j
                     } // end loop i
                     Matrix8res[x, y] = (2.0f / n) * subtotal;
@@ -116,14 +116,14 @@ namespace JPEG
             {
                 // C(n) condition
                 if (k == 0)
-                    temp = (float) (1.0f / Math.Sqrt(2.0f));
+                    temp = (float)(1.0f / Math.Sqrt(2.0f));
                 else
                     temp = 1.0f;
 
                 for (int nS = 0; nS < n; nS++)
                 {
                     //fills row and column
-                    Matrix8A[k,nS] = (float) (temp * Math.Sqrt(2.0f / n) * Math.Cos( (2.0f * nS) + 1.0f) * ( (k * Math.PI) / (2.0f * n) ) );
+                    Matrix8A[k, nS] = (float)(temp * Math.Sqrt(2.0f / n) * Math.Cos((2.0f * nS) + 1.0f) * ((k * Math.PI) / (2.0f * n)));
                 }
             } // end Matrix8A fill
 
@@ -131,11 +131,11 @@ namespace JPEG
             // Y = AXAT: multiplicates AX with the transposed second Matrix8AT
             for (int i = 0; i < n; i++)
             {
-                for(int j = 0; j < n; j++)
+                for (int j = 0; j < n; j++)
                 {
                     //resets the result place with 0
                     Matrix8res[i, j] = 0.0f;
-                    for(int k = 0; k < n; k++)
+                    for (int k = 0; k < n; k++)
                     {
                         //TODO: performance optimization?
                         Matrix8res[i, j] += Matrix8A[i, k] * Matrix8init[k, j];
@@ -211,7 +211,7 @@ namespace JPEG
                 phase4[1] = phase3[1];
                 phase4[2] = phase3[2] * a1;
                 phase4[3] = phase3[3];
-                phase4[4] = -(phase3[4] * a2) + -((phase3[4] + phase3[6]) * a5); 
+                phase4[4] = -(phase3[4] * a2) + -((phase3[4] + phase3[6]) * a5);
                 phase4[5] = phase3[5] * a3;
                 phase4[6] = phase3[6] * a4 + -((phase3[4] + phase3[6]) * a5);
                 phase4[7] = phase3[7];
@@ -272,13 +272,14 @@ namespace JPEG
             {
                 for (int col = 0; col < cols; col++)
                 {
-                    s += matrix[row,col] + "\t";
+                    if (col != 0) s += " | ";
+                    s += string.Format("{0,8:####0.00}", matrix[row, col]);
                 }
 
                 s += "\n";
             }
 
             Console.WriteLine(s);
-        }    
+        }
     }
 }
