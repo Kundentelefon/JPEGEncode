@@ -203,7 +203,7 @@ namespace JPEG
 
         public void TestDCT()
         {
-            float[,] testMat8 = new float[8, 8] {
+            float[,] testMat81 = new float[8, 8] {
                 { 16, 11, 10, 16, 24, 40, 51, 61 },
                 { 12, 12, 14, 19, 26, 58, 60, 55 },
                 { 14, 13, 16, 24, 40, 57, 69, 56 },
@@ -215,15 +215,15 @@ namespace JPEG
 
             DCT testDCT1 = new DCT();
             //test DCT direct
-            testDCT1.printMatrix( testDCT1.DCTdirect(testMat8) );
+            testDCT1.printMatrix( testDCT1.DCTdirect(testMat81) );
             //test DCT direct inverse after DCT direct
-            testDCT1.printMatrix( testDCT1.IDCTdirect( testDCT1.DCTdirect(testMat8) ) );
+            testDCT1.printMatrix( testDCT1.IDCTdirect( testDCT1.DCTdirect(testMat81) ) );
 
             //test DCT seperated
-            //testDCT1.printMatrix(testDCT1.DCTseperated(testMat8));
+           testDCT1.printMatrix(testDCT1.DCTseperated(testMat81));
 
             //test DCT Arai
-            //testDCT1.printMatrix(testDCT1.DCTArai(testMat8));
+            testDCT1.printMatrix(testDCT1.DCTArai(testMat81));
 
             Console.ReadKey();
 
