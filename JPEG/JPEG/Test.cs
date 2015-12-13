@@ -223,17 +223,27 @@ namespace JPEG
                 { -17, 14, -36, 17, -11, 3, 3, -1 },
                 { -54, 32, -9, -9, 22, 0, 1, 3 } };
 
+            float[,] testMat83 = new float[8, 8]{
+                { -76, -73, -67, -62, -58, -67, -64, -55 },
+                { -65, -69, -73, -38, -19, -43, -59, -56 },
+                { -66, -69, -60, -15, 16, -24, -62, -55 },
+                { -65, -70, -57, -6, 26, -22, -58, -59 },
+                { -61, -67, -60, -24, -2, -40, -60, -58 },
+                { -49, -63, -68, -58, -51, -60, -70, -53 },
+                { -43, -57, -64, -69, -73, -67, -63, -45 },
+                { -41, -49, -59, -60, -63, -52, -50, -34 } };
+
             DCT testDCT1 = new DCT();
             //test DCT direct
-            testDCT1.printMatrix( testDCT1.DCTdirect(testMat81) );
+            testDCT1.printMatrix( testDCT1.DCTdirect(testMat83) );
             //test DCT direct inverse after DCT direct
-            testDCT1.printMatrix( testDCT1.IDCTdirect( testDCT1.DCTdirect(testMat81) ) );
+            testDCT1.printMatrix( testDCT1.IDCTdirect( testDCT1.DCTdirect(testMat83) ) );
 
             //test DCT seperated
-           testDCT1.printMatrix(testDCT1.DCTseperated(testMat81));
+           testDCT1.printMatrix(testDCT1.DCTseperated(testMat83));
 
             //test DCT Arai
-            testDCT1.printMatrix(testDCT1.DCTArai(testMat81));
+            testDCT1.printMatrix(testDCT1.DCTArai(testMat83));
 
             Console.ReadKey();
 
