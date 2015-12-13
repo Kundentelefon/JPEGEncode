@@ -234,17 +234,17 @@ namespace JPEG
                 { -41, -49, -59, -60, -63, -52, -50, -34 } };
 
             //test DCT direct
-            Console.WriteLine("Ausgangsmatrix");
+            Console.WriteLine("Ausgangsmatrix:");
             DCT.printMatrix(testMat83);
-            Console.WriteLine("Matrix direct");
+            Console.WriteLine("Matrix direct:");
             DCT.printMatrix( DCT.DCTdirect(testMat83) );
-            Console.WriteLine("Matrix direct inverse");
+            Console.WriteLine("Matrix direct inverse:");
             //test DCT direct inverse after DCT direct
             DCT.printMatrix( DCT.IDCTdirect( DCT.DCTdirect(testMat83) ) );
-            Console.WriteLine("Matrix seperated");
+            Console.WriteLine("Matrix separated:");
             //test DCT seperated
             DCT.printMatrix(DCT.DCTseparated(testMat83));
-            Console.WriteLine("Matrix Arai");
+            Console.WriteLine("Matrix Arai:");
             //test DCT Arai
             DCT.printMatrix(DCT.DCTArai(testMat83));
 

@@ -106,6 +106,7 @@ namespace JPEG
         public static float[,] DCTseparated(float[,] Matrix8init)
         {
             float[,] Matrix8res = new float[n, n];
+            float[,] Matrix8final = new float[n, n];
             float[,] Matrix8A = new float[n, n];
             //second Matrix for the transformation in AT matrix
             float[,] Matrix8AT = new float[n, n];
@@ -139,13 +140,22 @@ namespace JPEG
                     {
                         //TODO: performance optimization?
                         Matrix8res[i, j] += Matrix8A[i, k] * Matrix8init[k, j];
-                        //fills the second Matrix with the same result as transposed
-                        Matrix8AT[j, i] = Matrix8A[i, j];
-                        Matrix8res[i, j] += Matrix8A[j, k] * Matrix8AT[j, i];
+                    }
+                }
+            } // end Y = AX
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    for (int k = 0; k < n; k++)
+                    {
+                        Matrix8final[i, j] += Matrix8res[j, k] * Matrix8A[i, k];
                     }
                 }
             } // end Y = AXAT
-            return Matrix8res;
+
+            return Matrix8final;
         }
 
         public static float[,] DCTArai(float[,] Matrix8init)
