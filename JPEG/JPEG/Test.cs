@@ -243,19 +243,19 @@ namespace JPEG
             sw.Start();
             DCT.printMatrix( DCT.DCTdirect(testMat83) );
             sw.Stop();
-            Console.WriteLine("BitWrite Elapsed={0} \n", sw.Elapsed);
+            Console.WriteLine("Matrix direct: Elapsed={0} \n", sw.Elapsed);
             Console.WriteLine("Matrix direct inverse:");
             DCT.printMatrix( DCT.IDCTdirect( DCT.DCTdirect(testMat83) ) );
             Console.WriteLine("Matrix separated:");
             sw1.Start();
             DCT.printMatrix(DCT.DCTseparated(testMat83));
             sw1.Stop();
-            Console.WriteLine("BitWrite Elapsed={0} \n", sw1.Elapsed);
+            Console.WriteLine("Matrix separated: Elapsed={0} \n", sw1.Elapsed);
             Console.WriteLine("Matrix Arai:");
             sw2.Start();
             DCT.printMatrix(DCT.DCTArai(testMat83));
             sw2.Stop();
-            Console.WriteLine("BitWrite Elapsed={0} \n", sw2.Elapsed);
+            Console.WriteLine("Matrix Arai: Elapsed={0} \n", sw2.Elapsed);
 
             Console.ReadKey();
 
@@ -298,37 +298,62 @@ namespace JPEG
             Stopwatch sw1 = new Stopwatch();
             Stopwatch sw2 = new Stopwatch();
 
-            
             sw.Start();
             for (int i = 0; i < 5000; i++)
             {
-                DCT.printMatrix(DCT.DCTdirect(testMat83));
+                DCT.DCTdirect(testMat83);
             }
-            
             sw.Stop();
-            
 
-            DCT.printMatrix(DCT.IDCTdirect(DCT.DCTdirect(testMat83)));
-            
+            DCT.IDCTdirect(DCT.DCTdirect(testMat83));
+
             sw1.Start();
             for (int i = 0; i < 5000; i++)
             {
-                DCT.printMatrix(DCT.DCTseparated(testMat83));
+                DCT.DCTseparated(testMat83);
             }
-
             sw1.Stop();
-            
 
             sw2.Start();
             for (int i = 0; i < 5000; i++)
             {
-                DCT.printMatrix(DCT.DCTArai(testMat83));
+                DCT.DCTArai(testMat83);
             }
-
             sw2.Stop();
 
             Console.WriteLine($"/{sw.Elapsed} /{sw1.Elapsed} /{sw2.Elapsed}" );
-            Console.ReadKey();
+            //Console.ReadKey();
         }
+
+        public void loopTestArai()
+        {
+            float[,] testMatArai = new float[8, 8]{
+                { -76, -73, -67, -62, -58, -67, -64, -55 },
+                { -65, -69, -73, -38, -19, -43, -59, -56 },
+                { -66, -69, -60, -15, 16, -24, -62, -55 },
+                { -65, -70, -57, -6, 26, -22, -58, -59 },
+                { -61, -67, -60, -24, -2, -40, -60, -58 },
+                { -49, -63, -68, -58, -51, -60, -70, -53 },
+                { -43, -57, -64, -69, -73, -67, -63, -45 },
+                { -41, -49, -59, -60, -63, -52, -50, -34 } };
+
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            for (int i = 0; i < 5000; i++)
+            {
+                DCT.DCTAraiOptimized(testMatArai);
+            }
+            sw.Stop();
+            Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw.Elapsed);
+
+            Console.WriteLine("Matrix AraiOpimized endresult:");
+            DCT.printMatrix(DCT.DCTAraiOptimized(testMatArai));
+            Console.ReadKey();
+
+        }
+
+
+
+
     }
 }
