@@ -233,20 +233,29 @@ namespace JPEG
                 { -43, -57, -64, -69, -73, -67, -63, -45 },
                 { -41, -49, -59, -60, -63, -52, -50, -34 } };
 
-            //test DCT direct
-            Console.WriteLine("Ausgangsmatrix:");
-            DCT.printMatrix(testMat83);
+            Stopwatch sw = new Stopwatch();
+            Stopwatch sw1 = new Stopwatch();
+            Stopwatch sw2 = new Stopwatch();
+
+            Console.WriteLine("Ausgangsmatrix:");            
+            DCT.printMatrix(testMat83);            
             Console.WriteLine("Matrix direct:");
+            sw.Start();
             DCT.printMatrix( DCT.DCTdirect(testMat83) );
+            sw.Stop();
+            Console.WriteLine("BitWrite Elapsed={0} \n", sw.Elapsed);
             Console.WriteLine("Matrix direct inverse:");
-            //test DCT direct inverse after DCT direct
             DCT.printMatrix( DCT.IDCTdirect( DCT.DCTdirect(testMat83) ) );
             Console.WriteLine("Matrix separated:");
-            //test DCT seperated
+            sw1.Start();
             DCT.printMatrix(DCT.DCTseparated(testMat83));
+            sw1.Stop();
+            Console.WriteLine("BitWrite Elapsed={0} \n", sw1.Elapsed);
             Console.WriteLine("Matrix Arai:");
-            //test DCT Arai
+            sw2.Start();
             DCT.printMatrix(DCT.DCTArai(testMat83));
+            sw2.Stop();
+            Console.WriteLine("BitWrite Elapsed={0} \n", sw2.Elapsed);
 
             Console.ReadKey();
 
