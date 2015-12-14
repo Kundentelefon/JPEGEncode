@@ -29,7 +29,7 @@ namespace JPEG
             //bs.WriteToFile(@"C:\Users\Lappi\Desktop\BitstreamTest.jpg");
 
             //DCT Test
-            test.TestDCT();
+            test.schleifentest();
         }
 		
 	}

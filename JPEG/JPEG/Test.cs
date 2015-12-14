@@ -261,5 +261,74 @@ namespace JPEG
 
             //TODO: Test if Math.PI needs (float) for performance
         }
+
+        public void schleifentest()
+        {
+            float[,] testMat81 = new float[8, 8] {
+                { 16, 11, 10, 16, 24, 40, 51, 61 },
+                { 12, 12, 14, 19, 26, 58, 60, 55 },
+                { 14, 13, 16, 24, 40, 57, 69, 56 },
+                { 14, 17, 22, 29, 51, 87, 80, 62 },
+                { 18, 22, 37, 56, 68, 109, 103, 77 },
+                { 24, 35, 55, 64, 81, 194, 113, 92 },
+                { 49, 64, 78, 87, 103, 121, 120, 101 },
+                { 72, 92, 95, 98, 121, 100, 103, 99 } };
+
+            float[,] testMat82 = new float[8, 8]{
+                { 92, 3, -9, -7, 3, -1, 0, 2 },
+                { -39, -58, 12, 17, -2, 2, 4, 2 },
+                { -84, 62, 1, -18, 3, 4, -5, 5 },
+                { -52, -36, -10, 14, -10, 4, -2, 0 },
+                { -86, -40, 49, -7, 17, -6, -2, 5 },
+                { -62, 65, -12, -2, 3, -8, -2, 0 },
+                { -17, 14, -36, 17, -11, 3, 3, -1 },
+                { -54, 32, -9, -9, 22, 0, 1, 3 } };
+
+            float[,] testMat83 = new float[8, 8]{
+                { -76, -73, -67, -62, -58, -67, -64, -55 },
+                { -65, -69, -73, -38, -19, -43, -59, -56 },
+                { -66, -69, -60, -15, 16, -24, -62, -55 },
+                { -65, -70, -57, -6, 26, -22, -58, -59 },
+                { -61, -67, -60, -24, -2, -40, -60, -58 },
+                { -49, -63, -68, -58, -51, -60, -70, -53 },
+                { -43, -57, -64, -69, -73, -67, -63, -45 },
+                { -41, -49, -59, -60, -63, -52, -50, -34 } };
+
+            Stopwatch sw = new Stopwatch();
+            Stopwatch sw1 = new Stopwatch();
+            Stopwatch sw2 = new Stopwatch();
+
+            
+            sw.Start();
+            for (int i = 0; i < 5000; i++)
+            {
+                DCT.printMatrix(DCT.DCTdirect(testMat83));
+            }
+            
+            sw.Stop();
+            
+
+            DCT.printMatrix(DCT.IDCTdirect(DCT.DCTdirect(testMat83)));
+            
+            sw1.Start();
+            for (int i = 0; i < 5000; i++)
+            {
+                DCT.printMatrix(DCT.DCTseparated(testMat83));
+            }
+
+            sw1.Stop();
+            
+
+            sw2.Start();
+            for (int i = 0; i < 5000; i++)
+            {
+                DCT.printMatrix(DCT.DCTArai(testMat83));
+            }
+
+            sw2.Stop();
+
+            Console.WriteLine($"/{sw.Elapsed} /{sw1.Elapsed} /{sw2.Elapsed}" );
+            Console.ReadKey();
+        }
     }
 }

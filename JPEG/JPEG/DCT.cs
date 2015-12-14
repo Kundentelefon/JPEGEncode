@@ -361,7 +361,7 @@ namespace JPEG
                 s += "\n";
             }
 
-            Console.WriteLine(s);
+            //Console.WriteLine(s);
         }
     }
 }
