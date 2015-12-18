@@ -384,7 +384,7 @@ namespace JPEG
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            for (int i = 0; i < 5000; i++)
+            for (int i = 0; i < 5000000; i++)
             {
                 DCT.DCTAraiOptimized(testMatArai);
             }
@@ -393,9 +393,49 @@ namespace JPEG
 
             Console.WriteLine("Matrix AraiOpimized endresult:");
             DCT.printMatrix(DCT.DCTAraiOptimized(testMatArai));
+            //Console.ReadKey();
+
+        }
+        public void loopTestAraibetter()
+        {
+            float[] testMatArai = new float[64]
+            {
+                -76, -73, -67, -62, -58, -67, -64, -55,
+                -65, -69, -73, -38, -19, -43, -59, -56,
+                -66, -69, -60, -15, 16, -24, -62, -55,
+                -65, -70, -57, -6, 26, -22, -58, -59,
+                -61, -67, -60, -24, -2, -40, -60, -58,
+                -49, -63, -68, -58, -51, -60, -70, -53,
+                -43, -57, -64, -69, -73, -67, -63, -45,
+                -41, -49, -59, -60, -63, -52, -50, -34
+            };
+
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            for (int i = 0; i < 5000000; i++)
+            {
+                DCT.DCTAraiOptimizedrly2(testMatArai);
+            }
+            sw.Stop();
+            Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw.Elapsed);
+
+            Stopwatch sw2 = new Stopwatch();
+            sw2.Start();
+            //Task[] tasks = new Task[3]{};
+
+            List<Task> taskList = new List<Task>();
+            for (int i = 0; i < 5000000; i++)
+            {
+                taskList.Add(Task.Factory.StartNew(() => DCT.DCTAraiOptimizedrly2(testMatArai)));
+            }
+            Task.WaitAll(taskList.ToArray());
+            sw2.Stop();
+            Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw2.Elapsed);
+
             Console.ReadKey();
 
         }
+
 
         public float[,] DCTBench()
         {

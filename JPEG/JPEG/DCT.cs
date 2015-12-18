@@ -11,6 +11,33 @@ namespace JPEG
         // fixed value for 8x8 Matrix
         static int n = 8;
 
+        //static float[] Matrix8Arai = new float[64];
+
+        static float s0 = 0.3535533f;
+        //durch die ausgerechneten werte ersetzen
+        static float s1 = 0.245196328f;
+        static float s2 = 0.230969891f;
+        static float s3 = 0.207867414f;
+        static float s4 = 0.176776722f;
+        static float s5 = 0.1388926f;
+        static float s6 = 0.0956709161f;
+        static float s7 = 0.048772648f;
+
+        static float a1 = 0.7071069f;
+        static float a2 = 0.541195869f;
+        static float a3 = 0.7071069f;
+        static float a4 = 1.30656326f;
+        static float a5 = 0.382683665f;
+
+
+
+
+        //static float[] phase1 = new float[8];
+        //static float[] phase2 = new float[7];
+        //static float[] phase3 = new float[4];
+        //static float[] phase4 = new float[7];
+        //static float[] phase5 = new float[8];
+
         // return value for Tests 
         public static float[,] DCTdirect(float[,] Matrix8init)
         {
@@ -517,5 +544,287 @@ namespace JPEG
 
             Console.WriteLine(s);
         }
+
+
+
+        //public static float[] DCTAraiOptimizedrly(float[] Matrix8init)
+        //{         
+
+        //    for (int pointer = 0; pointer < 64; pointer=pointer+8)
+        //    {
+        //        //phase 1
+        //        phase1[0] = Matrix8init[pointer] + Matrix8init[pointer+ 7];
+        //        phase1[1] = Matrix8init[pointer+ 1] + Matrix8init[pointer+ 6];
+        //        phase1[2] = Matrix8init[pointer+ 2] + Matrix8init[pointer+ 5];
+        //        phase1[3] = Matrix8init[pointer+ 3] + Matrix8init[pointer+ 4];
+        //        phase1[4] = Matrix8init[pointer+ 3] - Matrix8init[pointer+ 4];
+        //        phase1[5] = Matrix8init[pointer+ 2] - Matrix8init[pointer+ 5];
+        //        phase1[6] = Matrix8init[pointer+ 1] - Matrix8init[pointer+ 6];
+        //        phase1[7] = Matrix8init[pointer+ 0] - Matrix8init[pointer+ 7];
+
+        //        //phase 2
+        //        phase2[0] = phase1[0] + phase1[3];
+        //        phase2[1] = phase1[1] + phase1[2];
+        //        phase2[2] = phase1[1] - phase1[2];
+        //        phase2[3] = phase1[0] - phase1[3];
+        //        phase2[4] = -(phase1[4] + phase1[5]); //look butterfly diagram
+        //        phase2[5] = phase1[5] + phase1[6];
+        //        phase2[6] = phase1[6] + phase1[7];
+
+        //        //phase 3
+        //        phase3[0] = phase2[0] + phase2[1];
+        //        phase3[1] = phase2[0] - phase2[1];
+        //        phase3[2] = phase2[2] + phase2[3];
+
+        //        //phase 4
+        //        phase4[2] = phase3[2] * a1;
+        //        phase4[3] = phase2[3];
+        //        phase4[4] = -(phase2[4] * a2) + -((phase2[4] + phase2[6]) * a5);
+        //        phase4[5] = phase2[5] * a3;
+        //        phase4[6] = phase2[6] * a4 + -((phase2[4] + phase2[6]) * a5);
+
+        //        //phase 5
+        //        phase5[2] = phase4[2] + phase4[3];
+        //        phase5[3] = phase4[3] - phase4[2];
+        //        phase5[5] = phase4[5] + phase1[7];
+        //        phase5[7] = phase1[7] - phase4[5];
+
+        //        Matrix8Arai[pointer] = phase3[0] * s0;
+        //        Matrix8Arai[pointer+ 1] = (phase5[5] + phase4[6]) * s1;
+        //        Matrix8Arai[pointer+ 2] = phase5[2] * s2;
+        //        Matrix8Arai[pointer+ 3] = phase5[3] * s6;
+        //        Matrix8Arai[pointer+ 4] = phase3[1] * s4;
+        //        Matrix8Arai[pointer+ 5] = (phase4[4] + phase5[7]) * s5;
+        //        Matrix8Arai[pointer+ 6] = (phase5[7] - phase4[4]) * s3;
+        //        Matrix8Arai[pointer+ 7] = (phase5[5] - phase4[6]) * s7;
+        //    }
+
+        //    for (int pointer = 0; pointer < 64; pointer=pointer+8)
+        //    {
+        //        //phase 1
+        //        phase1[0] = Matrix8Arai[pointer] + Matrix8Arai[7+ pointer];
+        //        phase1[1] = Matrix8Arai[1+ pointer] + Matrix8Arai[6+ pointer];
+        //        phase1[2] = Matrix8Arai[2+ pointer] + Matrix8Arai[5+ pointer];
+        //        phase1[3] = Matrix8Arai[3+ pointer] + Matrix8Arai[4+ pointer];
+        //        phase1[4] = Matrix8Arai[3+ pointer] - Matrix8Arai[4+ pointer];
+        //        phase1[5] = Matrix8Arai[2+ pointer] - Matrix8Arai[5+ pointer];
+        //        phase1[6] = Matrix8Arai[1+ pointer] - Matrix8Arai[6+ pointer];
+        //        phase1[7] = Matrix8Arai[pointer] - Matrix8Arai[7+ pointer];
+
+        //        //phase 2
+        //        phase2[0] = phase1[0] + phase1[3];
+        //        phase2[1] = phase1[1] + phase1[2];
+        //        phase2[2] = phase1[1] - phase1[2];
+        //        phase2[3] = phase1[0] - phase1[3];
+        //        phase2[4] = -(phase1[4] + phase1[5]); //look butterfly diagram
+        //        phase2[5] = phase1[5] + phase1[6];
+        //        phase2[6] = phase1[6] + phase1[7];
+
+        //        //phase 3
+        //        phase3[0] = phase2[0] + phase2[1];
+        //        phase3[1] = phase2[0] - phase2[1];
+        //        phase3[2] = phase2[2] + phase2[3];
+
+        //        //phase 4
+        //        phase4[2] = phase3[2] * a1;
+        //        phase4[3] = phase2[3];
+        //        phase4[4] = -(phase2[4] * a2) + -((phase2[4] + phase2[6]) * a5);
+        //        phase4[5] = phase2[5] * a3;
+        //        phase4[6] = phase2[6] * a4 + -((phase2[4] + phase2[6]) * a5);
+
+        //        //phase 5
+        //        phase5[2] = phase4[2] + phase4[3];
+        //        phase5[3] = phase4[3] - phase4[2];
+        //        phase5[5] = phase4[5] + phase1[7];
+        //        phase5[7] = phase1[7] - phase4[5];
+
+        //        Matrix8Arai[pointer] = phase3[0] * s0;
+        //        Matrix8Arai[pointer+ 1] = (phase5[5] + phase4[6]) * s1;
+        //        Matrix8Arai[pointer+ 2] = phase5[2] * s2;
+        //        Matrix8Arai[pointer+ 3] = phase5[3] * s6;
+        //        Matrix8Arai[pointer+ 4] = phase3[1] * s4;
+        //        Matrix8Arai[pointer+ 5] = (phase4[4] + phase5[7]) * s5;
+        //        Matrix8Arai[pointer+ 6] = (phase5[7] - phase4[4]) * s3;
+        //        Matrix8Arai[pointer+ 7] = (phase5[5] - phase4[6]) * s7;
+        //    }
+
+        //    return Matrix8Arai;
+        ////}
+        public static float[] DCTAraiOptimizedrly2(float[] Matrix8init)
+        {
+             float[] Matrix8Arai = new float[64];
+             float[] phase1 = new float[8];
+             float[] phase2 = new float[7];
+             float[] phase3 = new float[4];
+             float[] phase4 = new float[7];
+             float[] phase5 = new float[8];
+            for (int pointer = 0; pointer < 64; pointer = pointer + 8)
+            {
+                //phase 1
+                phase1[0] = Matrix8init[pointer] + Matrix8init[pointer + 7];
+                phase1[1] = Matrix8init[pointer + 1] + Matrix8init[pointer + 6];
+                phase1[2] = Matrix8init[pointer + 2] + Matrix8init[pointer + 5];
+                phase1[3] = Matrix8init[pointer + 3] + Matrix8init[pointer + 4];
+                phase1[4] = Matrix8init[pointer + 3] - Matrix8init[pointer + 4];
+                phase1[5] = Matrix8init[pointer + 2] - Matrix8init[pointer + 5];
+                phase1[6] = Matrix8init[pointer + 1] - Matrix8init[pointer + 6];
+                phase1[7] = Matrix8init[pointer + 0] - Matrix8init[pointer + 7];
+
+                //phase 2
+                phase2[0] = phase1[0] + phase1[3];
+                phase2[1] = phase1[1] + phase1[2];
+                phase2[2] = phase1[1] - phase1[2];
+                phase2[3] = phase1[0] - phase1[3];
+                phase2[4] = -(phase1[4] + phase1[5]); //look butterfly diagram
+                phase2[5] = phase1[5] + phase1[6];
+                phase2[6] = phase1[6] + phase1[7];
+
+                //phase 3
+                phase3[0] = phase2[0] + phase2[1];
+                phase3[1] = phase2[0] - phase2[1];
+                phase3[2] = phase2[2] + phase2[3];
+
+                //phase 4
+                phase4[2] = phase3[2] * a1;
+                phase4[3] = phase2[3];
+                phase4[4] = -(phase2[4] * a2) + -((phase2[4] + phase2[6]) * a5);
+                phase4[5] = phase2[5] * a3;
+                phase4[6] = phase2[6] * a4 + -((phase2[4] + phase2[6]) * a5);
+
+                //phase 5
+                phase5[2] = phase4[2] + phase4[3];
+                phase5[3] = phase4[3] - phase4[2];
+                phase5[5] = phase4[5] + phase1[7];
+                phase5[7] = phase1[7] - phase4[5];
+
+                Matrix8Arai[pointer] = phase3[0] * s0;
+                Matrix8Arai[pointer + 1] = (phase5[5] + phase4[6]) * s1;
+                Matrix8Arai[pointer + 2] = phase5[2] * s2;
+                Matrix8Arai[pointer + 3] = phase5[3] * s6;
+                Matrix8Arai[pointer + 4] = phase3[1] * s4;
+                Matrix8Arai[pointer + 5] = (phase4[4] + phase5[7]) * s5;
+                Matrix8Arai[pointer + 6] = (phase5[7] - phase4[4]) * s3;
+                Matrix8Arai[pointer + 7] = (phase5[5] - phase4[6]) * s7;
+            }
+
+            for (int pointer = 0; pointer < 64; pointer = pointer + 8)
+            {
+                //phase 1
+                phase1[0] = Matrix8Arai[pointer] + Matrix8Arai[7 + pointer];
+                phase1[1] = Matrix8Arai[1 + pointer] + Matrix8Arai[6 + pointer];
+                phase1[2] = Matrix8Arai[2 + pointer] + Matrix8Arai[5 + pointer];
+                phase1[3] = Matrix8Arai[3 + pointer] + Matrix8Arai[4 + pointer];
+                phase1[4] = Matrix8Arai[3 + pointer] - Matrix8Arai[4 + pointer];
+                phase1[5] = Matrix8Arai[2 + pointer] - Matrix8Arai[5 + pointer];
+                phase1[6] = Matrix8Arai[1 + pointer] - Matrix8Arai[6 + pointer];
+                phase1[7] = Matrix8Arai[pointer] - Matrix8Arai[7 + pointer];
+
+                //phase 2
+                phase2[0] = phase1[0] + phase1[3];
+                phase2[1] = phase1[1] + phase1[2];
+                phase2[2] = phase1[1] - phase1[2];
+                phase2[3] = phase1[0] - phase1[3];
+                phase2[4] = -(phase1[4] + phase1[5]); //look butterfly diagram
+                phase2[5] = phase1[5] + phase1[6];
+                phase2[6] = phase1[6] + phase1[7];
+
+                //phase 3
+                phase3[0] = phase2[0] + phase2[1];
+                phase3[1] = phase2[0] - phase2[1];
+                phase3[2] = phase2[2] + phase2[3];
+
+                //phase 4
+                phase4[2] = phase3[2] * a1;
+                phase4[3] = phase2[3];
+                phase4[4] = -(phase2[4] * a2) + -((phase2[4] + phase2[6]) * a5);
+                phase4[5] = phase2[5] * a3;
+                phase4[6] = phase2[6] * a4 + -((phase2[4] + phase2[6]) * a5);
+
+                //phase 5
+                phase5[2] = phase4[2] + phase4[3];
+                phase5[3] = phase4[3] - phase4[2];
+                phase5[5] = phase4[5] + phase1[7];
+                phase5[7] = phase1[7] - phase4[5];
+
+                Matrix8Arai[pointer] = phase3[0] * s0;
+                Matrix8Arai[pointer + 1] = (phase5[5] + phase4[6]) * s1;
+                Matrix8Arai[pointer + 2] = phase5[2] * s2;
+                Matrix8Arai[pointer + 3] = phase5[3] * s6;
+                Matrix8Arai[pointer + 4] = phase3[1] * s4;
+                Matrix8Arai[pointer + 5] = (phase4[4] + phase5[7]) * s5;
+                Matrix8Arai[pointer + 6] = (phase5[7] - phase4[4]) * s3;
+                Matrix8Arai[pointer + 7] = (phase5[5] - phase4[6]) * s7;
+            }
+
+            return Matrix8Arai;
+        }
+
+        //public static float[][] Araimulti(float[][] Matrix8init)
+        //{
+        //    float[][] returnarray = new float[Matrix8init.Count()][];
+        //    foreach (float[] item in Matrix8init)
+        //    {
+        //        retirmarray[2]=DCTAraiOptimizedrly2(item);
+        //    }
+        //}
+
+        ///// <summary>
+        ///// multitasking
+        ///// </summary>
+        ///// <param name="Matrix8init"></param>
+        //public void AraiFirstRound(int m,float[] Matrix8init)
+        //{
+        //    float[] phase11 = new float[8];
+        //    float[] phase21 = new float[7];
+        //    float[] phase31 = new float[4];
+        //    float[] phase41 = new float[7];
+        //    float[] phase51 = new float[8];
+        //    //phase 1
+        //    phase11[0] = Matrix8init[0] + Matrix8init[ 7];
+        //    phase11[1] = Matrix8init[ 1] + Matrix8init[ 6];
+        //    phase11[2] = Matrix8init[ 2] + Matrix8init[ 5];
+        //    phase11[3] = Matrix8init[ 3] + Matrix8init[ 4];
+        //    phase11[4] = Matrix8init[ 3] - Matrix8init[ 4];
+        //    phase11[5] = Matrix8init[ 2] - Matrix8init[ 5];
+        //    phase11[6] = Matrix8init[ 1] - Matrix8init[ 6];
+        //    phase11[7] = Matrix8init[ 0] - Matrix8init[ 7];
+
+        //    //phase 2
+        //    phase21[0] = phase11[0] + phase11[3];
+        //    phase21[1] = phase11[1] + phase11[2];
+        //    phase21[2] = phase11[1] - phase11[2];
+        //    phase21[3] = phase11[0] - phase11[3];
+        //    phase21[4] = -(phase11[4] + phase11[5]); //look butterfly diagram
+        //    phase21[5] = phase11[5] + phase11[6];
+        //    phase21[6] = phase11[6] + phase11[7];
+
+        //    //phase 3
+        //    phase31[0] = phase21[0] + phase21[1];
+        //    phase31[1] = phase21[0] - phase21[1];
+        //    phase31[2] = phase21[2] + phase21[3];
+
+        //    //phase 4
+        //    phase41[2] = phase31[2] * a1;
+        //    phase41[3] = phase21[3];
+        //    phase41[4] = -(phase21[4] * a2) + -((phase21[4] + phase21[6]) * a5);
+        //    phase41[5] = phase21[5] * a3;
+        //    phase41[6] = phase21[6] * a4 + -((phase21[4] + phase21[6]) * a5);
+
+        //    //phase 5
+        //    phase51[2] = phase41[2] + phase41[3];
+        //    phase51[3] = phase41[3] - phase41[2];
+        //    phase51[5] = phase41[5] + phase11[7];
+        //    phase51[7] = phase11[7] - phase41[5];
+
+        //    Matrix8Arai[m] = phase31[0] * s0;
+        //    Matrix8Arai[m+ 1] = (phase51[5] + phase41[6]) * s1;
+        //    Matrix8Arai[m + 2] = phase51[2] * s2;
+        //    Matrix8Arai[m + 3] = phase51[3] * s6;
+        //    Matrix8Arai[m + 4] = phase31[1] * s4;
+        //    Matrix8Arai[m + 5] = (phase41[4] + phase51[7]) * s5;
+        //    Matrix8Arai[m + 6] = (phase51[7] - phase41[4]) * s3;
+        //    Matrix8Arai[m + 7] = (phase51[5] - phase41[6]) * s7;
+
+        //}
     }
 }
