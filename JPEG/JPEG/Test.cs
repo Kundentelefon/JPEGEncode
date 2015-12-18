@@ -24,23 +24,50 @@ namespace JPEG
             HuffmanNode node5 = new HuffmanNode(10, 10);
             HuffmanNode node6 = new HuffmanNode(14, 14);
 
-            List<HuffmanNode> testList = new List<HuffmanNode> { node1, node5, node3, node6, node2, node4 };
+            List<HuffmanNode> testList = new List<HuffmanNode> {node1, node5, node3, node6, node2, node4};
             HuffmanEncoder encoder = new HuffmanEncoder();
             Dictionary<byte, int> testDict = new Dictionary<byte, int>();
             //testDict = encoder.EncodeToPackageMerge(testList, 4);
 
         }
+
         public bool testZickZackbyte()
         {
-            byte[,] test = new byte[4, 6] { { 1, 2, 6, 7, 14, 15 }, { 3, 5, 8, 13, 16, 21 }, { 4, 9, 12, 17, 20, 22 }, { 10, 11, 18, 19, 23, 24 } };
-            byte[,] test2 = new byte[4, 7] { { 1, 2, 6, 7, 14, 15, 22 }, { 3, 5, 8, 13, 16, 21, 23 }, { 4, 9, 12, 17, 20, 24, 27 }, { 10, 11, 18, 19, 25, 26, 28 } };
-            byte[,] test3 = new byte[5, 7] { { 1, 2, 6, 7, 15, 16, 25 }, { 3, 5, 8, 14, 17, 24, 26 }, { 4, 9, 13, 18, 23, 27, 32 }, { 10, 12, 19, 22, 28, 31, 33 }, { 11, 20, 21, 29, 30, 34, 35 } };
-            byte[,] test4 = new byte[5, 6] { { 1, 2, 6, 7, 15, 16 }, { 3, 5, 8, 14, 17, 24 }, { 4, 9, 13, 18, 23, 25 }, { 10, 12, 19, 22, 26, 29 }, { 11, 20, 21, 27, 28, 30 } };
+            byte[,] test = new byte[4, 6]
+            {{1, 2, 6, 7, 14, 15}, {3, 5, 8, 13, 16, 21}, {4, 9, 12, 17, 20, 22}, {10, 11, 18, 19, 23, 24}};
+            byte[,] test2 = new byte[4, 7]
+            {
+                {1, 2, 6, 7, 14, 15, 22}, {3, 5, 8, 13, 16, 21, 23}, {4, 9, 12, 17, 20, 24, 27},
+                {10, 11, 18, 19, 25, 26, 28}
+            };
+            byte[,] test3 = new byte[5, 7]
+            {
+                {1, 2, 6, 7, 15, 16, 25}, {3, 5, 8, 14, 17, 24, 26}, {4, 9, 13, 18, 23, 27, 32},
+                {10, 12, 19, 22, 28, 31, 33}, {11, 20, 21, 29, 30, 34, 35}
+            };
+            byte[,] test4 = new byte[5, 6]
+            {
+                {1, 2, 6, 7, 15, 16}, {3, 5, 8, 14, 17, 24}, {4, 9, 13, 18, 23, 25}, {10, 12, 19, 22, 26, 29},
+                {11, 20, 21, 27, 28, 30}
+            };
 
-            byte[,] test5 = new byte[6, 4] { { 1, 2, 6, 7 }, { 3, 5, 8, 14 }, { 4, 9, 13, 15 }, { 10, 12, 16, 21 }, { 11, 17, 20, 22 }, { 18, 19, 23, 24 } };
-            byte[,] test6 = new byte[7, 6] { { 1, 2, 6, 7, 15, 16 }, { 3, 5, 8, 14, 17, 27 }, { 4, 9, 13, 18, 26, 28 }, { 10, 12, 19, 25, 29, 36 }, { 11, 20, 24, 30, 35, 37 }, { 21, 23, 31, 34, 38, 41 }, { 22, 32, 33, 39, 40, 42 } };
-            byte[,] test7 = new byte[7, 5] { { 1, 2, 6, 7, 15 }, { 3, 5, 8, 14, 16 }, { 4, 9, 13, 17, 25 }, { 10, 12, 18, 24, 26 }, { 11, 19, 23, 27, 32 }, { 20, 22, 28, 31, 33 }, { 21, 29, 30, 34, 35 } };
-            byte[,] test8 = new byte[6, 5] { { 1, 2, 6, 7, 15 }, { 3, 5, 8, 14, 16 }, { 4, 9, 13, 17, 24 }, { 10, 12, 18, 23, 25 }, { 11, 19, 22, 26, 29 }, { 20, 21, 27, 28, 30 } };
+            byte[,] test5 = new byte[6, 4]
+            {{1, 2, 6, 7}, {3, 5, 8, 14}, {4, 9, 13, 15}, {10, 12, 16, 21}, {11, 17, 20, 22}, {18, 19, 23, 24}};
+            byte[,] test6 = new byte[7, 6]
+            {
+                {1, 2, 6, 7, 15, 16}, {3, 5, 8, 14, 17, 27}, {4, 9, 13, 18, 26, 28}, {10, 12, 19, 25, 29, 36},
+                {11, 20, 24, 30, 35, 37}, {21, 23, 31, 34, 38, 41}, {22, 32, 33, 39, 40, 42}
+            };
+            byte[,] test7 = new byte[7, 5]
+            {
+                {1, 2, 6, 7, 15}, {3, 5, 8, 14, 16}, {4, 9, 13, 17, 25}, {10, 12, 18, 24, 26}, {11, 19, 23, 27, 32},
+                {20, 22, 28, 31, 33}, {21, 29, 30, 34, 35}
+            };
+            byte[,] test8 = new byte[6, 5]
+            {
+                {1, 2, 6, 7, 15}, {3, 5, 8, 14, 16}, {4, 9, 13, 17, 24}, {10, 12, 18, 23, 25}, {11, 19, 22, 26, 29},
+                {20, 21, 27, 28, 30}
+            };
 
 
             byte[] restest = new byte[24];
@@ -49,26 +76,27 @@ namespace JPEG
             byte[] restest4 = new byte[30];
             for (byte i = 0; i < 24; i++)
             {
-                restest[i] = (byte)(i + 1);
+                restest[i] = (byte) (i + 1);
             }
             for (byte i = 0; i < 28; i++)
             {
-                restest2[i] = (byte)(i + 1);
+                restest2[i] = (byte) (i + 1);
             }
             for (byte i = 0; i < 35; i++)
             {
-                restest3[i] = (byte)(i + 1);
+                restest3[i] = (byte) (i + 1);
             }
             for (byte i = 0; i < 30; i++)
             {
-                restest4[i] = (byte)(i + 1);
+                restest4[i] = (byte) (i + 1);
             }
             var result1 = false;
             var res = testmath.ZickZackScanByte(test);
             var res2 = testmath.ZickZackScanByte(test2);
             var res3 = testmath.ZickZackScanByte(test3);
             var res4 = testmath.ZickZackScanByte(test4);
-            if (res.SequenceEqual(restest) && res2.SequenceEqual(restest2) && res3.SequenceEqual(restest3) && res4.SequenceEqual(restest4))
+            if (res.SequenceEqual(restest) && res2.SequenceEqual(restest2) && res3.SequenceEqual(restest3) &&
+                res4.SequenceEqual(restest4))
             {
                 result1 = true;
             }
@@ -79,19 +107,19 @@ namespace JPEG
             byte[] restest8 = new byte[30];
             for (byte i = 0; i < 24; i++)
             {
-                restest5[i] = (byte)(i + 1);
+                restest5[i] = (byte) (i + 1);
             }
             for (byte i = 0; i < 42; i++)
             {
-                restest6[i] = (byte)(i + 1);
+                restest6[i] = (byte) (i + 1);
             }
             for (byte i = 0; i < 35; i++)
             {
-                restest7[i] = (byte)(i + 1);
+                restest7[i] = (byte) (i + 1);
             }
             for (byte i = 0; i < 30; i++)
             {
-                restest8[i] = (byte)(i + 1);
+                restest8[i] = (byte) (i + 1);
             }
             var result2 = false;
             //passt
@@ -99,7 +127,8 @@ namespace JPEG
             var res6 = testmath.ZickZackScanByte(test6);
             var res7 = testmath.ZickZackScanByte(test7);
             var res8 = testmath.ZickZackScanByte(test8);
-            if (res5.SequenceEqual(restest5) && res6.SequenceEqual(restest6) && res7.SequenceEqual(restest7) && res8.SequenceEqual(restest8))
+            if (res5.SequenceEqual(restest5) && res6.SequenceEqual(restest6) && res7.SequenceEqual(restest7) &&
+                res8.SequenceEqual(restest8))
             {
                 result2 = true;
             }
@@ -119,10 +148,11 @@ namespace JPEG
             Colortest[2] = col1;
 
         }
+
         public bool conversionTest()
         {
 
-            byte[] testvect = { 255, 200, 0 };
+            byte[] testvect = {255, 200, 0};
             var temp = testmath.RGBToYUV(testvect);
             var temp2 = testmath.YUVToRGB(temp);
 
@@ -181,6 +211,7 @@ namespace JPEG
             Console.WriteLine("BitWrite Elapsed={0} ", sw.Elapsed);
             Console.ReadKey();
         }
+
         public void HuffmanMergeBaum()
         {
             HuffmanEncoder huff = new HuffmanEncoder();
@@ -203,49 +234,55 @@ namespace JPEG
 
         public void TestDCT()
         {
-            float[,] testMat81 = new float[8, 8] {
-                { 16, 11, 10, 16, 24, 40, 51, 61 },
-                { 12, 12, 14, 19, 26, 58, 60, 55 },
-                { 14, 13, 16, 24, 40, 57, 69, 56 },
-                { 14, 17, 22, 29, 51, 87, 80, 62 },
-                { 18, 22, 37, 56, 68, 109, 103, 77 },
-                { 24, 35, 55, 64, 81, 194, 113, 92 },
-                { 49, 64, 78, 87, 103, 121, 120, 101 },
-                { 72, 92, 95, 98, 121, 100, 103, 99 } };
+            float[,] testMat81 = new float[8, 8]
+            {
+                {16, 11, 10, 16, 24, 40, 51, 61},
+                {12, 12, 14, 19, 26, 58, 60, 55},
+                {14, 13, 16, 24, 40, 57, 69, 56},
+                {14, 17, 22, 29, 51, 87, 80, 62},
+                {18, 22, 37, 56, 68, 109, 103, 77},
+                {24, 35, 55, 64, 81, 194, 113, 92},
+                {49, 64, 78, 87, 103, 121, 120, 101},
+                {72, 92, 95, 98, 121, 100, 103, 99}
+            };
 
-            float[,] testMat82 = new float[8,8]{
-                { 92, 3, -9, -7, 3, -1, 0, 2 },
-                { -39, -58, 12, 17, -2, 2, 4, 2 },
-                { -84, 62, 1, -18, 3, 4, -5, 5 },
-                { -52, -36, -10, 14, -10, 4, -2, 0 },
-                { -86, -40, 49, -7, 17, -6, -2, 5 },
-                { -62, 65, -12, -2, 3, -8, -2, 0 },
-                { -17, 14, -36, 17, -11, 3, 3, -1 },
-                { -54, 32, -9, -9, 22, 0, 1, 3 } };
+            float[,] testMat82 = new float[8, 8]
+            {
+                {92, 3, -9, -7, 3, -1, 0, 2},
+                {-39, -58, 12, 17, -2, 2, 4, 2},
+                {-84, 62, 1, -18, 3, 4, -5, 5},
+                {-52, -36, -10, 14, -10, 4, -2, 0},
+                {-86, -40, 49, -7, 17, -6, -2, 5},
+                {-62, 65, -12, -2, 3, -8, -2, 0},
+                {-17, 14, -36, 17, -11, 3, 3, -1},
+                {-54, 32, -9, -9, 22, 0, 1, 3}
+            };
 
-            float[,] testMat83 = new float[8, 8]{
-                { -76, -73, -67, -62, -58, -67, -64, -55 },
-                { -65, -69, -73, -38, -19, -43, -59, -56 },
-                { -66, -69, -60, -15, 16, -24, -62, -55 },
-                { -65, -70, -57, -6, 26, -22, -58, -59 },
-                { -61, -67, -60, -24, -2, -40, -60, -58 },
-                { -49, -63, -68, -58, -51, -60, -70, -53 },
-                { -43, -57, -64, -69, -73, -67, -63, -45 },
-                { -41, -49, -59, -60, -63, -52, -50, -34 } };
+            float[,] testMat83 = new float[8, 8]
+            {
+                {-76, -73, -67, -62, -58, -67, -64, -55},
+                {-65, -69, -73, -38, -19, -43, -59, -56},
+                {-66, -69, -60, -15, 16, -24, -62, -55},
+                {-65, -70, -57, -6, 26, -22, -58, -59},
+                {-61, -67, -60, -24, -2, -40, -60, -58},
+                {-49, -63, -68, -58, -51, -60, -70, -53},
+                {-43, -57, -64, -69, -73, -67, -63, -45},
+                {-41, -49, -59, -60, -63, -52, -50, -34}
+            };
 
             Stopwatch sw = new Stopwatch();
             Stopwatch sw1 = new Stopwatch();
             Stopwatch sw2 = new Stopwatch();
 
-            Console.WriteLine("Ausgangsmatrix:");            
-            DCT.printMatrix(testMat83);            
+            Console.WriteLine("Ausgangsmatrix:");
+            DCT.printMatrix(testMat83);
             Console.WriteLine("Matrix direct:");
             sw.Start();
-            DCT.printMatrix( DCT.DCTdirect(testMat83) );
+            DCT.printMatrix(DCT.DCTdirect(testMat83));
             sw.Stop();
             Console.WriteLine("Matrix direct: Elapsed={0} \n", sw.Elapsed);
             Console.WriteLine("Matrix direct inverse:");
-            DCT.printMatrix( DCT.IDCTdirect( DCT.DCTdirect(testMat83) ) );
+            DCT.printMatrix(DCT.IDCTdirect(DCT.DCTdirect(testMat83)));
             Console.WriteLine("Matrix separated:");
             sw1.Start();
             DCT.printMatrix(DCT.DCTseparated(testMat83));
@@ -264,35 +301,41 @@ namespace JPEG
 
         public void schleifentest()
         {
-            float[,] testMat81 = new float[8, 8] {
-                { 16, 11, 10, 16, 24, 40, 51, 61 },
-                { 12, 12, 14, 19, 26, 58, 60, 55 },
-                { 14, 13, 16, 24, 40, 57, 69, 56 },
-                { 14, 17, 22, 29, 51, 87, 80, 62 },
-                { 18, 22, 37, 56, 68, 109, 103, 77 },
-                { 24, 35, 55, 64, 81, 194, 113, 92 },
-                { 49, 64, 78, 87, 103, 121, 120, 101 },
-                { 72, 92, 95, 98, 121, 100, 103, 99 } };
+            float[,] testMat81 = new float[8, 8]
+            {
+                {16, 11, 10, 16, 24, 40, 51, 61},
+                {12, 12, 14, 19, 26, 58, 60, 55},
+                {14, 13, 16, 24, 40, 57, 69, 56},
+                {14, 17, 22, 29, 51, 87, 80, 62},
+                {18, 22, 37, 56, 68, 109, 103, 77},
+                {24, 35, 55, 64, 81, 194, 113, 92},
+                {49, 64, 78, 87, 103, 121, 120, 101},
+                {72, 92, 95, 98, 121, 100, 103, 99}
+            };
 
-            float[,] testMat82 = new float[8, 8]{
-                { 92, 3, -9, -7, 3, -1, 0, 2 },
-                { -39, -58, 12, 17, -2, 2, 4, 2 },
-                { -84, 62, 1, -18, 3, 4, -5, 5 },
-                { -52, -36, -10, 14, -10, 4, -2, 0 },
-                { -86, -40, 49, -7, 17, -6, -2, 5 },
-                { -62, 65, -12, -2, 3, -8, -2, 0 },
-                { -17, 14, -36, 17, -11, 3, 3, -1 },
-                { -54, 32, -9, -9, 22, 0, 1, 3 } };
+            float[,] testMat82 = new float[8, 8]
+            {
+                {92, 3, -9, -7, 3, -1, 0, 2},
+                {-39, -58, 12, 17, -2, 2, 4, 2},
+                {-84, 62, 1, -18, 3, 4, -5, 5},
+                {-52, -36, -10, 14, -10, 4, -2, 0},
+                {-86, -40, 49, -7, 17, -6, -2, 5},
+                {-62, 65, -12, -2, 3, -8, -2, 0},
+                {-17, 14, -36, 17, -11, 3, 3, -1},
+                {-54, 32, -9, -9, 22, 0, 1, 3}
+            };
 
-            float[,] testMat83 = new float[8, 8]{
-                { -76, -73, -67, -62, -58, -67, -64, -55 },
-                { -65, -69, -73, -38, -19, -43, -59, -56 },
-                { -66, -69, -60, -15, 16, -24, -62, -55 },
-                { -65, -70, -57, -6, 26, -22, -58, -59 },
-                { -61, -67, -60, -24, -2, -40, -60, -58 },
-                { -49, -63, -68, -58, -51, -60, -70, -53 },
-                { -43, -57, -64, -69, -73, -67, -63, -45 },
-                { -41, -49, -59, -60, -63, -52, -50, -34 } };
+            float[,] testMat83 = new float[8, 8]
+            {
+                {-76, -73, -67, -62, -58, -67, -64, -55},
+                {-65, -69, -73, -38, -19, -43, -59, -56},
+                {-66, -69, -60, -15, 16, -24, -62, -55},
+                {-65, -70, -57, -6, 26, -22, -58, -59},
+                {-61, -67, -60, -24, -2, -40, -60, -58},
+                {-49, -63, -68, -58, -51, -60, -70, -53},
+                {-43, -57, -64, -69, -73, -67, -63, -45},
+                {-41, -49, -59, -60, -63, -52, -50, -34}
+            };
 
             Stopwatch sw = new Stopwatch();
             Stopwatch sw1 = new Stopwatch();
@@ -321,21 +364,23 @@ namespace JPEG
             }
             sw2.Stop();
 
-            Console.WriteLine($"/{sw.Elapsed} /{sw1.Elapsed} /{sw2.Elapsed}" );
+            Console.WriteLine($"/{sw.Elapsed} /{sw1.Elapsed} /{sw2.Elapsed}");
             //Console.ReadKey();
         }
 
         public void loopTestArai()
         {
-            float[,] testMatArai = new float[8, 8]{
-                { -76, -73, -67, -62, -58, -67, -64, -55 },
-                { -65, -69, -73, -38, -19, -43, -59, -56 },
-                { -66, -69, -60, -15, 16, -24, -62, -55 },
-                { -65, -70, -57, -6, 26, -22, -58, -59 },
-                { -61, -67, -60, -24, -2, -40, -60, -58 },
-                { -49, -63, -68, -58, -51, -60, -70, -53 },
-                { -43, -57, -64, -69, -73, -67, -63, -45 },
-                { -41, -49, -59, -60, -63, -52, -50, -34 } };
+            float[,] testMatArai = new float[8, 8]
+            {
+                {-76, -73, -67, -62, -58, -67, -64, -55},
+                {-65, -69, -73, -38, -19, -43, -59, -56},
+                {-66, -69, -60, -15, 16, -24, -62, -55},
+                {-65, -70, -57, -6, 26, -22, -58, -59},
+                {-61, -67, -60, -24, -2, -40, -60, -58},
+                {-49, -63, -68, -58, -51, -60, -70, -53},
+                {-43, -57, -64, -69, -73, -67, -63, -45},
+                {-41, -49, -59, -60, -63, -52, -50, -34}
+            };
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -352,8 +397,30 @@ namespace JPEG
 
         }
 
+        public float[,] DCTBench()
+        {
+            float mx = 256;
+            float my = 256;
 
+            float pixels = mx*my;
+            float[,] testmatrix = new float[256, 256];
 
+            // loops for (mx + my*8) % 256;
+            for (int i = 0; i < mx; i += 8)
+            {
+                for (int j = 0; j < 256; j+= (int)mx * 8)
+                {
+                    testmatrix[i, j] = 0;
+                }
+            }
+
+            return testmatrix;
+        }
 
     }
+
+
+
+
+
 }
