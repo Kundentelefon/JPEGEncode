@@ -589,7 +589,23 @@ namespace JPEG
             Console.WriteLine(s);
         }
 
+        public static void printArray(float[] arr)
+        {
+            int length = arr.GetLength(0);
 
+            String s = "";
+
+                for (int position = 0; position < length; position++)
+                {
+                    s += " | ";
+                    s += string.Format("{0,8:####0.00}", arr[position]);
+
+                    if((position +1) % 8 == 0)
+                    s += "\n";
+                }
+            s += "\n";
+            Console.WriteLine(s);
+        }
 
         //public static float[] DCTAraiOptimizedrly(float[] Matrix8init)
         //{         
@@ -810,7 +826,7 @@ namespace JPEG
             while (inputArray.Length > i)
             {
                 float[][] templist = new float[task][];
-                for (int ia = 0; ia < task || inputArray.Length - i < ia; ia++)
+                for (int ia = 0; ia < task && inputArray.Length - i > ia; ia++)
                 {
                     templist[ia] = inputArray[i + ia];
                 }
@@ -823,15 +839,14 @@ namespace JPEG
             {
                 for (int ib = 0; ib < taskList[ia].Result.Length; ib++)
                 {
-                    inputArray[taskList[ia].Id * task] = taskList[ia].Result[ib];
+                    inputArray[(taskList[ia].Id- taskList[0].Id ) * task] = taskList[ia].Result[ib];
                 }
             }
-
             return (inputArray);
         }
         public static float[][] araiAranger(float [][]inputArray)
         {
-            for (int i = 0; i < inputArray.Length; i++)        
+            for (int i = 0; i < inputArray.Length&&inputArray[i]!=null; i++)        
             {
                 inputArray[i]=DCTAraiOptimizedrly2(inputArray[i]);
             }
