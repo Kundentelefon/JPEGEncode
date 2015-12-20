@@ -489,6 +489,23 @@ namespace JPEG
             return returnarray;
         }
 
+        public float[] CombineBlocksToPicture(float[][] input, int maxX, int maxY)
+        {
+            float[] output = new float[maxX * maxY];
+            int numberOfBlocks = input.Length;
+            int blocksPerRow = maxX / 8;
+            
+            for (int i = 0; i < numberOfBlocks; i++)
+            {
+                for (int c = 0; c < 64; c++)
+                {
+                    output[(i * 8) + ((i / blocksPerRow) * blocksPerRow * 64) + ((c / 8) * maxX) + (c % 8)] = input[i][c];
+                }
+            }
+
+            return output;
+        }
+
         public float[,] DCTBench()
         {
             float mx = 256;
