@@ -295,8 +295,6 @@ namespace JPEG
             Console.WriteLine("Matrix Arai: Elapsed={0} \n", sw2.Elapsed);
 
             Console.ReadKey();
-
-            //TODO: Test if Math.PI needs (float) for performance
         }
 
         public void schleifentest()
@@ -431,6 +429,9 @@ namespace JPEG
             }
             Stopwatch sw2 = new Stopwatch();        
             
+
+            DCT.printArray(DCT.DCTdirectOptimized(testMatArai));
+            DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
 
             Console.ReadKey();
         }
