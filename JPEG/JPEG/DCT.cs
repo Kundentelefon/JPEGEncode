@@ -83,6 +83,50 @@ namespace JPEG
             return Matrix8res;
         }
 
+        public static float[] DCTdirectOptimzed(float[] Matrix8init)
+        {
+            float[] Matrix8res = new float[n*n];
+            float row;
+            float rowP;
+            float column;
+            float columnP;
+            float subtotal;
+
+            float oneSquare = (float)(1.0f / Math.Sqrt(2.0f));
+            float doubleN = 2.0f * n;
+            float halfN = 2.0f / n;
+
+            //loop for i rows
+            for (int i = 0; i < n*n; i=i+8)
+            {
+                rowP = i * (float)Math.PI;
+                // C(n) condition
+                row = i == 0.0f ? oneSquare : 1.0f;
+
+                //loop for j columns
+                for (int j = 0; j < n; j++)
+                {
+                    columnP = j * (float)Math.PI;
+                    // C(n) condition
+                    column = j == 0.0f ? oneSquare : 1.0f;
+
+                    subtotal = 0f;
+                    //loop for x
+                    for (int x = 0; x < n*n; x =x+8)
+                    {
+                        float doubleX = 2.0f * x;
+                        //loop for y
+                        for (int y = 0; y < n; y++)
+                        {
+                            subtotal += (float)(Matrix8init[x + y] * Math.Cos(((doubleX + 1.0f) * rowP) / doubleN) * Math.Cos((((2.0f * y) + 1.0f) * columnP) / doubleN));
+                        } //end loop y
+                    } // end loop x
+                    Matrix8res[i + j] = halfN * row * column * subtotal;
+                } // end loop j
+            } // end loop i
+            return Matrix8res;
+        }
+
         public static float[,] IDCTdirect(float[,] Matrix8init)
         {
             float[,] Matrix8res = new float[n, n];
@@ -423,7 +467,7 @@ namespace JPEG
                 //phase4[0] = phase3[0];
                 //phase4[1] = phase3[1];
                 phase4[2] = phase3[2] * a1;
-                phase4[3] = phase2[3];
+                //phase4[3] = phase2[3];
                 phase4[4] = -(phase2[4] * a2) + -((phase2[4] + phase2[6]) * a5);
                 phase4[5] = phase2[5] * a3;
                 phase4[6] = phase2[6] * a4 + -((phase2[4] + phase2[6]) * a5);
@@ -432,8 +476,8 @@ namespace JPEG
                 //phase 5
                 //phase5[0] = phase4[0];
                 //phase5[1] = phase4[1];
-                phase5[2] = phase4[2] + phase4[3];
-                phase5[3] = phase4[3] - phase4[2];
+                phase5[2] = phase4[2] + phase2[3];
+                phase5[3] = phase2[3] - phase4[2];
                 //phase5[4] = phase4[4];
                 phase5[5] = phase4[5] + phase1[7];
                 //phase5[6] = phase4[6];
@@ -485,7 +529,7 @@ namespace JPEG
                 //phase4[0] = phase3[0];
                 //phase4[1] = phase3[1];
                 phase4[2] = phase3[2] * a1;
-                phase4[3] = phase2[3];
+                //phase4[3] = phase2[3];
                 phase4[4] = -(phase2[4] * a2) + -((phase2[4] + phase2[6]) * a5);
                 phase4[5] = phase2[5] * a3;
                 phase4[6] = phase2[6] * a4 + -((phase2[4] + phase2[6]) * a5);
@@ -494,8 +538,8 @@ namespace JPEG
                 //phase 5
                 //phase5[0] = phase4[0];
                 //phase5[1] = phase4[1];
-                phase5[2] = phase4[2] + phase4[3];
-                phase5[3] = phase4[3] - phase4[2];
+                phase5[2] = phase4[2] + phase2[3];
+                phase5[3] = phase2[3] - phase4[2];
                 //phase5[4] = phase4[4];
                 phase5[5] = phase4[5] + phase1[7];
                 //phase5[6] = phase4[6];
@@ -652,13 +696,13 @@ namespace JPEG
         ////}
         public static float[] DCTAraiOptimizedrly2(float[] Matrix8init)
         {
-             float[] Matrix8Arai = new float[64];
+             float[] Matrix8Arai = new float[n*n];
              float[] phase1 = new float[8];
              float[] phase2 = new float[7];
              float[] phase3 = new float[4];
              float[] phase4 = new float[7];
              float[] phase5 = new float[8];
-            for (int pointer = 0; pointer < 64; pointer = pointer + 8)
+            for (int pointer = 0; pointer < n*n; pointer = pointer + n)
             {
                 //phase 1
                 phase1[0] = Matrix8init[pointer] + Matrix8init[pointer + 7];
@@ -686,14 +730,14 @@ namespace JPEG
 
                 //phase 4
                 phase4[2] = phase3[2] * a1;
-                phase4[3] = phase2[3];
+                //phase4[3] = phase2[3];
                 phase4[4] = -(phase2[4] * a2) + -((phase2[4] + phase2[6]) * a5);
                 phase4[5] = phase2[5] * a3;
                 phase4[6] = phase2[6] * a4 + -((phase2[4] + phase2[6]) * a5);
 
                 //phase 5
-                phase5[2] = phase4[2] + phase4[3];
-                phase5[3] = phase4[3] - phase4[2];
+                phase5[2] = phase4[2] + phase2[3];
+                phase5[3] = phase2[3] - phase4[2];
                 phase5[5] = phase4[5] + phase1[7];
                 phase5[7] = phase1[7] - phase4[5];
 
@@ -707,7 +751,7 @@ namespace JPEG
                 Matrix8Arai[pointer + 7] = (phase5[5] - phase4[6]) * s7;
             }
 
-            for (int pointer = 0; pointer < 8; pointer = pointer + 8)
+            for (int pointer = 0; pointer < n; pointer = pointer + n)
             {
                 //phase 1
                 phase1[0] = Matrix8Arai[pointer] + Matrix8Arai[7*8 + pointer];
@@ -735,14 +779,14 @@ namespace JPEG
 
                 //phase 4
                 phase4[2] = phase3[2] * a1;
-                phase4[3] = phase2[3];
+                //phase4[3] = phase2[3];
                 phase4[4] = -(phase2[4] * a2) + -((phase2[4] + phase2[6]) * a5);
                 phase4[5] = phase2[5] * a3;
                 phase4[6] = phase2[6] * a4 + -((phase2[4] + phase2[6]) * a5);
 
                 //phase 5
-                phase5[2] = phase4[2] + phase4[3];
-                phase5[3] = phase4[3] - phase4[2];
+                phase5[2] = phase4[2] + phase2[3];
+                phase5[3] = phase2[3] - phase4[2];
                 phase5[5] = phase4[5] + phase1[7];
                 phase5[7] = phase1[7] - phase4[5];
 
