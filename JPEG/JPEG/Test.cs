@@ -572,10 +572,12 @@ namespace JPEG
                 recordTime.Start();
 
                 float[][] listOfBlocks = Bilderaufteilen(testValues, 256, 256);
-
+                DCT.araiAranger(listOfBlocks);//-------------------------------------------
+                listOfBlocks = Bilderaufteilen(testValues, 256, 256);
+                DCT.DirectDCTAranger(listOfBlocks);//---------------------------
                 listOfBlocks = DCT.taskSeperater(listOfBlocks, 100);
-                //combine(listOfBlocks, 256, 256); 
-                //float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
+
+                float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
 
                 recordTime.Stop();
 
@@ -595,7 +597,7 @@ namespace JPEG
 
                 listOfBlocks = DCT.DirectDCTTaskSeparator(listOfBlocks, 100);
 
-                //float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
+                float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
 
                 recordTime.Stop();
 
