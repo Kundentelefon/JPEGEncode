@@ -933,5 +933,40 @@ namespace JPEG
         //    Matrix8Arai[m + 7] = (phase51[5] - phase41[6]) * s7;
 
         //}
+
+        public static float[][] DirectDCTTaskSeparator(float[][] inputArray, int task)
+        {
+            List<Task<float[][]>> taskList = new List<Task<float[][]>>();
+            int i = 0;
+            while (inputArray.Length > i)
+            {
+                float[][] templist = new float[task][];
+                for (int ia = 0; ia < task && inputArray.Length - i > ia; ia++)
+                {
+                    templist[ia] = inputArray[i + ia];
+                }
+                taskList.Add(Task.Factory.StartNew(() => DCT.DirectDCTAranger(templist)));
+                i = i + task;
+            }
+
+            Task.WaitAll(taskList.ToArray());
+            for (int ia = 0; ia + 1 < taskList.Count(); ia++)
+            {
+                for (int ib = 0; ib < taskList[ia].Result.Length; ib++)
+                {
+                    inputArray[(taskList[ia].Id - taskList[0].Id) * task] = taskList[ia].Result[ib];
+                }
+            }
+            return (inputArray);
+        }
+        public static float[][]DirectDCTAranger(float[][] inputArray)
+        {
+            for (int i = 0; i < inputArray.Length && inputArray[i] != null; i++)
+            {
+                inputArray[i] = DCTdirectOptimized(inputArray[i]);
+            }
+            return (inputArray);
+        }
+
     }
 }

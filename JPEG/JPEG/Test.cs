@@ -551,6 +551,8 @@ namespace JPEG
 
                 listOfBlocks = DCT.taskSeperater(listOfBlocks, 100);
 
+                float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
+
                 recordTime.Stop();
 
                 if (recordTime.ElapsedTicks < recordArai)
@@ -569,10 +571,10 @@ namespace JPEG
                 recordTime.Start();
 
                 float[][] listOfBlocks = Bilderaufteilen(testValues, 256, 256);
-                
-                //TODO: INSERT READING ONEDIMENSIONAL ARRAY INTO 8X8 BLOCKS
 
-                //TODO: INSERT OPTMIZED LOGIC
+                listOfBlocks = DCT.DirectDCTTaskSeparator(listOfBlocks, 100);
+
+                float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
 
                 recordTime.Stop();
 
