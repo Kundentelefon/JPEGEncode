@@ -456,7 +456,7 @@ namespace JPEG
             return new TimeSpan(time);
             }
             
-        public void Bilderaufteilen(float[] input, int maxx, int maxy)
+        public float[][] Bilderaufteilen(float[] input, int maxx, int maxy)
         {
             float[][] returnarray = new float[(maxx * maxy) / 64][];
             for (int i = 0; i < returnarray.Length; i++)
@@ -486,6 +486,7 @@ namespace JPEG
                 }
 
             }
+            return returnarray;
         }
         public float[,] DCTBench()
         {
