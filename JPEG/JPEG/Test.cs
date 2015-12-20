@@ -475,8 +475,6 @@ namespace JPEG
             //Arai test
             Stopwatch watch = new Stopwatch();
 
-            float[][] araiBlocks = new float[32][];
-
         }
     }
 
