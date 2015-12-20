@@ -99,9 +99,9 @@ namespace JPEG
             //loop for i rows
             for (int i = 0; i < n*n; i=i+n)
             {
-                rowP = (i % n) * (float)Math.PI;
+                rowP = (i / n) * (float)Math.PI;
                 // C(n) condition
-                row = (i % n) == 0.0f ? oneSquare : 1.0f;
+                row = (i / n) == 0.0f ? oneSquare : 1.0f;
 
                 //loop for j columns
                 for (int j = 0; j < n; j++)
@@ -114,11 +114,11 @@ namespace JPEG
                     //loop for x
                     for (int x = 0; x < n*n; x =x+n)
                     {
-                        float doubleX = 2.0f * (x % n);
+                        float doubleX = 2.0f * (x / n);
                         //loop for y
                         for (int y = 0; y < n; y++)
                         {
-                            subtotal += (float)(Matrix8init[x + y] * Math.Cos(((doubleX + 1.0f) * rowP) / doubleN) * Math.Cos((((2.0f * y) + 1.0f) * columnP) / doubleN));
+                            subtotal += (float)(Matrix8init[x+y] * Math.Cos(((doubleX + 1.0f) * rowP) / doubleN) * Math.Cos((((2.0f * y) + 1.0f) * columnP) / doubleN));
                         } //end loop y
                     } // end loop x
                     Matrix8res[i + j] = halfN * row * column * subtotal;
@@ -167,6 +167,11 @@ namespace JPEG
                 }// end loop y
             } // end loop x
             return Matrix8res;
+        }
+
+        public static float[] IDCTdirect(float[] Matrix8init)
+        {
+
         }
 
         public static float[,] DCTseparated(float[,] Matrix8init)
