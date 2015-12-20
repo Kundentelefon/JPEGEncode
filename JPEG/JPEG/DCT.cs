@@ -99,9 +99,9 @@ namespace JPEG
             //loop for i rows
             for (int i = 0; i < n*n; i=i+n)
             {
-                rowP = (i % n) * (float)Math.PI;
+                rowP = (i / n) * (float)Math.PI;
                 // C(n) condition
-                row = (i % n) == 0.0f ? oneSquare : 1.0f;
+                row = (i / n) == 0.0f ? oneSquare : 1.0f;
 
                 //loop for j columns
                 for (int j = 0; j < n; j++)
@@ -114,11 +114,11 @@ namespace JPEG
                     //loop for x
                     for (int x = 0; x < n*n; x =x+n)
                     {
-                        float doubleX = 2.0f * (x % n);
+                        float doubleX = 2.0f * (x / n);
                         //loop for y
                         for (int y = 0; y < n; y++)
                         {
-                            subtotal += (float)(Matrix8init[x + y] * Math.Cos(((doubleX + 1.0f) * rowP) / doubleN) * Math.Cos((((2.0f * y) + 1.0f) * columnP) / doubleN));
+                            subtotal += (float)(Matrix8init[x+y] * Math.Cos(((doubleX + 1.0f) * rowP) / doubleN) * Math.Cos((((2.0f * y) + 1.0f) * columnP) / doubleN));
                         } //end loop y
                     } // end loop x
                     Matrix8res[i + j] = halfN * row * column * subtotal;
@@ -167,6 +167,11 @@ namespace JPEG
                 }// end loop y
             } // end loop x
             return Matrix8res;
+        }
+
+        public static float[] IDCTdirect(float[] Matrix8init)
+        {
+
         }
 
         public static float[,] DCTseparated(float[,] Matrix8init)
@@ -767,7 +772,7 @@ namespace JPEG
                 Matrix8Arai[pointer + 7] = (phase5[5] - phase4[6]) * s7;
             }
 
-            for (int pointer = 0; pointer < n; pointer = pointer + n)
+            for (int pointer = 0; pointer < n; pointer++)
             {
                 //phase 1
                 phase1[0] = Matrix8Arai[pointer] + Matrix8Arai[7*8 + pointer];
@@ -806,14 +811,14 @@ namespace JPEG
                 phase5[5] = phase4[5] + phase1[7];
                 phase5[7] = phase1[7] - phase4[5];
 
-                Matrix8Arai[pointer] = phase3[0] * s0;
-                Matrix8Arai[pointer + 1] = (phase5[5] + phase4[6]) * s1;
-                Matrix8Arai[pointer + 2] = phase5[2] * s2;
-                Matrix8Arai[pointer + 3] = phase5[3] * s6;
-                Matrix8Arai[pointer + 4] = phase3[1] * s4;
-                Matrix8Arai[pointer + 5] = (phase4[4] + phase5[7]) * s5;
-                Matrix8Arai[pointer + 6] = (phase5[7] - phase4[4]) * s3;
-                Matrix8Arai[pointer + 7] = (phase5[5] - phase4[6]) * s7;
+                Matrix8Arai[pointer*8] = phase3[0] * s0;
+                Matrix8Arai[pointer*8 + 1] = (phase5[5] + phase4[6]) * s1;
+                Matrix8Arai[pointer*8 + 2] = phase5[2] * s2;
+                Matrix8Arai[pointer*8 + 3] = phase5[3] * s6;
+                Matrix8Arai[pointer*8 + 4] = phase3[1] * s4;
+                Matrix8Arai[pointer*8 + 5] = (phase4[4] + phase5[7]) * s5;
+                Matrix8Arai[pointer*8 + 6] = (phase5[7] - phase4[4]) * s3;
+                Matrix8Arai[pointer*8 + 7] = (phase5[5] - phase4[6]) * s7;
             }
 
             return Matrix8Arai;
