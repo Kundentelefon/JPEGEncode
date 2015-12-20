@@ -13,24 +13,21 @@ namespace JPEG
 
         //static float[] Matrix8Arai = new float[64];
 
-        static float s0 = 0.3535533f;
         //durch die ausgerechneten werte ersetzen
-        static float s1 = 0.245196328f;
-        static float s2 = 0.230969891f;
-        static float s3 = 0.207867414f;
-        static float s4 = 0.176776722f;
-        static float s5 = 0.1388926f;
-        static float s6 = 0.0956709161f;
-        static float s7 = 0.048772648f;
+        static float s0 = 0.3535533f;
+        static float s1 = 0.2548977f;
+        static float s2 = 0.2705980f;
+        static float s3 = 0.3006724f;
+        static float s4 = 0.3535539f;
+        static float s5 = 0.4499881f;
+        static float s6 = 0.6532814f;
+        static float s7 = 1.2814577f;
 
-        static float a1 = 0.7071069f;
-        static float a2 = 0.541195869f;
-        static float a3 = 0.7071069f;
-        static float a4 = 1.30656326f;
-        static float a5 = 0.382683665f;
-
-
-
+        static float a1 = 0.7071067f;
+        static float a2 = 0.5411961f;
+        static float a3 = 0.7071067f;
+        static float a4 = 1.3065629f;
+        static float a5 = 0.3826834f;
 
         //static float[] phase1 = new float[8];
         //static float[] phase2 = new float[7];
@@ -167,11 +164,6 @@ namespace JPEG
                 }// end loop y
             } // end loop x
             return Matrix8res;
-        }
-
-        public static float[] IDCTdirect(float[] Matrix8init)
-        {
-
         }
 
         public static float[,] DCTseparated(float[,] Matrix8init)
@@ -416,19 +408,19 @@ namespace JPEG
             float[,] Matrix8Arai = new float[n, n];
 
             float s0 = 0.3535533f;
-            float s1 = SMethodOptimized(1f);
-            float s2 = SMethodOptimized(2f);
-            float s3 = SMethodOptimized(3f);
-            float s4 = SMethodOptimized(4f);
-            float s5 = SMethodOptimized(5f);
-            float s6 = SMethodOptimized(6f);
-            float s7 = SMethodOptimized(7f);
+            float s1 = 0.2548977f;
+            float s2 = 0.2705980f;
+            float s3 = 0.3006724f;
+            float s4 = 0.3535539f;
+            float s5 = 0.4499881f;
+            float s6 = 0.6532814f;
+            float s7 = 1.2814577f;
 
-            float a1 = CMethodOptimized(4f);
-            float a2 = CMethodOptimized(2f) - CMethodOptimized(6f);
-            float a3 = CMethodOptimized(4f);
-            float a4 = CMethodOptimized(6f) + CMethodOptimized(2f);
-            float a5 = CMethodOptimized(6f);
+            float a1 = 0.7071067f;
+            float a2 = 0.5411961f;
+            float a3 = 0.7071067f;
+            float a4 = 1.3065629f;
+            float a5 = 0.3826834f;
 
             float[] phase1 = new float[n];
             float[] phase2 = new float[n];
@@ -453,7 +445,7 @@ namespace JPEG
                 phase2[1] = phase1[1] + phase1[2];
                 phase2[2] = phase1[1] - phase1[2];
                 phase2[3] = phase1[0] - phase1[3];
-                phase2[4] = -(phase1[4] + phase1[5]); //look butterfly diagram
+                phase2[4] = -(phase1[4] + phase1[5]);
                 phase2[5] = phase1[5] + phase1[6];
                 phase2[6] = phase1[6] + phase1[7];
                 //phase2[7] = phase1[7];
@@ -472,7 +464,7 @@ namespace JPEG
                 //phase4[0] = phase3[0];
                 //phase4[1] = phase3[1];
                 phase4[2] = phase3[2] * a1;
-                //phase4[3] = phase2[3];
+                //phase4[3] = phase3[3];
                 phase4[4] = -(phase2[4] * a2) + -((phase2[4] + phase2[6]) * a5);
                 phase4[5] = phase2[5] * a3;
                 phase4[6] = phase2[6] * a4 + -((phase2[4] + phase2[6]) * a5);
@@ -491,10 +483,10 @@ namespace JPEG
                 Matrix8Arai[pointer, 0] = phase3[0] * s0;
                 Matrix8Arai[pointer, 1] = (phase5[5] + phase4[6]) * s1;
                 Matrix8Arai[pointer, 2] = phase5[2] * s2;
-                Matrix8Arai[pointer, 3] = phase5[3] * s6;
+                Matrix8Arai[pointer, 3] = (phase5[7] - phase4[4]) * s3;
                 Matrix8Arai[pointer, 4] = phase3[1] * s4;
                 Matrix8Arai[pointer, 5] = (phase4[4] + phase5[7]) * s5;
-                Matrix8Arai[pointer, 6] = (phase5[7] - phase4[4]) * s3;
+                Matrix8Arai[pointer, 6] = phase5[3] * s6;
                 Matrix8Arai[pointer, 7] = (phase5[5] - phase4[6]) * s7;
             }
 
@@ -515,7 +507,7 @@ namespace JPEG
                 phase2[1] = phase1[1] + phase1[2];
                 phase2[2] = phase1[1] - phase1[2];
                 phase2[3] = phase1[0] - phase1[3];
-                phase2[4] = -(phase1[4] + phase1[5]); //look butterfly diagram
+                phase2[4] = -(phase1[4] + phase1[5]);
                 phase2[5] = phase1[5] + phase1[6];
                 phase2[6] = phase1[6] + phase1[7];
                 //phase2[7] = phase1[7];
@@ -534,7 +526,7 @@ namespace JPEG
                 //phase4[0] = phase3[0];
                 //phase4[1] = phase3[1];
                 phase4[2] = phase3[2] * a1;
-                //phase4[3] = phase2[3];
+                //phase4[3] = phase3[3];
                 phase4[4] = -(phase2[4] * a2) + -((phase2[4] + phase2[6]) * a5);
                 phase4[5] = phase2[5] * a3;
                 phase4[6] = phase2[6] * a4 + -((phase2[4] + phase2[6]) * a5);
@@ -550,27 +542,16 @@ namespace JPEG
                 //phase5[6] = phase4[6];
                 phase5[7] = phase1[7] - phase4[5];
 
-                Matrix8Arai[pointer, 0] = phase3[0] * s0;
-                Matrix8Arai[pointer, 1] = (phase5[5] + phase4[6]) * s1;
-                Matrix8Arai[pointer, 2] = phase5[2] * s2;
-                Matrix8Arai[pointer, 3] = phase5[3] * s6;
-                Matrix8Arai[pointer, 4] = phase3[1] * s4;
-                Matrix8Arai[pointer, 5] = (phase4[4] + phase5[7]) * s5;
-                Matrix8Arai[pointer, 6] = (phase5[7] - phase4[4]) * s3;
-                Matrix8Arai[pointer, 7] = (phase5[5] - phase4[6]) * s7;
+                Matrix8Arai[0, pointer] = phase3[0] * s0;
+                Matrix8Arai[1, pointer] = (phase5[5] + phase4[6]) * s1;
+                Matrix8Arai[2, pointer] = phase5[2] * s2;
+                Matrix8Arai[3, pointer] = (phase5[7] - phase4[4]) * s3;
+                Matrix8Arai[4, pointer] = phase3[1] * s4;
+                Matrix8Arai[5, pointer] = (phase4[4] + phase5[7]) * s5;
+                Matrix8Arai[6, pointer] = phase5[3] * s6;
+                Matrix8Arai[7, pointer] = (phase5[5] - phase4[6]) * s7;
             }
-
             return Matrix8Arai;
-        }
-
-        public static float CMethodOptimized(float k)
-        {
-            return (float)Math.Cos(k * 0.1963495f);
-        }
-
-        public static float SMethodOptimized(float k)
-        {
-                return 0.25f * CMethodOptimized(k);
         }
 
         public static void printMatrix(float[,] matrix)
@@ -602,7 +583,7 @@ namespace JPEG
 
                 for (int position = 0; position < length; position++)
                 {
-                    s += " | ";
+                    if (position % 8 != 0) s += " | ";
                     s += string.Format("{0,8:####0.00}", arr[position]);
 
                     if((position +1) % 8 == 0)
