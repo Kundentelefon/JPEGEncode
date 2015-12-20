@@ -462,7 +462,22 @@ namespace JPEG
             return testmatrix;
         }
 
-       
+        public void PerformanceTest()
+        {
+            //Generate test picture as onedimensional array and fill it with the correct values
+            float[] testValues = new float[65536];
+
+            for (int i = 0; i < 65536; i++)
+            {
+                testValues[i] = (i % 256 + (i / 256) * 8) % 256;
+            }
+
+            //Arai test
+            Stopwatch watch = new Stopwatch();
+
+            float[][] araiBlocks = new float[32][];
+
+        }
     }
 
 
