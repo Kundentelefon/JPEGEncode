@@ -385,7 +385,7 @@ namespace JPEG
             //for (int i = 0; i < 5000000; i++)
             //{
             
-            //    DCT.DCTAraiOptimized(testMatArai);
+            DCT.DCTAraiOptimized(testMatArai);
             //}
             sw.Stop();
             Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw.Elapsed);
@@ -409,12 +409,12 @@ namespace JPEG
                 -41, -49, -59, -60, -63, -52, -50, -34
             };
 
-            //int count = 10;
-            //float[][] testArie = new float[65536][];
-            //for (int i = 0; i < 65536; i++)
-            //{
-            //    testArie[i] = testMatArai;
-            //}
+            int count = 10;
+            float[][] testArie = new float[65536][];
+            for (int i = 0; i < 65536; i++)
+            {
+                testArie[i] = testMatArai;
+            }
             //Stopwatch sw = new Stopwatch();
             //for (int i = 0; i < count; i++)
             //{
@@ -424,14 +424,16 @@ namespace JPEG
             //}
             //var time=mittelwertZeit(sw.Elapsed,count);
             //Console.WriteLine($"Matrix Arai Optimized:{time} ");
-
-            //for (int i = 10; i < 10000; i=i*10)
-            //{
-            //    araitimer(testArie, i, count);
-            //}
+            DCT.DCTAraiOptimizedrly2(testMatArai);
+            for (int i = 10; i < 10000; i = i * 10)
+            {
+                araitimer(testArie, i, count);
+            }
             //Stopwatch sw2 = new Stopwatch();        
 
-            DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
+            DCT.printArray(DCT.DCTdirectOptimized(testMatArai));
+            // DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
+            DCT.printArray(DCT.DCTseparatedOptimized(testMatArai));
 
             Console.ReadKey();
             }

@@ -166,6 +166,7 @@ namespace JPEG
             return Matrix8res;
         }
 
+
         public static float[,] DCTseparated(float[,] Matrix8init)
         {
             float[,] Matrix8res = new float[n, n];
@@ -210,6 +211,57 @@ namespace JPEG
                     {
                         //multiplicatin with transposed matrix8A
                         Matrix8final[i, j] += Matrix8res[i, k] * Matrix8A[j, k];
+                    }
+                }
+            } // end Y = AXAT
+
+            return Matrix8final;
+        }
+
+        public static float[] DCTseparatedOptimized(float[] Matrix8init)
+        {
+            float[] Matrix8res = new float[n* n];
+            float[] Matrix8final = new float[n* n];
+            float[] Matrix8A = new float[n* n];
+            float temp;
+
+            float oneSquare = (float)(1.0f / Math.Sqrt(2.0f));
+            float doubleN = 2.0f * n;
+            float halfN = 2.0f / n;
+
+            for (int k = 0; k < n*n; k=k+n)
+            {
+                // C(n) condition
+                temp = k /n == 0.0f ? oneSquare : 1.0f;
+
+                for (int nS = 0; nS < n; nS++)
+                {
+                    //fills row and column
+                    Matrix8A[k+nS] = (float)(temp * Math.Sqrt(halfN) * Math.Cos(((2.0f * nS) + 1.0f) * ((k/n * Math.PI) / doubleN)));
+                }
+            } // end Matrix8A fill
+
+            // Y = AX: multiplicates the filled A Matrix with the given X Matrix
+            // Y = AXAT: multiplicates AX with the transposed second Matrix8AT
+            for (int i = 0; i < n*n; i=i+n)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    for (int k = 0; k < n; k++)
+                    {
+                        Matrix8res[i+j] += Matrix8A[i+k] * Matrix8init[k+j];
+                    }
+                }
+            } // end Y = AX
+
+            for (int i = 0; i < n*n; i=i+n)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    for (int k = 0; k < n; k++)
+                    {
+                        //multiplicatin with transposed matrix8A
+                        Matrix8final[i+ j] += Matrix8res[i+ k] * Matrix8A[j+ k];
                     }
                 }
             } // end Y = AXAT
@@ -819,14 +871,25 @@ namespace JPEG
                 //phase5[6] = phase4[6];
                 phase5[7] = phase1[7] - phase4[5];
 
-                Matrix8Arai[pointer*8] = phase3[0] * s0;
-                Matrix8Arai[pointer*8 + 1] = (phase5[5] + phase4[6]) * s1;
-                Matrix8Arai[pointer*8 + 2] = phase5[2] * s2;
-                Matrix8Arai[pointer*8 + 3] = (phase5[7] - phase4[4]) * s3;
-                Matrix8Arai[pointer*8 + 4] = phase3[1] * s4;
-                Matrix8Arai[pointer*8 + 5] = (phase4[4] + phase5[7]) * s5;
-                Matrix8Arai[pointer*8 + 6] = phase5[3] * s6;
-                Matrix8Arai[pointer*8 + 7] = (phase5[5] - phase4[6]) * s7;
+                Matrix8Arai[pointer] = phase3[0] * s0;
+                Matrix8Arai[pointer+8 * 1] = (phase5[5] + phase4[6]) * s1;
+                Matrix8Arai[pointer+8 * 2] = phase5[2] * s2;
+                Matrix8Arai[pointer+8 * 3] = (phase5[7] - phase4[4]) * s3;
+                Matrix8Arai[pointer+8 * 4] = phase3[1] * s4;
+                Matrix8Arai[pointer+8 * 5] = (phase4[4] + phase5[7]) * s5;
+                Matrix8Arai[pointer+8 * 6] = phase5[3] * s6;
+                Matrix8Arai[pointer+8 * 7] = (phase5[5] - phase4[6]) * s7;
+
+
+
+                //Matrix8Arai[0, pointer] = phase3[0] * s0;
+                //Matrix8Arai[1, pointer] = (phase5[5] + phase4[6]) * s1;
+                //Matrix8Arai[2, pointer] = phase5[2] * s2;
+                //Matrix8Arai[3, pointer] = (phase5[7] - phase4[4]) * s3;
+                //Matrix8Arai[4, pointer] = phase3[1] * s4;
+                //Matrix8Arai[5, pointer] = (phase4[4] + phase5[7]) * s5;
+                //Matrix8Arai[6, pointer] = phase5[3] * s6;
+                //Matrix8Arai[7, pointer] = (phase5[5] - phase4[6]) * s7;
             }
 
             return Matrix8Arai;
