@@ -416,7 +416,7 @@ namespace JPEG
             Stopwatch sw = new Stopwatch();
             for (int i = 0; i < count; i++)
             {
-                sw.Start();
+            sw.Start();
                 DCT.araiAranger(testArie);
             sw.Stop();
             }
@@ -434,7 +434,7 @@ namespace JPEG
             DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
 
             Console.ReadKey();
-        }
+            }
         public void araitimer(float[][] testArie, int tasks, int count)
         {
             Stopwatch sw = new Stopwatch();
@@ -442,7 +442,7 @@ namespace JPEG
             {               
                 sw.Start();
                 DCT.taskSeperater(testArie, tasks);
-                sw.Stop();
+            sw.Stop();
             }
             var time = mittelwertZeit(sw.Elapsed, count);
             Console.WriteLine($"Matrix Arai Optimized:{ time} Count {tasks}");
@@ -451,11 +451,11 @@ namespace JPEG
         }
 
         public TimeSpan mittelwertZeit(TimeSpan input, int count)
-        {
+            {
             var time = input.Ticks / count;
             return new TimeSpan(time);
-        }
-
+            }
+            
         public void Bilderaufteilen(float[] input, int maxx, int maxy)
         {
             float[][] returnarray = new float[(maxx * maxy) / 64][];
@@ -516,7 +516,60 @@ namespace JPEG
             {
                 testValues[i] = (i % 256 + (i / 256) * 8) % 256;
             }
-            Bilderaufteilen( testValues,256,256);
+
+            Stopwatch watch = new Stopwatch();
+            Stopwatch recordTime = new Stopwatch();
+            long recordArai = 100000000;
+            long recordDCT = 100000000;
+
+            //Arai test
+            watch.Start();
+            while (watch.ElapsedMilliseconds < 10000)
+            {
+                recordTime.Start();
+
+                float[][] listOfBlocks = new float[1024][];
+                //TODO: INSERT READING ONEDIMENSIONAL ARRAY INTO 8X8 BLOCKS
+
+                DCT.taskSeperater(listOfBlocks, 100);
+
+                recordTime.Stop();
+
+                if (recordTime.ElapsedTicks < recordArai)
+                {
+                    recordArai = recordTime.ElapsedTicks;
+                }
+
+                recordTime.Reset();
+            }
+            watch.Reset();
+
+            //DCT test
+            watch.Start();
+            while (watch.ElapsedMilliseconds < 10000)
+            {
+                recordTime.Start();
+
+                float[][] listOfBlocks = new float[1024][];
+                //TODO: INSERT READING ONEDIMENSIONAL ARRAY INTO 8X8 BLOCKS
+
+                //TODO: INSERT OPTMIZED LOGIC
+
+                recordTime.Stop();
+
+                if (recordTime.ElapsedTicks < recordDCT)
+                {
+                    recordDCT = recordTime.ElapsedTicks;
+                }
+
+                recordTime.Reset();
+            }
+            watch.Reset();
+
+            Console.WriteLine("Arai Record Time: ={0} \n", recordArai);
+            Console.WriteLine("DCT Record Time: ={0} \n", recordDCT);
+            Console.WriteLine("Values represented in Ticks (100 Nanoseconds)");
+
         }
     }
 
