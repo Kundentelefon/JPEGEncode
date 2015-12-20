@@ -457,27 +457,32 @@ namespace JPEG
 
         public void Bilderaufteilen(float[] input, int maxx, int maxy)
         {
-            float[][] returnarray = new float[(maxx * maxy) / 8][];
+            float[][] returnarray = new float[(maxx * maxy) / 64][];
+            for (int i = 0; i < returnarray.Length; i++)
+            {
+                returnarray[i] = new float[64];
+            }
             int xcount = 0;
             int ycount = 0;
             int reihe = maxx/8;
             int count = 0;
             for (int i = 0; i < input.Length; i++)
             {
-                if (i % 8 == 0)
+                returnarray[(count * reihe) + xcount][i % 8+(ycount*8)] = input[i];
+                if (i % 7 == 0&&i!=0)
                 {
                     xcount++;
                 }
-                if (i / maxx == 1)
+                if (i % maxx-1 == 0 && i != 1)
                 {
                     ycount++;
                     xcount = 0;
                 }
                 if (ycount == 8)
                 {
+                    ycount = 0;
                     count++;
                 }
-                returnarray[(count * reihe) + xcount][i % 8] = input[i];
 
             }
         }
@@ -510,10 +515,7 @@ namespace JPEG
             {
                 testValues[i] = (i % 256 + (i / 256) * 8) % 256;
             }
-
-            //Arai test
-            Stopwatch watch = new Stopwatch();
-
+            Bilderaufteilen( testValues,256,256);
         }
     }
 
