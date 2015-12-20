@@ -523,7 +523,7 @@ namespace JPEG
             {
                 for (int c = 0; c < 64; c++)
                 {
-                    output[(i * 8) + ((i / blocksPerRow) * blocksPerRow * 64) + ((c / 8) * maxX) + (c % 8)] = input[i][c];
+                    output[(i * 8) + ((i / blocksPerRow) * blocksPerRow * 56) + ((c / 8) * maxX) + (c % 8)] = input[i][c];
                 }
             }
 
