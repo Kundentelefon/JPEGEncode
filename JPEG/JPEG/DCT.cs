@@ -707,17 +707,17 @@ namespace JPEG
                 Matrix8Arai[pointer + 7] = (phase5[5] - phase4[6]) * s7;
             }
 
-            for (int pointer = 0; pointer < 64; pointer = pointer + 8)
+            for (int pointer = 0; pointer < 8; pointer = pointer + 8)
             {
                 //phase 1
-                phase1[0] = Matrix8Arai[pointer] + Matrix8Arai[7 + pointer];
-                phase1[1] = Matrix8Arai[1 + pointer] + Matrix8Arai[6 + pointer];
-                phase1[2] = Matrix8Arai[2 + pointer] + Matrix8Arai[5 + pointer];
-                phase1[3] = Matrix8Arai[3 + pointer] + Matrix8Arai[4 + pointer];
-                phase1[4] = Matrix8Arai[3 + pointer] - Matrix8Arai[4 + pointer];
-                phase1[5] = Matrix8Arai[2 + pointer] - Matrix8Arai[5 + pointer];
-                phase1[6] = Matrix8Arai[1 + pointer] - Matrix8Arai[6 + pointer];
-                phase1[7] = Matrix8Arai[pointer] - Matrix8Arai[7 + pointer];
+                phase1[0] = Matrix8Arai[pointer] + Matrix8Arai[7*8 + pointer];
+                phase1[1] = Matrix8Arai[1*8 + pointer] + Matrix8Arai[6*8 + pointer];
+                phase1[2] = Matrix8Arai[2*8 + pointer] + Matrix8Arai[5*8 + pointer];
+                phase1[3] = Matrix8Arai[3*8 + pointer] + Matrix8Arai[4*8 + pointer];
+                phase1[4] = Matrix8Arai[3*8 + pointer] - Matrix8Arai[4*8 + pointer];
+                phase1[5] = Matrix8Arai[2*8 + pointer] - Matrix8Arai[5*8+ pointer];
+                phase1[6] = Matrix8Arai[1*8 + pointer] - Matrix8Arai[6*8 + pointer];
+                phase1[7] = Matrix8Arai[pointer] - Matrix8Arai[7*8 + pointer];
 
                 //phase 2
                 phase2[0] = phase1[0] + phase1[3];
