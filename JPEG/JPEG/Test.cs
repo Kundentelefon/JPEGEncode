@@ -273,7 +273,6 @@ namespace JPEG
             Stopwatch sw = new Stopwatch();
             Stopwatch sw1 = new Stopwatch();
             Stopwatch sw2 = new Stopwatch();
-            Stopwatch sw3 = new Stopwatch();
 
             Console.WriteLine("Ausgangsmatrix:");
             DCT.printMatrix(testMat83);
@@ -438,12 +437,12 @@ namespace JPEG
             sw2.Stop();
             Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw2.Elapsed);
 
-            DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
             DCT.printArray(DCT.DCTdirectOptimized(testMatArai));
+            DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
 
             Console.ReadKey();
         }
-        
+
         public float[,] DCTBench()
         {
             float mx = 256;
@@ -464,6 +463,20 @@ namespace JPEG
             return testmatrix;
         }
 
+        public void PerformanceTest()
+        {
+            //Generate test picture as onedimensional array and fill it with the correct values
+            float[] testValues = new float[65536];
+
+            for (int i = 0; i < 65536; i++)
+            {
+                testValues[i] = (i % 256 + (i / 256) * 8) % 256;
+            }
+
+            //Arai test
+            Stopwatch watch = new Stopwatch();
+
+        }
     }
 
 

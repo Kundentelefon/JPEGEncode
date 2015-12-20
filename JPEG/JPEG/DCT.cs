@@ -853,6 +853,7 @@ namespace JPEG
             }
             return (inputArray);
         }
+
         //public static float[][] Araimulti(float[][] Matrix8init)
         //{
         //    float[][] returnarray = new float[Matrix8init.Count()][];
