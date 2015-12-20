@@ -589,7 +589,23 @@ namespace JPEG
             Console.WriteLine(s);
         }
 
+        public static void printArray(float[] arr)
+        {
+            int length = arr.GetLength(0);
 
+            String s = "";
+
+                for (int position = 0; position < length; position++)
+                {
+                    s += " | ";
+                    s += string.Format("{0,8:####0.00}", arr[position]);
+
+                    if((position +1) % 8 == 0)
+                    s += "\n";
+                }
+            s += "\n";
+            Console.WriteLine(s);
+        }
 
         //public static float[] DCTAraiOptimizedrly(float[] Matrix8init)
         //{         

@@ -273,6 +273,7 @@ namespace JPEG
             Stopwatch sw = new Stopwatch();
             Stopwatch sw1 = new Stopwatch();
             Stopwatch sw2 = new Stopwatch();
+            Stopwatch sw3 = new Stopwatch();
 
             Console.WriteLine("Ausgangsmatrix:");
             DCT.printMatrix(testMat83);
@@ -295,8 +296,6 @@ namespace JPEG
             Console.WriteLine("Matrix Arai: Elapsed={0} \n", sw2.Elapsed);
 
             Console.ReadKey();
-
-            //TODO: Test if Math.PI needs (float) for performance
         }
 
         public void schleifentest()
@@ -439,11 +438,12 @@ namespace JPEG
             sw2.Stop();
             Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw2.Elapsed);
 
+            DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
+            DCT.printArray(DCT.DCTdirectOptimized(testMatArai));
+
             Console.ReadKey();
         }
-
-
-
+        
         public float[,] DCTBench()
         {
             float mx = 256;
