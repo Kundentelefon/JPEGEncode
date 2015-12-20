@@ -294,7 +294,7 @@ namespace JPEG
             sw2.Stop();
             Console.WriteLine("Matrix Arai: Elapsed={0} \n", sw2.Elapsed);
 
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         public void schleifentest()
@@ -382,16 +382,14 @@ namespace JPEG
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            for (int i = 0; i < 5000000; i++)
-            {
                 DCT.DCTAraiOptimized(testMatArai);
-            }
+
             sw.Stop();
             Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw.Elapsed);
 
             Console.WriteLine("Matrix AraiOpimized endresult:");
             DCT.printMatrix(DCT.DCTAraiOptimized(testMatArai));
-            //Console.ReadKey();
+            Console.ReadKey();
 
         }
         public void loopTestAraibetter()
