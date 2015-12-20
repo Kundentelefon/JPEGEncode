@@ -410,8 +410,8 @@ namespace JPEG
             };
 
             int count = 10;
-            float[][] testArie = new float[65536][];
-            for (int i = 0; i < 65536; i++)
+            float[][] testArie = new float[8192][];
+            for (int i = 0; i < 8192; i++)
             {
                 testArie[i] = testMatArai;
             }
@@ -425,7 +425,7 @@ namespace JPEG
             //var time=mittelwertZeit(sw.Elapsed,count);
             //Console.WriteLine($"Matrix Arai Optimized:{time} ");
             DCT.DCTAraiOptimizedrly2(testMatArai);
-            for (int i = 10; i < 10000; i = i * 10)
+            for (int i = 10; i < 1000; i = i * 10)
             {
                 araitimer(testArie, i, count);
             }
@@ -439,19 +439,28 @@ namespace JPEG
             }
         public void araitimer(float[][] testArie, int tasks, int count)
         {
-            Stopwatch sw = new Stopwatch();
+            TimeSpan time= TimeSpan.Zero;
             for (int i = 0; i < count; i++)
-            {               
+            {
+                Stopwatch sw = new Stopwatch();
                 sw.Start();
                 DCT.taskSeperater(testArie, tasks);
-            sw.Stop();
+                sw.Stop();
+                time =bestwert(sw.Elapsed, time);
             }
-            var time = mittelwertZeit(sw.Elapsed, count);
+            //var time = mittelwertZeit(sw.Elapsed, count);
             Console.WriteLine($"Matrix Arai Optimized:{ time} Count {tasks}");
 
             Stopwatch sw2 = new Stopwatch();
         }
-
+        public TimeSpan bestwert(TimeSpan input, TimeSpan input2)
+        {
+            if(input.Ticks < input2.Ticks||input2==TimeSpan.Zero)
+            {
+                return input;
+            }
+            return input2;
+        }
         public TimeSpan mittelwertZeit(TimeSpan input, int count)
             {
             var time = input.Ticks / count;
