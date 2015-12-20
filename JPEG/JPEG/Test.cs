@@ -470,11 +470,11 @@ namespace JPEG
             for (int i = 0; i < input.Length; i++)
             {
                 returnarray[(count * reihe) + xcount][i % 8+(ycount*8)] = input[i];
-                if (i % 7 == 0&&i!=0)
+                if (i % 8 == 7&&i!=0)
                 {
                     xcount++;
                 }
-                if (i % maxx-1 == 0 && i != 1)
+                if (i % maxx == 255 && i != 1)
                 {
                     ycount++;
                     xcount = 0;
