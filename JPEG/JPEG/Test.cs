@@ -409,6 +409,18 @@ namespace JPEG
                 -41, -49, -59, -60, -63, -52, -50, -34
             };
 
+            float[] testMatArai2 = new float[64]
+            {
+                92, 3, -9, -7, 3, -1, 0, 2,
+                -39, -58, 12, 17, -2, 2, 4, 2,
+                -84, 62, 1, -18, 3, 4, -5, 5,
+                -52, -36, -10, 14, -10, 4, -2, 0,
+                -86, -40, 49, -7, 17, -6, -2, 5,
+                -62, 65, -12, -2, 3, -8, -2, 0,
+                -17, 14, -36, 17, -11, 3, 3, -1,
+                -54, 32, -9, -9, 22, 0, 1, 3
+            };
+
             int count = 10;
             float[][] testArie = new float[8192][];
             for (int i = 0; i < 8192; i++)
@@ -431,9 +443,10 @@ namespace JPEG
             }
             //Stopwatch sw2 = new Stopwatch();        
 
-            DCT.printArray(DCT.DCTdirectOptimized(testMatArai));
+            DCT.printArray(DCT.DCTdirectOptimized(testMatArai2));
             // DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
-            DCT.printArray(DCT.DCTseparatedOptimized(testMatArai));
+            DCT.printArray(DCT.DCTseparatedOptimized(testMatArai2));
+            DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai2));
 
             Console.ReadKey();
             }
@@ -501,39 +514,20 @@ namespace JPEG
             return returnarray;
         }
 
-        //public float[] CombineBlocksToPicture(float[][] input, int maxX, int maxY)
-        //{
-        //    float[] output = new float[maxX * maxY];
-        //    int numberOfBlocks = input.Length;
-        //    int blocksPerRow = maxX / 8;
-            
-        //    for (int i = 0; i < numberOfBlocks; i++)
-        //    {
-        //        for (int c = 0; c < 64; c++)
-        //        {
-        //            output[(i * 8) + ((i / blocksPerRow) * blocksPerRow * 64) + ((c / 8) * maxX) + (c % 8)] = input[i][c];
-        //        }
-        //    }
-
-        //    return output;
-        //}
-        public float[] combine(float[][] input, int maxX, int maxY)
+        public float[] CombineBlocksToPicture(float[][] input, int maxX, int maxY)
         {
-            int block = 0;
-            int count = 0;
             float[] output = new float[maxX * maxY];
-            for (int i = 0; i < input.Length-1; i++)
+            int numberOfBlocks = input.Length;
+            int blocksPerRow = maxX / 8;
+            
+            for (int i = 0; i < numberOfBlocks; i++)
             {
-                output[i + 8 * count] = input[count][i %7];
-                if (block<7)
-                {                    
-                    block++;
-                }
-                else
+                for (int c = 0; c < 64; c++)
                 {
-                    block = 0;
+                    output[(i * 8) + ((i / blocksPerRow) * blocksPerRow * 56) + ((c / 8) * maxX) + (c % 8)] = input[i][c];
                 }
             }
+
             return output;
         }
         public float[,] DCTBench()
@@ -617,8 +611,6 @@ namespace JPEG
 
         }
     }
-
-
 
 
 
