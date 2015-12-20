@@ -33,7 +33,7 @@ namespace JPEG
             //test.schleifentest();
             test.loopTestArai();
             //test.PerformanceTest();
-			//test.loopTestAraibetter();
+			test.loopTestAraibetter();
 		}
 		
 	}

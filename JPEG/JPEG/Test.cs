@@ -381,15 +381,18 @@ namespace JPEG
             };
 
             Stopwatch sw = new Stopwatch();
-            sw.Start();
-                DCT.DCTAraiOptimized(testMatArai);
-
+            //sw.Start();
+            //for (int i = 0; i < 5000000; i++)
+            //{
+            
+            //    DCT.DCTAraiOptimized(testMatArai);
+            //}
             sw.Stop();
             Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw.Elapsed);
 
             Console.WriteLine("Matrix AraiOpimized endresult:");
             DCT.printMatrix(DCT.DCTAraiOptimized(testMatArai));
-            Console.ReadKey();
+            //Console.ReadKey();
 
         }
         public void loopTestAraibetter()
@@ -405,30 +408,28 @@ namespace JPEG
                 -43, -57, -64, -69, -73, -67, -63, -45,
                 -41, -49, -59, -60, -63, -52, -50, -34
             };
-            int count = 10;
-            float[][] testArie = new float[65536][];
-            for (int i = 0; i < 65536; i++)
-            {
-                testArie[i] = testMatArai;
-            }
-            Stopwatch sw = new Stopwatch();
-            for (int i = 0; i < count; i++)
-            {
-            sw.Start();
-                DCT.araiAranger(testArie);
-            sw.Stop();
-            }
-            var time=mittelwertZeit(sw.Elapsed,count);
-            Console.WriteLine($"Matrix Arai Optimized:{time} ");
+            //int count = 10;
+            //float[][] testArie = new float[65536][];
+            //for (int i = 0; i < 65536; i++)
+            //{
+            //    testArie[i] = testMatArai;
+            //}
+            //Stopwatch sw = new Stopwatch();
+            //for (int i = 0; i < count; i++)
+            //{
+            //sw.Start();
+            //    DCT.araiAranger(testArie);
+            //sw.Stop();
+            //}
+            //var time=mittelwertZeit(sw.Elapsed,count);
+            //Console.WriteLine($"Matrix Arai Optimized:{time} ");
 
-            for (int i = 10; i < 10000; i=i*10)
-            {
-                araitimer(testArie, i, count);
-            }
-            Stopwatch sw2 = new Stopwatch();        
+            //for (int i = 10; i < 10000; i=i*10)
+            //{
+            //    araitimer(testArie, i, count);
+            //}
+            //Stopwatch sw2 = new Stopwatch();        
             
-
-            DCT.printArray(DCT.DCTdirectOptimized(testMatArai));
             DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
 
             Console.ReadKey();

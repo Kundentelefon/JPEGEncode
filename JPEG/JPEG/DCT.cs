@@ -13,24 +13,21 @@ namespace JPEG
 
         //static float[] Matrix8Arai = new float[64];
 
-        static float s0 = 0.3535533f;
         //durch die ausgerechneten werte ersetzen
-        static float s1 = 0.245196328f;
-        static float s2 = 0.230969891f;
-        static float s3 = 0.207867414f;
-        static float s4 = 0.176776722f;
-        static float s5 = 0.1388926f;
-        static float s6 = 0.0956709161f;
-        static float s7 = 0.048772648f;
+        static float s0 = 0.3535533f;
+        static float s1 = 0.2548977f;
+        static float s2 = 0.2705980f;
+        static float s3 = 0.3006724f;
+        static float s4 = 0.3535539f;
+        static float s5 = 0.4499881f;
+        static float s6 = 0.6532814f;
+        static float s7 = 1.2814577f;
 
-        static float a1 = 0.7071069f;
-        static float a2 = 0.541195869f;
-        static float a3 = 0.7071069f;
-        static float a4 = 1.30656326f;
-        static float a5 = 0.382683665f;
-
-
-
+        static float a1 = 0.7071067f;
+        static float a2 = 0.5411961f;
+        static float a3 = 0.7071067f;
+        static float a4 = 1.3065629f;
+        static float a5 = 0.3826834f;
 
         //static float[] phase1 = new float[8];
         //static float[] phase2 = new float[7];
@@ -167,11 +164,6 @@ namespace JPEG
                 }// end loop y
             } // end loop x
             return Matrix8res;
-        }
-
-        public static float[] IDCTdirect(float[] Matrix8init)
-        {
-
         }
 
         public static float[,] DCTseparated(float[,] Matrix8init)
@@ -416,19 +408,19 @@ namespace JPEG
             float[,] Matrix8Arai = new float[n, n];
 
             float s0 = 0.3535533f;
-            float s1 = SMethodOptimized(1f);
-            float s2 = SMethodOptimized(2f);
-            float s3 = SMethodOptimized(3f);
-            float s4 = SMethodOptimized(4f);
-            float s5 = SMethodOptimized(5f);
-            float s6 = SMethodOptimized(6f);
-            float s7 = SMethodOptimized(7f);
+            float s1 = 0.2548977f;
+            float s2 = 0.2705980f;
+            float s3 = 0.3006724f;
+            float s4 = 0.3535539f;
+            float s5 = 0.4499881f;
+            float s6 = 0.6532814f;
+            float s7 = 1.2814577f;
 
-            float a1 = CMethodOptimized(4f);
-            float a2 = CMethodOptimized(2f) - CMethodOptimized(6f);
-            float a3 = CMethodOptimized(4f);
-            float a4 = CMethodOptimized(6f) + CMethodOptimized(2f);
-            float a5 = CMethodOptimized(6f);
+            float a1 = 0.7071067f;
+            float a2 = 0.5411961f;
+            float a3 = 0.7071067f;
+            float a4 = 1.3065629f;
+            float a5 = 0.3826834f;
 
             float[] phase1 = new float[n];
             float[] phase2 = new float[n];
@@ -562,16 +554,6 @@ namespace JPEG
             return Matrix8Arai;
         }
 
-        public static float CMethodOptimized(float k)
-        {
-            return (float)Math.Cos(k * 0.1963495f);
-        }
-
-        public static float SMethodOptimized(float k)
-        {
-                return (1 / (4 * CMethodOptimized(k)));
-        }
-
         public static void printMatrix(float[,] matrix)
         {
             int rows = matrix.GetLength(0);
@@ -601,7 +583,7 @@ namespace JPEG
 
                 for (int position = 0; position < length; position++)
                 {
-                    s += " | ";
+                    if (position % 8 != 0) s += " | ";
                     s += string.Format("{0,8:####0.00}", arr[position]);
 
                     if((position +1) % 8 == 0)
