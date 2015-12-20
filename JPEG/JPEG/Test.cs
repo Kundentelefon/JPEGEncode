@@ -294,7 +294,7 @@ namespace JPEG
             sw2.Stop();
             Console.WriteLine("Matrix Arai: Elapsed={0} \n", sw2.Elapsed);
 
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         public void schleifentest()
@@ -381,11 +381,12 @@ namespace JPEG
             };
 
             Stopwatch sw = new Stopwatch();
-            sw.Start();
-            for (int i = 0; i < 5000000; i++)
-            {
-                DCT.DCTAraiOptimized(testMatArai);
-            }
+            //sw.Start();
+            //for (int i = 0; i < 5000000; i++)
+            //{
+            
+            //    DCT.DCTAraiOptimized(testMatArai);
+            //}
             sw.Stop();
             Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw.Elapsed);
 
@@ -407,28 +408,28 @@ namespace JPEG
                 -43, -57, -64, -69, -73, -67, -63, -45,
                 -41, -49, -59, -60, -63, -52, -50, -34
             };
-            int count = 10;
-            float[][] testArie = new float[65536][];
-            for (int i = 0; i < 65536; i++)
-            {
-                testArie[i] = testMatArai;
-            }
-            Stopwatch sw = new Stopwatch();
-            for (int i = 0; i < count; i++)
-            {
-            sw.Start();
-                DCT.araiAranger(testArie);
-            sw.Stop();
-            }
-            var time=mittelwertZeit(sw.Elapsed,count);
-            Console.WriteLine($"Matrix Arai Optimized:{time} ");
 
-            for (int i = 10; i < 10000; i=i*10)
-            {
-                araitimer(testArie, i, count);
-            }
-            Stopwatch sw2 = new Stopwatch();        
+            //int count = 10;
+            //float[][] testArie = new float[65536][];
+            //for (int i = 0; i < 65536; i++)
+            //{
+            //    testArie[i] = testMatArai;
+            //}
+            //Stopwatch sw = new Stopwatch();
+            //for (int i = 0; i < count; i++)
+            //{
+            //sw.Start();
+            //    DCT.araiAranger(testArie);
+            //sw.Stop();
+            //}
+            //var time=mittelwertZeit(sw.Elapsed,count);
+            //Console.WriteLine($"Matrix Arai Optimized:{time} ");
             
+            //for (int i = 10; i < 10000; i=i*10)
+            //{
+            //    araitimer(testArie, i, count);
+            //}
+            //Stopwatch sw2 = new Stopwatch();        
 
             DCT.printArray(DCT.DCTdirectOptimized(testMatArai));
             // DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
@@ -489,6 +490,24 @@ namespace JPEG
             }
             return returnarray;
         }
+
+        public float[] CombineBlocksToPicture(float[][] input, int maxX, int maxY)
+        {
+            float[] output = new float[maxX * maxY];
+            int numberOfBlocks = input.Length;
+            int blocksPerRow = maxX / 8;
+            
+            for (int i = 0; i < numberOfBlocks; i++)
+            {
+                for (int c = 0; c < 64; c++)
+                {
+                    output[(i * 8) + ((i / blocksPerRow) * blocksPerRow * 64) + ((c / 8) * maxX) + (c % 8)] = input[i][c];
+                }
+            }
+
+            return output;
+        }
+
         public float[,] DCTBench()
         {
             float mx = 256;
@@ -530,10 +549,9 @@ namespace JPEG
             {
                 recordTime.Start();
 
-                float[][] listOfBlocks = new float[1024][];
-                //TODO: INSERT READING ONEDIMENSIONAL ARRAY INTO 8X8 BLOCKS
+                float[][] listOfBlocks = Bilderaufteilen(testValues, 256, 256);
 
-                DCT.taskSeperater(listOfBlocks, 100);
+                listOfBlocks = DCT.taskSeperater(listOfBlocks, 100);
 
                 recordTime.Stop();
 
@@ -552,7 +570,8 @@ namespace JPEG
             {
                 recordTime.Start();
 
-                float[][] listOfBlocks = new float[1024][];
+                float[][] listOfBlocks = Bilderaufteilen(testValues, 256, 256);
+                
                 //TODO: INSERT READING ONEDIMENSIONAL ARRAY INTO 8X8 BLOCKS
 
                 //TODO: INSERT OPTMIZED LOGIC
