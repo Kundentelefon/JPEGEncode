@@ -758,6 +758,33 @@ namespace JPEG
 
             return Matrix8Arai;
         }
+
+        public static float[][] taskSeperater(float[][] inputArray, int task)
+        {
+            List<Task<float[][]>> taskList = new List<Task<float[][]>>();
+            int i = 0;
+            while (inputArray.Length > i)
+            {
+                float[][] templist = new float[task][];
+                for (int ia = 0; ia < task || inputArray.Length - i < ia; ia++)
+                {
+                    templist[ia] = inputArray[i + ia];
+                }
+                taskList.Add(Task.Factory.StartNew(() => DCT.araiAranger(templist)));
+                i = i + task;
+            }
+
+            Task.WaitAll(taskList.ToArray());
+            for (int ia = 0; ia + 1 < taskList.Count(); ia++)
+            {
+                for (int ib = 0; ib < taskList[ia].Result.Length; ib++)
+                {
+                    inputArray[taskList[ia].Id * task] = taskList[ia].Result[ib];
+                }
+            }
+
+            return (inputArray);
+        }
         public static float[][] araiAranger(float [][]inputArray)
         {
             for (int i = 0; i < inputArray.Length; i++)        
