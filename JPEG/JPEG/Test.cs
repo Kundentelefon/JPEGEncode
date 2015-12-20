@@ -420,17 +420,17 @@ namespace JPEG
             {
                 sw.Start();
                 DCT.araiAranger(testArie);
-                sw.Stop();
+            sw.Stop();
             }
             var time=mittelwertZeit(sw.Elapsed,count);
             Console.WriteLine($"Matrix Arai Optimized:{time} ");
-            
+
             for (int i = 10; i < 10000; i=i*10)
             {
                 araitimer(testArie, i, count);
             }
             Stopwatch sw2 = new Stopwatch();        
-
+            
 
             Console.ReadKey();
         }
@@ -501,6 +501,20 @@ namespace JPEG
             return testmatrix;
         }
 
+        public void PerformanceTest()
+        {
+            //Generate test picture as onedimensional array and fill it with the correct values
+            float[] testValues = new float[65536];
+
+            for (int i = 0; i < 65536; i++)
+            {
+                testValues[i] = (i % 256 + (i / 256) * 8) % 256;
+            }
+
+            //Arai test
+            Stopwatch watch = new Stopwatch();
+
+        }
     }
 
 
