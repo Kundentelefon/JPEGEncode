@@ -83,7 +83,7 @@ namespace JPEG
             return Matrix8res;
         }
 
-        public static float[] DCTdirectOptimzed(float[] Matrix8init)
+        public static float[] DCTdirectOptimized(float[] Matrix8init)
         {
             float[] Matrix8res = new float[n*n];
             float row;
@@ -97,7 +97,7 @@ namespace JPEG
             float halfN = 2.0f / n;
 
             //loop for i rows
-            for (int i = 0; i < n*n; i=i+8)
+            for (int i = 0; i < n*n; i=i+n)
             {
                 rowP = i * (float)Math.PI;
                 // C(n) condition
@@ -112,7 +112,7 @@ namespace JPEG
 
                     subtotal = 0f;
                     //loop for x
-                    for (int x = 0; x < n*n; x =x+8)
+                    for (int x = 0; x < n*n; x =x+n)
                     {
                         float doubleX = 2.0f * x;
                         //loop for y
