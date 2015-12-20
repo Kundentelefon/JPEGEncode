@@ -442,8 +442,6 @@ namespace JPEG
             Console.ReadKey();
         }
 
-
-
         public float[,] DCTBench()
         {
             float mx = 256;
@@ -464,6 +462,7 @@ namespace JPEG
             return testmatrix;
         }
 
+       
     }
 
 
