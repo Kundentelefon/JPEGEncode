@@ -169,10 +169,6 @@ namespace JPEG
             return Matrix8res;
         }
 
-        public static float[] IDCTdirect(float[] Matrix8init)
-        {
-
-        }
 
         public static float[,] DCTseparated(float[,] Matrix8init)
         {
@@ -218,6 +214,57 @@ namespace JPEG
                     {
                         //multiplicatin with transposed matrix8A
                         Matrix8final[i, j] += Matrix8res[i, k] * Matrix8A[j, k];
+                    }
+                }
+            } // end Y = AXAT
+
+            return Matrix8final;
+        }
+
+        public static float[] DCTseparatedOptimized(float[] Matrix8init)
+        {
+            float[] Matrix8res = new float[n* n];
+            float[] Matrix8final = new float[n* n];
+            float[] Matrix8A = new float[n* n];
+            float temp;
+
+            float oneSquare = (float)(1.0f / Math.Sqrt(2.0f));
+            float doubleN = 2.0f * n;
+            float halfN = 2.0f / n;
+
+            for (int k = 0; k < n*n; k=k+n)
+            {
+                // C(n) condition
+                temp = k /n == 0.0f ? oneSquare : 1.0f;
+
+                for (int nS = 0; nS < n; nS++)
+                {
+                    //fills row and column
+                    Matrix8A[k+nS] = (float)(temp * Math.Sqrt(halfN) * Math.Cos(((2.0f * nS) + 1.0f) * ((k/n * Math.PI) / doubleN)));
+                }
+            } // end Matrix8A fill
+
+            // Y = AX: multiplicates the filled A Matrix with the given X Matrix
+            // Y = AXAT: multiplicates AX with the transposed second Matrix8AT
+            for (int i = 0; i < n*n; i=i+n)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    for (int k = 0; k < n; k++)
+                    {
+                        Matrix8res[i+j] += Matrix8A[i+k] * Matrix8init[k+j];
+                    }
+                }
+            } // end Y = AX
+
+            for (int i = 0; i < n*n; i=i+n)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    for (int k = 0; k < n; k++)
+                    {
+                        //multiplicatin with transposed matrix8A
+                        Matrix8final[i+ j] += Matrix8res[i+ k] * Matrix8A[j+ k];
                     }
                 }
             } // end Y = AXAT

@@ -431,7 +431,8 @@ namespace JPEG
             
 
             DCT.printArray(DCT.DCTdirectOptimized(testMatArai));
-            DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
+            // DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
+            DCT.printArray(DCT.DCTseparatedOptimized(testMatArai));
 
             Console.ReadKey();
             }
