@@ -385,13 +385,13 @@ namespace JPEG
             //for (int i = 0; i < 5000000; i++)
             //{
             
-            DCT.DCTAraiOptimized(testMatArai);
+            //DCT.DCTAraiOptimized(testMatArai);
             //}
             sw.Stop();
             Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw.Elapsed);
 
             Console.WriteLine("Matrix AraiOpimized endresult:");
-            DCT.printMatrix(DCT.DCTAraiOptimized(testMatArai));
+            //DCT.printMatrix(DCT.DCTAraiOptimized(testMatArai));
             //Console.ReadKey();
 
         }
@@ -445,6 +445,7 @@ namespace JPEG
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
                 DCT.taskSeperater(testArie, tasks);
+                DCT.DirectDCTTaskSeparator(testArie, tasks);
                 sw.Stop();
                 time =bestwert(sw.Elapsed, time);
             }
@@ -500,23 +501,41 @@ namespace JPEG
             return returnarray;
         }
 
-        public float[] CombineBlocksToPicture(float[][] input, int maxX, int maxY)
-        {
-            float[] output = new float[maxX * maxY];
-            int numberOfBlocks = input.Length;
-            int blocksPerRow = maxX / 8;
+        //public float[] CombineBlocksToPicture(float[][] input, int maxX, int maxY)
+        //{
+        //    float[] output = new float[maxX * maxY];
+        //    int numberOfBlocks = input.Length;
+        //    int blocksPerRow = maxX / 8;
             
-            for (int i = 0; i < numberOfBlocks; i++)
+        //    for (int i = 0; i < numberOfBlocks; i++)
+        //    {
+        //        for (int c = 0; c < 64; c++)
+        //        {
+        //            output[(i * 8) + ((i / blocksPerRow) * blocksPerRow * 64) + ((c / 8) * maxX) + (c % 8)] = input[i][c];
+        //        }
+        //    }
+
+        //    return output;
+        //}
+        public float[] combine(float[][] input, int maxX, int maxY)
+        {
+            int block = 0;
+            int count = 0;
+            float[] output = new float[maxX * maxY];
+            for (int i = 0; i < input.Length-1; i++)
             {
-                for (int c = 0; c < 64; c++)
+                output[i + 8 * count] = input[count][i %7];
+                if (block<7)
+                {                    
+                    block++;
+                }
+                else
                 {
-                    output[(i * 8) + ((i / blocksPerRow) * blocksPerRow * 64) + ((c / 8) * maxX) + (c % 8)] = input[i][c];
+                    block = 0;
                 }
             }
-
             return output;
         }
-
         public float[,] DCTBench()
         {
             float mx = 256;
@@ -561,8 +580,8 @@ namespace JPEG
                 float[][] listOfBlocks = Bilderaufteilen(testValues, 256, 256);
 
                 listOfBlocks = DCT.taskSeperater(listOfBlocks, 100);
-
-                float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
+                //combine(listOfBlocks, 256, 256); 
+                //float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
 
                 recordTime.Stop();
 
@@ -582,11 +601,11 @@ namespace JPEG
 
                 listOfBlocks = DCT.DirectDCTTaskSeparator(listOfBlocks, 100);
 
-                float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
+                //float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
 
                 recordTime.Stop();
 
-                recordArai = bestwert(recordTime.Elapsed, recordDCT);
+                recordDCT = bestwert(recordTime.Elapsed, recordDCT);
 
                 recordTime.Reset();
             }
@@ -594,7 +613,6 @@ namespace JPEG
 
             Console.WriteLine($"Arai Record Time: {recordArai}");
             Console.WriteLine($"DCT Record Time: {recordDCT}");
-            Console.WriteLine("Values represented in Ticks (100 Nanoseconds)");
             Console.ReadKey();
 
         }

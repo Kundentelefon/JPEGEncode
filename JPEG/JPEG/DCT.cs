@@ -455,7 +455,7 @@ namespace JPEG
                 return (1 / (4 * CMethod(num)));
         }
 
-        public static float[,] DCTAraiOptimized(float[,] Matrix8init)
+        public  float[,] DCTAraiOptimized(float[,] Matrix8init)
         {
             float[,] Matrix8Arai = new float[n, n];
 
@@ -915,7 +915,7 @@ namespace JPEG
             {
                 for (int ib = 0; ib < taskList[ia].Result.Length; ib++)
                 {
-                    inputArray[(taskList[ia].Id- taskList[0].Id ) * task] = taskList[ia].Result[ib];
+                    inputArray[(taskList[ia].Id- taskList[0].Id ) * task+ib] = taskList[ia].Result[ib];
                 }
             }
             return (inputArray);
@@ -928,75 +928,6 @@ namespace JPEG
             }
             return (inputArray);
         }
-
-        //public static float[][] Araimulti(float[][] Matrix8init)
-        //{
-        //    float[][] returnarray = new float[Matrix8init.Count()][];
-        //    foreach (float[] item in Matrix8init)
-        //    {
-        //        retirmarray[2]=DCTAraiOptimizedrly2(item);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// multitasking
-        ///// </summary>
-        ///// <param name="Matrix8init"></param>
-        //public void AraiFirstRound(int m,float[] Matrix8init)
-        //{
-        //    float[] phase11 = new float[8];
-        //    float[] phase21 = new float[7];
-        //    float[] phase31 = new float[4];
-        //    float[] phase41 = new float[7];
-        //    float[] phase51 = new float[8];
-        //    //phase 1
-        //    phase11[0] = Matrix8init[0] + Matrix8init[ 7];
-        //    phase11[1] = Matrix8init[ 1] + Matrix8init[ 6];
-        //    phase11[2] = Matrix8init[ 2] + Matrix8init[ 5];
-        //    phase11[3] = Matrix8init[ 3] + Matrix8init[ 4];
-        //    phase11[4] = Matrix8init[ 3] - Matrix8init[ 4];
-        //    phase11[5] = Matrix8init[ 2] - Matrix8init[ 5];
-        //    phase11[6] = Matrix8init[ 1] - Matrix8init[ 6];
-        //    phase11[7] = Matrix8init[ 0] - Matrix8init[ 7];
-
-        //    //phase 2
-        //    phase21[0] = phase11[0] + phase11[3];
-        //    phase21[1] = phase11[1] + phase11[2];
-        //    phase21[2] = phase11[1] - phase11[2];
-        //    phase21[3] = phase11[0] - phase11[3];
-        //    phase21[4] = -(phase11[4] + phase11[5]); //look butterfly diagram
-        //    phase21[5] = phase11[5] + phase11[6];
-        //    phase21[6] = phase11[6] + phase11[7];
-
-        //    //phase 3
-        //    phase31[0] = phase21[0] + phase21[1];
-        //    phase31[1] = phase21[0] - phase21[1];
-        //    phase31[2] = phase21[2] + phase21[3];
-
-        //    //phase 4
-        //    phase41[2] = phase31[2] * a1;
-        //    phase41[3] = phase21[3];
-        //    phase41[4] = -(phase21[4] * a2) + -((phase21[4] + phase21[6]) * a5);
-        //    phase41[5] = phase21[5] * a3;
-        //    phase41[6] = phase21[6] * a4 + -((phase21[4] + phase21[6]) * a5);
-
-        //    //phase 5
-        //    phase51[2] = phase41[2] + phase41[3];
-        //    phase51[3] = phase41[3] - phase41[2];
-        //    phase51[5] = phase41[5] + phase11[7];
-        //    phase51[7] = phase11[7] - phase41[5];
-
-        //    Matrix8Arai[m] = phase31[0] * s0;
-        //    Matrix8Arai[m+ 1] = (phase51[5] + phase41[6]) * s1;
-        //    Matrix8Arai[m + 2] = phase51[2] * s2;
-        //    Matrix8Arai[m + 3] = phase51[3] * s6;
-        //    Matrix8Arai[m + 4] = phase31[1] * s4;
-        //    Matrix8Arai[m + 5] = (phase41[4] + phase51[7]) * s5;
-        //    Matrix8Arai[m + 6] = (phase51[7] - phase41[4]) * s3;
-        //    Matrix8Arai[m + 7] = (phase51[5] - phase41[6]) * s7;
-
-        //}
-
         public static float[][] DirectDCTTaskSeparator(float[][] inputArray, int task)
         {
             List<Task<float[][]>> taskList = new List<Task<float[][]>>();
@@ -1017,7 +948,7 @@ namespace JPEG
             {
                 for (int ib = 0; ib < taskList[ia].Result.Length; ib++)
                 {
-                    inputArray[(taskList[ia].Id - taskList[0].Id) * task] = taskList[ia].Result[ib];
+                    inputArray[(taskList[ia].Id - taskList[0].Id) * task + ib] = taskList[ia].Result[ib];
                 }
             }
             return (inputArray);
