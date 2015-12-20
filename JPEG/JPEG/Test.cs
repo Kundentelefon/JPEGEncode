@@ -408,6 +408,7 @@ namespace JPEG
                 -43, -57, -64, -69, -73, -67, -63, -45,
                 -41, -49, -59, -60, -63, -52, -50, -34
             };
+
             //int count = 10;
             //float[][] testArie = new float[65536][];
             //for (int i = 0; i < 65536; i++)
@@ -429,7 +430,7 @@ namespace JPEG
             //    araitimer(testArie, i, count);
             //}
             //Stopwatch sw2 = new Stopwatch();        
-            
+
             DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
 
             Console.ReadKey();
