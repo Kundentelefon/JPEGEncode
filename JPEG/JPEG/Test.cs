@@ -592,8 +592,8 @@ namespace JPEG
             }
             watch.Reset();
 
-            Console.WriteLine("Arai Record Time: ={0} \n", recordArai);
-            Console.WriteLine("DCT Record Time: ={0} \n", recordDCT);
+            Console.WriteLine($"Arai Record Time: {recordArai}");
+            Console.WriteLine($"DCT Record Time: {recordDCT}");
             Console.WriteLine("Values represented in Ticks (100 Nanoseconds)");
             Console.ReadKey();
 
