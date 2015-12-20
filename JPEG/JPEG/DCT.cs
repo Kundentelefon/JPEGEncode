@@ -758,7 +758,14 @@ namespace JPEG
 
             return Matrix8Arai;
         }
-
+        public static float[][] araiAranger(float [][]inputArray)
+        {
+            for (int i = 0; i < inputArray.Length; i++)        
+            {
+                inputArray[i]=DCTAraiOptimizedrly2(inputArray[i]);
+            }
+            return (inputArray);
+        }
         //public static float[][] Araimulti(float[][] Matrix8init)
         //{
         //    float[][] returnarray = new float[Matrix8init.Count()][];

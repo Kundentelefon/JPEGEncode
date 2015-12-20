@@ -412,7 +412,7 @@ namespace JPEG
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            for (int i = 0; i < 5000000; i++)
+            for (int i = 0; i < 1000000; i++)
             {
                 DCT.DCTAraiOptimizedrly2(testMatArai);
             }
@@ -420,22 +420,54 @@ namespace JPEG
             Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw.Elapsed);
 
             Stopwatch sw2 = new Stopwatch();
+            float[][] testArie = new float[1000000][];
+            for (int i = 0; i < 1000000; i++)
+            {
+                testArie[i] = testMatArai;
+            }
+            
             sw2.Start();
             //Task[] tasks = new Task[3]{};
 
-            List<Task> taskList = new List<Task>();
-            for (int i = 0; i < 5000000; i++)
-            {
-                taskList.Add(Task.Factory.StartNew(() => DCT.DCTAraiOptimizedrly2(testMatArai)));
-            }
-            Task.WaitAll(taskList.ToArray());
+            //List<Task> taskList = new List<Task>();
+            //for (int i = 0; i < 1000000; i++)
+            //{
+                //taskList.Add(Task.Factory.StartNew(() => DCT.DCTAraiOptimizedrly2(testMatArai)));
+                taskSeperater(testArie,100);
+            //}
+            //Task.WaitAll(taskList.ToArray());
             sw2.Stop();
             Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw2.Elapsed);
 
             Console.ReadKey();
-
         }
 
+        public float[][] taskSeperater(float[][] inputArray, int task)
+        {
+            List<Task<float[][]>> taskList = new List<Task<float[][]>>();
+            int i = 0;
+            while (inputArray.Length > i )
+            {
+                float[][] templist = new float[task][];
+                for (int ia = 0; ia < task || inputArray.Length - i<ia; ia++)
+                {
+                    templist[ia]=inputArray[i + ia];
+                }
+                taskList.Add(Task.Factory.StartNew(() => DCT.araiAranger(templist)));
+                i = i + task;
+            }
+            
+            Task.WaitAll(taskList.ToArray());
+            for (int ia = 0; ia+1 < taskList.Count(); ia++)
+            {
+                for (int ib = 0; ib < taskList[ia].Result.Length; ib++)
+                {
+                    inputArray[taskList[ia].Id * task] = taskList[ia].Result[ib];
+                }
+            }
+            
+            return (inputArray);
+        }
 
         public float[,] DCTBench()
         {
