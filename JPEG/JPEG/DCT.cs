@@ -766,7 +766,7 @@ namespace JPEG
             while (inputArray.Length > i)
             {
                 float[][] templist = new float[task][];
-                for (int ia = 0; ia < task || inputArray.Length - i < ia; ia++)
+                for (int ia = 0; ia < task && inputArray.Length - i > ia; ia++)
                 {
                     templist[ia] = inputArray[i + ia];
                 }
@@ -779,15 +779,14 @@ namespace JPEG
             {
                 for (int ib = 0; ib < taskList[ia].Result.Length; ib++)
                 {
-                    inputArray[taskList[ia].Id * task] = taskList[ia].Result[ib];
+                    inputArray[(taskList[ia].Id- taskList[0].Id ) * task] = taskList[ia].Result[ib];
                 }
             }
-
             return (inputArray);
         }
         public static float[][] araiAranger(float [][]inputArray)
         {
-            for (int i = 0; i < inputArray.Length; i++)        
+            for (int i = 0; i < inputArray.Length&&inputArray[i]!=null; i++)        
             {
                 inputArray[i]=DCTAraiOptimizedrly2(inputArray[i]);
             }

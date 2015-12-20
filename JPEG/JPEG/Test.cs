@@ -409,41 +409,78 @@ namespace JPEG
                 -43, -57, -64, -69, -73, -67, -63, -45,
                 -41, -49, -59, -60, -63, -52, -50, -34
             };
-
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            for (int i = 0; i < 1000000; i++)
-            {
-                DCT.DCTAraiOptimizedrly2(testMatArai);
-            }
-            sw.Stop();
-            Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw.Elapsed);
-
-            Stopwatch sw2 = new Stopwatch();
-            float[][] testArie = new float[1000000][];
-            for (int i = 0; i < 1000000; i++)
+            int count = 10;
+            float[][] testArie = new float[65536][];
+            for (int i = 0; i < 65536; i++)
             {
                 testArie[i] = testMatArai;
             }
+            Stopwatch sw = new Stopwatch();
+            for (int i = 0; i < count; i++)
+            {
+                sw.Start();
+                DCT.araiAranger(testArie);
+                sw.Stop();
+            }
+            var time=mittelwertZeit(sw.Elapsed,count);
+            Console.WriteLine($"Matrix Arai Optimized:{time} ");
             
-            sw2.Start();
-            //Task[] tasks = new Task[3]{};
+            for (int i = 10; i < 10000; i=i*10)
+            {
+                araitimer(testArie, i, count);
+            }
+            Stopwatch sw2 = new Stopwatch();        
 
-            //List<Task> taskList = new List<Task>();
-            //for (int i = 0; i < 1000000; i++)
-            //{
-                //taskList.Add(Task.Factory.StartNew(() => DCT.DCTAraiOptimizedrly2(testMatArai)));
-                DCT.taskSeperater(testArie,100);
-            //}
-            //Task.WaitAll(taskList.ToArray());
-            sw2.Stop();
-            Console.WriteLine("Matrix Arai Optimized: Elapsed={0} \n", sw2.Elapsed);
 
             Console.ReadKey();
         }
+        public void araitimer(float[][] testArie, int tasks, int count)
+        {
+            Stopwatch sw = new Stopwatch();
+            for (int i = 0; i < count; i++)
+            {               
+                sw.Start();
+                DCT.taskSeperater(testArie, tasks);
+                sw.Stop();
+            }
+            var time = mittelwertZeit(sw.Elapsed, count);
+            Console.WriteLine($"Matrix Arai Optimized:{ time} Count {tasks}");
 
+            Stopwatch sw2 = new Stopwatch();
+        }
 
+        public TimeSpan mittelwertZeit(TimeSpan input, int count)
+        {
+            var time = input.Ticks / count;
+            return new TimeSpan(time);
+        }
 
+        public void Bilderaufteilen(float[] input, int maxx, int maxy)
+        {
+            float[][] returnarray = new float[(maxx * maxy) / 8][];
+            int xcount = 0;
+            int ycount = 0;
+            int reihe = maxx/8;
+            int count = 0;
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (i % 8 == 0)
+                {
+                    xcount++;
+                }
+                if (i / maxx == 1)
+                {
+                    ycount++;
+                    xcount = 0;
+                }
+                if (ycount == 8)
+                {
+                    count++;
+                }
+                returnarray[(count * reihe) + xcount][i % 8] = input[i];
+
+            }
+        }
         public float[,] DCTBench()
         {
             float mx = 256;
