@@ -819,14 +819,25 @@ namespace JPEG
                 //phase5[6] = phase4[6];
                 phase5[7] = phase1[7] - phase4[5];
 
-                Matrix8Arai[pointer*8] = phase3[0] * s0;
-                Matrix8Arai[pointer*8 + 1] = (phase5[5] + phase4[6]) * s1;
-                Matrix8Arai[pointer*8 + 2] = phase5[2] * s2;
-                Matrix8Arai[pointer*8 + 3] = (phase5[7] - phase4[4]) * s3;
-                Matrix8Arai[pointer*8 + 4] = phase3[1] * s4;
-                Matrix8Arai[pointer*8 + 5] = (phase4[4] + phase5[7]) * s5;
-                Matrix8Arai[pointer*8 + 6] = phase5[3] * s6;
-                Matrix8Arai[pointer*8 + 7] = (phase5[5] - phase4[6]) * s7;
+                Matrix8Arai[pointer] = phase3[0] * s0;
+                Matrix8Arai[pointer+8 * 1] = (phase5[5] + phase4[6]) * s1;
+                Matrix8Arai[pointer+8 * 2] = phase5[2] * s2;
+                Matrix8Arai[pointer+8 * 3] = (phase5[7] - phase4[4]) * s3;
+                Matrix8Arai[pointer+8 * 4] = phase3[1] * s4;
+                Matrix8Arai[pointer+8 * 5] = (phase4[4] + phase5[7]) * s5;
+                Matrix8Arai[pointer+8 * 6] = phase5[3] * s6;
+                Matrix8Arai[pointer+8 * 7] = (phase5[5] - phase4[6]) * s7;
+
+
+
+                //Matrix8Arai[0, pointer] = phase3[0] * s0;
+                //Matrix8Arai[1, pointer] = (phase5[5] + phase4[6]) * s1;
+                //Matrix8Arai[2, pointer] = phase5[2] * s2;
+                //Matrix8Arai[3, pointer] = (phase5[7] - phase4[4]) * s3;
+                //Matrix8Arai[4, pointer] = phase3[1] * s4;
+                //Matrix8Arai[5, pointer] = (phase4[4] + phase5[7]) * s5;
+                //Matrix8Arai[6, pointer] = phase5[3] * s6;
+                //Matrix8Arai[7, pointer] = (phase5[5] - phase4[6]) * s7;
             }
 
             return Matrix8Arai;
