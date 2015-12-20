@@ -472,8 +472,58 @@ namespace JPEG
                 testValues[i] = (i % 256 + (i / 256) * 8) % 256;
             }
 
-            //Arai test
             Stopwatch watch = new Stopwatch();
+            Stopwatch recordTime = new Stopwatch();
+            long recordArai = 100000000;
+            long recordDCT = 100000000;
+
+            //Arai test
+            watch.Start();
+            while (watch.ElapsedMilliseconds < 10000)
+            {
+                recordTime.Start();
+
+                float[][] listOfBlocks = new float[1024][];
+                //TODO: INSERT READING ONEDIMENSIONAL ARRAY INTO 8X8 BLOCKS
+
+                DCT.taskSeperater(listOfBlocks, 100);
+
+                recordTime.Stop();
+
+                if (recordTime.ElapsedTicks < recordArai)
+                {
+                    recordArai = recordTime.ElapsedTicks;
+                }
+
+                recordTime.Reset();
+            }
+            watch.Reset();
+
+            //DCT test
+            watch.Start();
+            while (watch.ElapsedMilliseconds < 10000)
+            {
+                recordTime.Start();
+
+                float[][] listOfBlocks = new float[1024][];
+                //TODO: INSERT READING ONEDIMENSIONAL ARRAY INTO 8X8 BLOCKS
+
+                //TODO: INSERT OPTMIZED LOGIC
+
+                recordTime.Stop();
+
+                if (recordTime.ElapsedTicks < recordDCT)
+                {
+                    recordDCT = recordTime.ElapsedTicks;
+                }
+
+                recordTime.Reset();
+            }
+            watch.Reset();
+
+            Console.WriteLine("Arai Record Time: ={0} \n", recordArai);
+            Console.WriteLine("DCT Record Time: ={0} \n", recordDCT);
+            Console.WriteLine("Values represented in Ticks (100 Nanoseconds)");
 
         }
     }
