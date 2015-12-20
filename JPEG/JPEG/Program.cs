@@ -31,6 +31,7 @@ namespace JPEG
             //DCT Test
             //test.TestDCT();
             //test.schleifentest();
+            test.PerformanceTest();
             test.loopTestArai();
             //test.PerformanceTest();
 			test.loopTestAraibetter();

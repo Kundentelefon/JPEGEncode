@@ -549,8 +549,8 @@ namespace JPEG
 
             Stopwatch watch = new Stopwatch();
             Stopwatch recordTime = new Stopwatch();
-            long recordArai = 100000000;
-            long recordDCT = 100000000;
+            var recordArai= TimeSpan.Zero  ;
+            var recordDCT= TimeSpan.Zero;
 
             //Arai test
             watch.Start();
@@ -564,10 +564,7 @@ namespace JPEG
 
                 recordTime.Stop();
 
-                if (recordTime.ElapsedTicks < recordArai)
-                {
-                    recordArai = recordTime.ElapsedTicks;
-                }
+                recordArai=bestwert(recordTime.Elapsed, recordArai);
 
                 recordTime.Reset();
             }
@@ -587,10 +584,7 @@ namespace JPEG
 
                 recordTime.Stop();
 
-                if (recordTime.ElapsedTicks < recordDCT)
-                {
-                    recordDCT = recordTime.ElapsedTicks;
-                }
+                recordArai = bestwert(recordTime.Elapsed, recordDCT);
 
                 recordTime.Reset();
             }
@@ -599,6 +593,7 @@ namespace JPEG
             Console.WriteLine("Arai Record Time: ={0} \n", recordArai);
             Console.WriteLine("DCT Record Time: ={0} \n", recordDCT);
             Console.WriteLine("Values represented in Ticks (100 Nanoseconds)");
+            Console.ReadKey();
 
         }
     }
