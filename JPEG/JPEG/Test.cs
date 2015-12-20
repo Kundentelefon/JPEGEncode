@@ -456,7 +456,7 @@ namespace JPEG
             return new TimeSpan(time);
             }
             
-        public void Bilderaufteilen(float[] input, int maxx, int maxy)
+        public float[][] Bilderaufteilen(float[] input, int maxx, int maxy)
         {
             float[][] returnarray = new float[(maxx * maxy) / 64][];
             for (int i = 0; i < returnarray.Length; i++)
@@ -486,7 +486,9 @@ namespace JPEG
                 }
 
             }
+            return returnarray;
         }
+
         public float[,] DCTBench()
         {
             float mx = 256;
@@ -528,10 +530,9 @@ namespace JPEG
             {
                 recordTime.Start();
 
-                float[][] listOfBlocks = new float[1024][];
-                //TODO: INSERT READING ONEDIMENSIONAL ARRAY INTO 8X8 BLOCKS
+                float[][] listOfBlocks = Bilderaufteilen(testValues, 256, 256);
 
-                DCT.taskSeperater(listOfBlocks, 100);
+                listOfBlocks = DCT.taskSeperater(listOfBlocks, 100);
 
                 recordTime.Stop();
 
@@ -550,7 +551,8 @@ namespace JPEG
             {
                 recordTime.Start();
 
-                float[][] listOfBlocks = new float[1024][];
+                float[][] listOfBlocks = Bilderaufteilen(testValues, 256, 256);
+                
                 //TODO: INSERT READING ONEDIMENSIONAL ARRAY INTO 8X8 BLOCKS
 
                 //TODO: INSERT OPTMIZED LOGIC
