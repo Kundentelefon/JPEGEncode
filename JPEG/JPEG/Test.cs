@@ -384,7 +384,7 @@ namespace JPEG
             //sw.Start();
             //for (int i = 0; i < 5000000; i++)
             //{
-
+            
             DCT.DCTAraiOptimized(testMatArai);
             //}
             sw.Stop();
@@ -431,7 +431,9 @@ namespace JPEG
             }
             //Stopwatch sw2 = new Stopwatch();        
 
-            DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
+            DCT.printArray(DCT.DCTdirectOptimized(testMatArai));
+            // DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
+            DCT.printArray(DCT.DCTseparatedOptimized(testMatArai));
 
             Console.ReadKey();
             }
