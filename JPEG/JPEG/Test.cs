@@ -571,13 +571,14 @@ namespace JPEG
             {
                 recordTime.Start();
 
+                float[][] listOfResults;
                 float[][] listOfBlocks = Bilderaufteilen(testValues, 256, 256);
                 DCT.araiAranger(listOfBlocks);//-------------------------------------------
                 listOfBlocks = Bilderaufteilen(testValues, 256, 256);
                 DCT.DirectDCTAranger(listOfBlocks);//---------------------------
-                listOfBlocks = DCT.taskSeperater(listOfBlocks, 100);
+                listOfResults = DCT.taskSeperater(listOfBlocks, 100);
 
-                float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
+                float[] outputValues = CombineBlocksToPicture(listOfResults, 256, 256);
 
                 recordTime.Stop();
 
@@ -593,11 +594,12 @@ namespace JPEG
             {
                 recordTime.Start();
 
+                float[][] listOfResults;
                 float[][] listOfBlocks = Bilderaufteilen(testValues, 256, 256);
 
-                listOfBlocks = DCT.DirectDCTTaskSeparator(listOfBlocks, 100);
+                listOfResults = DCT.DirectDCTTaskSeparator(listOfBlocks, 100);
 
-                float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
+                float[] outputValues = CombineBlocksToPicture(listOfResults, 256, 256);
 
                 recordTime.Stop();
 
