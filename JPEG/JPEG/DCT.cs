@@ -911,12 +911,14 @@ namespace JPEG
             }
 
             Task.WaitAll(taskList.ToArray());
+            int count = 0;
             for (int ia = 0; ia + 1 < taskList.Count(); ia++)
             {
                 for (int ib = 0; ib < taskList[ia].Result.Length; ib++)
                 {
-                    inputArray[(taskList[ia].Id- taskList[0].Id ) * task+ib] = taskList[ia].Result[ib];
+                    inputArray[count* task+ib] = taskList[ia].Result[ib];
                 }
+                count++;
             }
             return (inputArray);
         }
@@ -944,14 +946,16 @@ namespace JPEG
             }
 
             Task.WaitAll(taskList.ToArray());
+            int count = 0;
             for (int ia = 0; ia + 1 < taskList.Count(); ia++)
             {
                 for (int ib = 0; ib < taskList[ia].Result.Length; ib++)
                 {
-                    inputArray[(taskList[ia].Id - taskList[0].Id) * task + ib] = taskList[ia].Result[ib];
+                    inputArray[count * task + ib] = taskList[ia].Result[ib];
                 }
+                count++;
             }
-            return (inputArray);
+                return (inputArray);
         }
         public static float[][]DirectDCTAranger(float[][] inputArray)
         {

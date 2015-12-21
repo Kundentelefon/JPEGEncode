@@ -571,14 +571,13 @@ namespace JPEG
             {
                 recordTime.Start();
 
-                float[][] listOfResults;
                 float[][] listOfBlocks = Bilderaufteilen(testValues, 256, 256);
-                DCT.araiAranger(listOfBlocks);//-------------------------------------------
-                listOfBlocks = Bilderaufteilen(testValues, 256, 256);
-                DCT.DirectDCTAranger(listOfBlocks);//---------------------------
-                listOfResults = DCT.taskSeperater(listOfBlocks, 100);
+                //DCT.araiAranger(listOfBlocks);//-------------------------------------------
+                //listOfBlocks = Bilderaufteilen(testValues, 256, 256);
+                //DCT.DirectDCTAranger(listOfBlocks);//---------------------------
+                listOfBlocks = DCT.taskSeperater(listOfBlocks, 100);
 
-                float[] outputValues = CombineBlocksToPicture(listOfResults, 256, 256);
+                float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
 
                 recordTime.Stop();
 
@@ -594,12 +593,11 @@ namespace JPEG
             {
                 recordTime.Start();
 
-                float[][] listOfResults;
                 float[][] listOfBlocks = Bilderaufteilen(testValues, 256, 256);
 
-                listOfResults = DCT.DirectDCTTaskSeparator(listOfBlocks, 100);
+                listOfBlocks = DCT.DirectDCTTaskSeparator(listOfBlocks, 100);
 
-                float[] outputValues = CombineBlocksToPicture(listOfResults, 256, 256);
+                float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
 
                 recordTime.Stop();
 
@@ -614,6 +612,17 @@ namespace JPEG
             Console.ReadKey();
 
         }
+
+        //public void bonustest()
+        //{
+        //    float[] test = new float[64];
+        //    for (int i = 0; i < 64; i++)
+        //    {
+        //        test[i] = i;
+        //    }
+        //    DCT.printArray(DCT.DCTseparatedOptimized(test));
+        //    DCT.printArray(DCT.DCTAraiOptimizedrly2(test));
+        //}
     }
 
 
