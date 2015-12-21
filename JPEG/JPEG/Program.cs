@@ -34,8 +34,8 @@ namespace JPEG
 			//test.PerformanceTest();
 			//test.loopTestArai();
 			//test.PerformanceTest();
-			//test.loopTestAraibetter();
-			test.PerformanceTest();
+			test.loopTestAraibetter();
+			//test.PerformanceTest();
 		}
 		
 	}

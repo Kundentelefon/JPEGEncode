@@ -444,9 +444,9 @@ namespace JPEG
             //Stopwatch sw2 = new Stopwatch();        
 
             DCT.printArray(DCT.DCTdirectOptimized(testMatArai2));
-            // DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
+            //DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai));
             DCT.printArray(DCT.DCTseparatedOptimized(testMatArai2));
-            DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai2));
+            //DCT.printArray(DCT.DCTAraiOptimizedrly2(testMatArai2));
 
             Console.ReadKey();
             }

@@ -249,7 +249,7 @@ namespace JPEG
                 {
                     for (int k = 0; k < n; k++)
                     {
-                        Matrix8res[i+j] += Matrix8A[i+k] * Matrix8init[k+j];
+                        Matrix8res[i+j] += Matrix8A[i+k] * Matrix8init[k*n+j];
                     }
                 }
             } // end Y = AX
@@ -261,7 +261,7 @@ namespace JPEG
                     for (int k = 0; k < n; k++)
                     {
                         //multiplicatin with transposed matrix8A
-                        Matrix8final[i+ j] += Matrix8res[i+ k] * Matrix8A[j+ k];
+                        Matrix8final[i+ j] += Matrix8res[i+ k] * Matrix8A[j*n+k];
                     }
                 }
             } // end Y = AXAT
