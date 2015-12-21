@@ -572,9 +572,9 @@ namespace JPEG
                 recordTime.Start();
 
                 float[][] listOfBlocks = Bilderaufteilen(testValues, 256, 256);
-                DCT.araiAranger(listOfBlocks);//-------------------------------------------
-                listOfBlocks = Bilderaufteilen(testValues, 256, 256);
-                DCT.DirectDCTAranger(listOfBlocks);//---------------------------
+                //DCT.araiAranger(listOfBlocks);//-------------------------------------------
+                //listOfBlocks = Bilderaufteilen(testValues, 256, 256);
+                //DCT.DirectDCTAranger(listOfBlocks);//---------------------------
                 listOfBlocks = DCT.taskSeperater(listOfBlocks, 100);
 
                 float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
@@ -612,6 +612,17 @@ namespace JPEG
             Console.ReadKey();
 
         }
+
+        //public void bonustest()
+        //{
+        //    float[] test = new float[64];
+        //    for (int i = 0; i < 64; i++)
+        //    {
+        //        test[i] = i;
+        //    }
+        //    DCT.printArray(DCT.DCTseparatedOptimized(test));
+        //    DCT.printArray(DCT.DCTAraiOptimizedrly2(test));
+        //}
     }
 
 
