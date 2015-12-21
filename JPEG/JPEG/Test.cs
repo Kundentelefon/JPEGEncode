@@ -564,6 +564,7 @@ namespace JPEG
             Stopwatch recordTime = new Stopwatch();
             var recordArai= TimeSpan.Zero  ;
             var recordDCT= TimeSpan.Zero;
+            var recordSeparatedDCT = TimeSpan.Zero;
 
             //Arai test
             watch.Start();
@@ -607,8 +608,29 @@ namespace JPEG
             }
             watch.Reset();
 
+            //DCT test
+            watch.Start();
+            while (watch.ElapsedMilliseconds < 10000)
+            {
+                recordTime.Start();
+
+                float[][] listOfBlocks = Bilderaufteilen(testValues, 256, 256);
+
+                listOfBlocks = DCT.SeparatedDCTTaskSeparator(listOfBlocks, 100);
+
+                float[] outputValues = CombineBlocksToPicture(listOfBlocks, 256, 256);
+
+                recordTime.Stop();
+
+                recordSeparatedDCT = bestwert(recordTime.Elapsed, recordDCT);
+
+                recordTime.Reset();
+            }
+            watch.Reset();
+
             Console.WriteLine($"Arai Record Time: {recordArai}");
-            Console.WriteLine($"DCT Record Time: {recordDCT}");
+            Console.WriteLine($"Direct DCT Record Time: {recordDCT}");
+            Console.WriteLine($"Separated DCT Record Time: {recordSeparatedDCT}");
             Console.ReadKey();
 
         }
