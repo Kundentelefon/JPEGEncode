@@ -110,5 +110,15 @@ namespace JPEG
             return output;
         }
 
+        public int GetHeight()
+        {
+            return height;
+        }
+
+        public int GetWidth()
+        {
+            return width;
+        }
+
     }
 }

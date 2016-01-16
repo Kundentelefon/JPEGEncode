@@ -55,6 +55,7 @@
     <Compile Include="DCT.cs" />
     <Compile Include="HuffmanEncoder.cs" />
     <Compile Include="HuffmanNode.cs" />
+    <Compile Include="ImageToJpg.cs" />
     <Compile Include="Model\Color.cs" />
     <Compile Include="Model\Color1.cs" />
     <Compile Include="Model\Color3.cs" />
