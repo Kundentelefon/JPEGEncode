@@ -61,6 +61,25 @@ namespace JPEG
             }
         }
 
+        //TODO: Dort wo 0xFF special case vorkommt das hier nutzen
+        public void AddByteSpecial(byte value)
+        {
+            //handle special case
+            if (value == 0xFF)
+            {
+                AddByte(0xFF);
+                AddByte(0x00);
+            }
+            else
+            {
+                // shifts the bit through the added byte value with /2 eg. 128->64->32 etc and compares with &
+                for (int i = 0x80; i > 0; i /= 2)
+                {
+                    AddBit(0 != (value & i));
+                }
+            }
+        }
+
         public void AddByte(byte value)
         {
             // shifts the bit through the added byte value with /2 eg. 128->64->32 etc and compares with &

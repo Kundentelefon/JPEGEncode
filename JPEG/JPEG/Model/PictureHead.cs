@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,6 +48,24 @@ namespace JPEG
             bs.AddShort(yPixelDensity);
             bs.AddByte(thumbnailWidth);
             bs.AddByte(thumbnailHeight);
+        }
+
+        //Define Quantization Table
+        private static void DQT(Bitstream bs)
+        {
+            ushort marker = 0xFFDB;
+            ushort length = 132;
+            byte QTY = 0; // Bit 0-3: Number of QTable. Bit 4-7 precission. -> Table for Y with precision of 8 bit
+            byte QTCB = 1; // 1 (quantization table for CB,CR)
+
+            //Quantisierungskoeffizient
+
+            bs.AddShort(marker);
+            bs.AddShort(length);
+            bs.AddByte(QTY);
+            //bs.WriteByteArray();
+            bs.AddByte(QTCB);
+            //(bs.WriteByteArray();
         }
 
         private static void SOF0Head(Bitstream bs, ushort pHeight, ushort pWidth)
@@ -208,6 +227,37 @@ namespace JPEG
 
         }
 
+        private static void SOS(Bitstream bs)
+        {
+            ushort marker = 0xFFDA;
+            ushort length = 12; // 6 + 2 * (number of components)
+            byte NROFComponents = 3; // Number of Components in Picture 1 or 3 
+            byte IdY = 1; // component ID
+            byte HTY = 0; // Bits 0-3: AC Table
+                          // Bits 4-7: DC Table
+            byte IdCb = 2;
+            //TODO: überprüfe ob richtig eingesetztes HT
+            byte HTCb = 0x11; // eingesetzte HT
+            byte IdCr = 3;
+            byte HTCr = 0x11;
+            byte SS = 0; // start of spectral or prediction selection
+            byte SE = 63; // end of spectral selection
+            byte BF = 0; // successiv approcimation
+
+            bs.AddShort(marker);
+            bs.AddShort(length);
+            bs.AddByte(NROFComponents);
+            bs.AddByte(IdY);
+            bs.AddByte(HTY);
+            bs.AddByte(IdCb);
+            bs.AddByte(HTCb);
+            bs.AddByte(IdCr);
+            bs.AddByte(HTCr);
+            bs.AddByte(SS);
+            bs.AddByte(SE);
+            bs.AddByte(BF);
+        }
+
         private static void PictureEnd(Bitstream bs)
         {
             //Ends JPG
@@ -218,9 +268,11 @@ namespace JPEG
         {
             PictureStart(bs);
             APP0Head(bs);
+            //DQT(bs);
             SOF0Head(bs, pHeight, pWidth);
             DHTHeadStandard(bs);
             DHTHead(bs);
+            SOS(bs);
             PictureEnd(bs);
         }
 
