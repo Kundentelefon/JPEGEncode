@@ -17,6 +17,9 @@ namespace JPEG
 		static void Main(string[] args)
 		{
 			Test test = new Test();
+
+            test.testLengthEncoder();
+
             //var testresult = test.testZickZackbyte();
             //var testresult2 = test.conversionTest();
 

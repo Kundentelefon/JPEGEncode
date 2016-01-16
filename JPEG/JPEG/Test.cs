@@ -635,6 +635,17 @@ namespace JPEG
 
         }
 
+        public void testLengthEncoder()
+        {
+            byte[] arry = {57,45,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,30,1,0,0,0,0,0 };
+            RunLengthEncoder coder = new RunLengthEncoder(arry);
+            byte[] test = coder.encodeACRunLength();
+            foreach (byte value in test)
+            {
+                System.Console.WriteLine(value);
+            }
+            Console.ReadKey();
+        }
         //public void bonustest()
         //{
         //    float[] test = new float[64];
