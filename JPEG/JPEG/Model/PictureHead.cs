@@ -13,6 +13,29 @@ namespace JPEG
         public int pixelMaxX;
         public int pixelMaxY;
 
+        public static Byte[] QTYStandard =
+        {
+            16,  11,  10,  16,  24,  40,  51,  61,
+            12,  12,  14,  19,  26,  58,  60,  55,
+            14,  13,  16,  24,  40,  57,  69,  56,
+            14,  17,  22,  29,  51,  87,  80,  62,
+            18,  22,  37,  56,  68, 109, 103,  77,
+            24,  35,  55,  64,  81, 104, 113,  92,
+            49,  64,  78,  87, 103, 121, 120, 101,
+            72,  92,  95,  98, 112, 100, 103,  99
+        };
+        public static Byte[] QTCrCbStandard =
+        {
+            17,  18,  24,  47,  99,  99,  99,  99,
+            18,  21,  26,  66,  99,  99,  99,  99,
+            24,  26,  56,  99,  99,  99,  99,  99,
+            47,  66,  99,  99,  99,  99,  99,  99,
+            99,  99,  99,  99,  99,  99,  99,  99,
+            99,  99,  99,  99,  99,  99,  99,  99,
+            99,  99,  99,  99,  99,  99,  99,  99,
+            99,  99,  99,  99,  99,  99,  99,  99
+        };
+
         private static void PictureStart(Bitstream bs)
         {
             //initialises JPG
@@ -54,18 +77,16 @@ namespace JPEG
         private static void DQT(Bitstream bs)
         {
             ushort marker = 0xFFDB;
-            ushort length = 132;
+            ushort length = 2+2+64;
             byte QTY = 0; // Bit 0-3: Number of QTable. Bit 4-7 precission. -> Table for Y with precision of 8 bit
-            byte QTCB = 1; // 1 (quantization table for CB,CR)
-
-            //Quantisierungskoeffizient
+            byte QTCbCr = 1; // 1 (quantization table for CB,CR)
 
             bs.AddShort(marker);
             bs.AddShort(length);
             bs.AddByte(QTY);
-            //bs.WriteByteArray();
-            bs.AddByte(QTCB);
-            //(bs.WriteByteArray();
+            bs.WriteByteArray(bs, QTYStandard, 0);
+            bs.AddByte(QTCbCr);
+            bs.WriteByteArray(bs, QTCrCbStandard, 0);
         }
 
         private static void SOF0Head(Bitstream bs, ushort pHeight, ushort pWidth)
@@ -268,7 +289,7 @@ namespace JPEG
         {
             PictureStart(bs);
             APP0Head(bs);
-            //DQT(bs);
+            DQT(bs);
             SOF0Head(bs, pHeight, pWidth);
             DHTHeadStandard(bs);
             DHTHead(bs);
