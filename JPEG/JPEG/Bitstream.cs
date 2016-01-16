@@ -17,14 +17,13 @@ namespace JPEG
         // 8 for byte length
         private const int ArrayTypeSize = 8;
 
-        private long bitIndex;
-        private byte[] bArray;
+        private int bitIndex;
+        private List<byte> bList;
 
         // long gives a broader index option and allows int32 * 8 
-        public Bitstream(long bufferSizeInBit)
+        public Bitstream()
         {
-            // rounds up 
-            bArray = new byte[(bufferSizeInBit + ArrayTypeSize - 1) / ArrayTypeSize];
+            bList = new List<byte>();
         }
 
         // Add as many bits count have at the offset
@@ -39,19 +38,20 @@ namespace JPEG
         // Writes one bit at the end 
         public void AddBit(bool value)
         {
+
             // Throws exception if arraylength * arrayTypeSize is smaller than index
-            if (bitIndex >= bArray.Length * ArrayTypeSize)
-                throw new IndexOutOfRangeException("Bitstream is full");
-            BitArray ba;
+            if (bList.Count <= bitIndex)
+                bList.Add(ArrayTypeSize);
+
             if (value)
             {
                 // OR operation allocation at the index position with bitshift to left
-                bArray[bitIndex / ArrayTypeSize] |= (byte)(1 << (int)((ArrayTypeSize - 1) - (bitIndex % ArrayTypeSize)));
+                bList[bitIndex / ArrayTypeSize] |= (byte)(1 << (int)((ArrayTypeSize - 1) - (bitIndex % ArrayTypeSize)));
             }
             else
             {
                 // AND operation allocation with bitwise inverse at the index position and bitshift to left
-                bArray[bitIndex / ArrayTypeSize] &= (byte)(~(1 << (int)((ArrayTypeSize - 1) - (bitIndex % ArrayTypeSize))));
+                bList[bitIndex / ArrayTypeSize] &= (byte)(~(1 << (int)((ArrayTypeSize - 1) - (bitIndex % ArrayTypeSize))));
             }
 
             bitIndex++;
@@ -83,15 +83,15 @@ namespace JPEG
             }
         }
 
-        public bool GetBit(long index)
+        public bool GetBit(int index)
         {
             // Compares at the given index the bit with a bitshifted 1 if its true or not
-            return 0 != (bArray[index / ArrayTypeSize] & (uint)(1 << (int)(index % ArrayTypeSize)));
+            return 0 != (bList[index / ArrayTypeSize] & (uint)(1 << (int)(index % ArrayTypeSize)));
         }
 
         public long GetLength()
         {
-            return bArray.Length;
+            return bList.Count;
         }
 
         public void WriteToFile(string filePath)
@@ -99,7 +99,7 @@ namespace JPEG
             // uses everything from interface IDisposal eg. Filestream -> automatically throw catches every exception and open closes with finally
             using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                fs.Write(bArray, 0, (int)(bitIndex + ArrayTypeSize - 1) / ArrayTypeSize);
+                fs.Write(bList.ToArray(), 0, (int)(bitIndex + ArrayTypeSize - 1) / ArrayTypeSize);
             }
         }
 

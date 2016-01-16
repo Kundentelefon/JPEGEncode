@@ -20,7 +20,7 @@ namespace JPEG
 			//var testresult = test.testZickZackbyte();
 			//var testresult2 = test.conversionTest();
 
-			//  Test.BitTest();
+			Test.BitTest();
 			//test.HuffmanDepthTest();
 			//test.HuffmanMergeBaum();
 
@@ -36,7 +36,7 @@ namespace JPEG
 			//test.PerformanceTest();
             //test.loopTestAraibetter();
             //test.bonustest();
-			test.PerformanceTest();
+			//test.PerformanceTest();
 		}
 		
 	}

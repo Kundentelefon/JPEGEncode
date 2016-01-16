@@ -272,7 +272,7 @@ namespace JPEG
 
         public Bitstream Encode(MemoryStream stream)
         {
-            Bitstream encodedOuput = new Bitstream(10000);
+            Bitstream encodedOuput = new Bitstream();
 
             try
             {
@@ -302,7 +302,7 @@ namespace JPEG
 
             try
             {
-                for (long i = 0; i < stream.GetLength(); i++)
+                for (int i = 0; i < stream.GetLength(); i++)
                 {
                     codeWord.Add(stream.GetBit(i));
                     if (huffmanTable.ContainsValue(codeWord))
