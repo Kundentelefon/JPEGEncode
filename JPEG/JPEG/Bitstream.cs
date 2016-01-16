@@ -61,7 +61,6 @@ namespace JPEG
             }
         }
 
-        //TODO: Dort wo 0xFF special case vorkommt das hier nutzen
         public void AddByteSpecial(byte value)
         {
             //handle special case
