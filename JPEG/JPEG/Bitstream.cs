@@ -19,6 +19,7 @@ namespace JPEG
 
         private long bitIndex;
         private byte[] bArray;
+        private List<byte[]> bArrayList; 
 
         // long gives a broader index option and allows int32 * 8 
         public Bitstream(long bufferSizeInBit)
