@@ -103,7 +103,7 @@ namespace JPEG
 
             //counts for each Values (List<bool>) the number of objects in it and saves it to symbolLength
 
-            for(int k = 0; k < HuffmanEncoder.huffmanTable.Count; k++)
+            for (int k = 0; k < HuffmanEncoder.huffmanTable.Count; k++)
             {
                 int temp = 0;
                 foreach (List<bool> sl in HuffmanEncoder.huffmanTable.Values)
@@ -113,11 +113,11 @@ namespace JPEG
                 }
                 symbolLength[k] = (byte)temp;
             }
-                                   
+
             int j = 0;
             foreach (var symbolCount in HuffmanEncoder.huffmanTable.Keys)
             {
-                    table[j++] = symbolCount;
+                table[j++] = symbolCount;
             }
 
             bs.AddShort(0xFFc4); //marker

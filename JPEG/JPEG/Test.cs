@@ -206,7 +206,7 @@ namespace JPEG
             sw.Start();
             // test with 10 Mio 1 Bits
             Bitstream bs = new Bitstream();
-            bs.AddBits(true, 10000000);
+            bs.AddBits(true, 100);
             sw.Stop();
             Console.WriteLine("BitWrite Elapsed={0} ", sw.Elapsed);
             Console.ReadKey();
