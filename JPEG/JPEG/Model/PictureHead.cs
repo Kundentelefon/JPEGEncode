@@ -13,6 +13,29 @@ namespace JPEG
         public int pixelMaxX;
         public int pixelMaxY;
 
+        public static Byte[] QTYStandard =
+        {
+            16,  11,  10,  16,  24,  40,  51,  61,
+            12,  12,  14,  19,  26,  58,  60,  55,
+            14,  13,  16,  24,  40,  57,  69,  56,
+            14,  17,  22,  29,  51,  87,  80,  62,
+            18,  22,  37,  56,  68, 109, 103,  77,
+            24,  35,  55,  64,  81, 104, 113,  92,
+            49,  64,  78,  87, 103, 121, 120, 101,
+            72,  92,  95,  98, 112, 100, 103,  99
+        };
+        public static Byte[] QTCrCbStandard =
+        {
+            17,  18,  24,  47,  99,  99,  99,  99,
+            18,  21,  26,  66,  99,  99,  99,  99,
+            24,  26,  56,  99,  99,  99,  99,  99,
+            47,  66,  99,  99,  99,  99,  99,  99,
+            99,  99,  99,  99,  99,  99,  99,  99,
+            99,  99,  99,  99,  99,  99,  99,  99,
+            99,  99,  99,  99,  99,  99,  99,  99,
+            99,  99,  99,  99,  99,  99,  99,  99
+        };
+
         private static void PictureStart(Bitstream bs)
         {
             //initialises JPG
@@ -36,36 +59,34 @@ namespace JPEG
 
             bs.AddShort(0xFFE0); //marker
             bs.AddShort(length); //length
-            bs.AddByte(j);
-            bs.AddByte(f);
-            bs.AddByte(i);
-            bs.AddByte(f);
-            bs.AddByte(zero);
-            bs.AddByte(majorRevisionNumber);
-            bs.AddByte(minorRevisionNumber);
-            bs.AddByte(xyunits);
+            bs.AddByteSpecial(j);
+            bs.AddByteSpecial(f);
+            bs.AddByteSpecial(i);
+            bs.AddByteSpecial(f);
+            bs.AddByteSpecial(zero);
+            bs.AddByteSpecial(majorRevisionNumber);
+            bs.AddByteSpecial(minorRevisionNumber);
+            bs.AddByteSpecial(xyunits);
             bs.AddShort(xPixelDensity);
             bs.AddShort(yPixelDensity);
-            bs.AddByte(thumbnailWidth);
-            bs.AddByte(thumbnailHeight);
+            bs.AddByteSpecial(thumbnailWidth);
+            bs.AddByteSpecial(thumbnailHeight);
         }
 
         //Define Quantization Table
         private static void DQT(Bitstream bs)
         {
             ushort marker = 0xFFDB;
-            ushort length = 132;
+            ushort length = 2+2+64;
             byte QTY = 0; // Bit 0-3: Number of QTable. Bit 4-7 precission. -> Table for Y with precision of 8 bit
-            byte QTCB = 1; // 1 (quantization table for CB,CR)
-
-            //Quantisierungskoeffizient
+            byte QTCbCr = 1; // 1 (quantization table for CB,CR)
 
             bs.AddShort(marker);
             bs.AddShort(length);
-            bs.AddByte(QTY);
-            //bs.WriteByteArray();
-            bs.AddByte(QTCB);
-            //(bs.WriteByteArray();
+            bs.AddByteSpecial(QTY);
+            bs.WriteByteArray(bs, QTYStandard, 0);
+            bs.AddByteSpecial(QTCbCr);
+            bs.WriteByteArray(bs, QTCrCbStandard, 0);
         }
 
         private static void SOF0Head(Bitstream bs, ushort pHeight, ushort pWidth)
@@ -87,19 +108,19 @@ namespace JPEG
 
             bs.AddShort(0xFFC0); // marker
             bs.AddShort(length);
-            bs.AddByte(precision);
+            bs.AddByteSpecial(precision);
             bs.AddShort(pictureHeight);
             bs.AddShort(pictureWidth);
-            bs.AddByte(components);
-            bs.AddByte(IDY); // 3 Bytes for each component
-            bs.AddByte(SFY);
-            bs.AddByte(QTY);
-            bs.AddByte(IDCb);
-            bs.AddByte(SFCb);
-            bs.AddByte(QTCb);
-            bs.AddByte(IDCr);
-            bs.AddByte(SFCr);
-            bs.AddByte(QTCr);
+            bs.AddByteSpecial(components);
+            bs.AddByteSpecial(IDY); // 3 Bytes for each component
+            bs.AddByteSpecial(SFY);
+            bs.AddByteSpecial(QTY);
+            bs.AddByteSpecial(IDCb);
+            bs.AddByteSpecial(SFCb);
+            bs.AddByteSpecial(QTCb);
+            bs.AddByteSpecial(IDCr);
+            bs.AddByteSpecial(SFCr);
+            bs.AddByteSpecial(QTCr);
         }
 
         private static void DHTHead(Bitstream bs)
@@ -141,7 +162,7 @@ namespace JPEG
 
             bs.AddShort(0xFFc4); //marker
             bs.AddShort(length);
-            bs.AddByte(hTInformation);
+            bs.AddByteSpecial(hTInformation);
             bs.WriteByteArray(bs, symbolLength, 0);
             bs.WriteByteArray(bs, table, 0);
         }
@@ -209,19 +230,19 @@ namespace JPEG
             bs.AddShort(0xFFc4); //marker
             bs.AddShort(length);
 
-            bs.AddByte(DC); //HTInformation for YDC
+            bs.AddByteSpecial(DC); //HTInformation for YDC
             bs.WriteByteArray(bs, YDCNodes, 1); // 1 is startposition after the byte of HTInformation for YDC
             bs.WriteByteArray(bs, YDCValues, 0);
 
-            bs.AddByte(AC);
+            bs.AddByteSpecial(AC);
             bs.WriteByteArray(bs, YACNodes, 1);
             bs.WriteByteArray(bs, YACValues, 0);
 
-            bs.AddByte(DC);
+            bs.AddByteSpecial(DC);
             bs.WriteByteArray(bs, CbDCNodes, 1);
             bs.WriteByteArray(bs, CbDCValues, 0);
 
-            bs.AddByte(AC);
+            bs.AddByteSpecial(AC);
             bs.WriteByteArray(bs, CbACNodes, 1);
             bs.WriteByteArray(bs, CbACValues, 0);
 
@@ -233,29 +254,28 @@ namespace JPEG
             ushort length = 12; // 6 + 2 * (number of components)
             byte NROFComponents = 3; // Number of Components in Picture 1 or 3 
             byte IdY = 1; // component ID
-            byte HTY = 0; // Bits 0-3: AC Table
-                          // Bits 4-7: DC Table
+            byte HTY = 0x01; // Bits 0-3: AC Table
             byte IdCb = 2;
             //TODO: überprüfe ob richtig eingesetztes HT
-            byte HTCb = 0x11; // eingesetzte HT
+            byte HTCb = 0x10; // Bits 4-7: DC Table
             byte IdCr = 3;
-            byte HTCr = 0x11;
+            byte HTCr = 0x10; // 0x11 would be AC and DC
             byte SS = 0; // start of spectral or prediction selection
             byte SE = 63; // end of spectral selection
             byte BF = 0; // successiv approcimation
 
             bs.AddShort(marker);
             bs.AddShort(length);
-            bs.AddByte(NROFComponents);
-            bs.AddByte(IdY);
-            bs.AddByte(HTY);
-            bs.AddByte(IdCb);
-            bs.AddByte(HTCb);
-            bs.AddByte(IdCr);
-            bs.AddByte(HTCr);
-            bs.AddByte(SS);
-            bs.AddByte(SE);
-            bs.AddByte(BF);
+            bs.AddByteSpecial(NROFComponents);
+            bs.AddByteSpecial(IdY);
+            bs.AddByteSpecial(HTY);
+            bs.AddByteSpecial(IdCb);
+            bs.AddByteSpecial(HTCb);
+            bs.AddByteSpecial(IdCr);
+            bs.AddByteSpecial(HTCr);
+            bs.AddByteSpecial(SS);
+            bs.AddByteSpecial(SE);
+            bs.AddByteSpecial(BF);
         }
 
         private static void PictureEnd(Bitstream bs)
@@ -268,7 +288,7 @@ namespace JPEG
         {
             PictureStart(bs);
             APP0Head(bs);
-            //DQT(bs);
+            DQT(bs);
             SOF0Head(bs, pHeight, pWidth);
             DHTHeadStandard(bs);
             DHTHead(bs);
