@@ -7,20 +7,26 @@ namespace JPEG
         public void PPMtoJpg(string imageSrc, string imagedest)
         {
             Bitstream bs = new Bitstream();
-            Color3 col = new Color3();
+            Color3[,] col3 = new Color3[,] {};
             PlainFormatReader pfr = new PlainFormatReader(imageSrc);
+            Mathloc ml = new Mathloc();
             
             int height = pfr.GetHeight();
             int width = pfr.GetWidth();
 
-            //returns PictureData
-            pfr.ReadPicture();
-            //TODO:convert PicutreData RGB to YCrCb
+            byte[] colors = new byte[] { };
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    col3[y, x] = pfr.ReadPicture().Data.PictureYX[y, x];
+                    colors[0] = col3[y, x].a;
+                    colors[1] = col3[y, x].b;
+                    colors[2] = col3[y, x].c;
+                     ml.RGBToYUV(colors);
+                }
+            }
 
-            byte Y = col.a;
-            byte Cr = col.b;
-            byte Cb = col.c;
-            
             //create JPG head
             PictureHead.CreateJPGHead(bs, (ushort)height, (ushort)width);
 

@@ -59,7 +59,7 @@ namespace JPEG
         PictureData ReadPictureData()
         {
             PictureData output = new PictureData();
-            output.PictureYX = new Color[height, width];
+            output.PictureYX = new Color3[height, width];
             String[] values = PrepareValues();
 
             int yCount = 0;
