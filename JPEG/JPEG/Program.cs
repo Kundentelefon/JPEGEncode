@@ -16,18 +16,16 @@ namespace JPEG
 	{
 		static void Main(string[] args)
 		{
-			
-
 			Test test = new Test();
 
-            test.testLengthEncoder();
+            //test.testLengthEncoder();
 
             //var testresult = test.testZickZackbyte();
             //var testresult2 = test.conversionTest();
 
             //Test.BitTest();
-            //test.HuffmanDepthTest();
-            //test.HuffmanMergeBaum();
+            test.HuffmanDepthTest();
+            test.HuffmanMergeBaum();
 
             //Bitstream bs = new Bitstream();
             //PictureHead.CreateJPGHead(bs, 900, 1600);
@@ -43,7 +41,7 @@ namespace JPEG
             //test.bonustest();
             //test.PerformanceTest();
 
-            //new ImageToJpg().PPMtoJpg(@"C:\Users\Skylake\Desktop\PPMTest.ppm", @"C:\Users\Skylake\Desktop\BitstreamTest.jpg");
+            //new ImageToJpg().PPMtoJpg(@"C:\Users\Skylake\Desktop\feepascii.ppm", @"C:\Users\Skylake\Desktop\BitstreamTest.jpg");
         }
 		
 	}

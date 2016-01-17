@@ -85,10 +85,17 @@ namespace JPEG
             String output = "";
             while (!reader.EndOfStream)
             {
-                output = output + " " + reader.ReadLine();
+                output = output + " " +  reader.ReadLine();
             }
             reader.Close();
-            return Regex.Split(output, "()+");
+            //output = output.Replace(" ", String.Empty);
+            Regex rgx = new Regex("\\s+");
+            output = rgx.Replace(output, " ");
+            if (Char.IsWhiteSpace(output[0]))
+            {
+                output=output.Remove(0, 1);
+            }
+            return Regex.Split(output, " ");
         }
 
         //pareses the String-value of the respective element in values into byte, to represent a Color3
@@ -102,7 +109,6 @@ namespace JPEG
         Color3 ReadPixelColor(String[] values, int index)
         {
             Color3 output = new Color3();
-
             output.a = ReadColorChannel(values, index);
             output.b = ReadColorChannel(values, index + 1);
             output.c = ReadColorChannel(values, index + 2);

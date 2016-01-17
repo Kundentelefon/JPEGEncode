@@ -161,7 +161,7 @@ namespace JPEG
         }
 
         //Bitmap test
-        private static void TestChannelResolutionReduction(string inputFile, string outputFile)
+        public void TestChannelResolutionReduction(string inputFile, string outputFile)
         {
             // load Bitmap .png
             Bitmap bitmap = new Bitmap(inputFile);

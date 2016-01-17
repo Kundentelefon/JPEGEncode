@@ -10,17 +10,19 @@ namespace JPEG
             Color3[,] col3 = new Color3[,] {};
             PlainFormatReader pfr = new PlainFormatReader(imageSrc);
             Mathloc ml = new Mathloc();
-            
-            int height = pfr.GetHeight();
-            int width = pfr.GetWidth();
+
+            Picture pic = pfr.ReadPicture();
+
+            int height = pic.Head.pixelMaxY;
+            int width = pic.Head.pixelMaxX;
 
             //convert RGB to YUV for each pixel
-            byte[] colors = new byte[] { };
+            byte[] colors = {};
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    col3[y, x] = pfr.ReadPicture().Data.PictureYX[y, x];
+                    col3[y, x] = pic.Data.PictureYX[y, x];
                     colors[0] = col3[y, x].a;
                     colors[1] = col3[y, x].b;
                     colors[2] = col3[y, x].c;
@@ -39,9 +41,9 @@ namespace JPEG
             {
                 for (int x = 0; x < width; x += 8)
                 {
-                    //Y: DCT Quantization->ZigZag->Coefficiency->Bitstream
-                    //Cr: DCT Quantization->ZigZag->Coefficiency->Bitstream
-                    //Cb: DCT Quantization->ZigZag->Coefficiency->Bitstream
+                    bs.AddByte(col3[y, x].a);
+                    bs.AddByte(col3[y, x].b);
+                    bs.AddByte(col3[y, x].c);
                 }
             }
 
