@@ -14,6 +14,7 @@ namespace JPEG
             int height = pfr.GetHeight();
             int width = pfr.GetWidth();
 
+            //convert RGB to YUV for each pixel
             byte[] colors = new byte[] { };
             for (int y = 0; y < height; y++)
             {
@@ -23,7 +24,10 @@ namespace JPEG
                     colors[0] = col3[y, x].a;
                     colors[1] = col3[y, x].b;
                     colors[2] = col3[y, x].c;
-                     ml.RGBToYUV(colors);
+                    colors = ml.RGBToYUV(colors);
+                    col3[y, x].a = colors[0];
+                    col3[y, x].b = colors[1];
+                    col3[y, x].c = colors[2];
                 }
             }
 
