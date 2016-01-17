@@ -19,7 +19,7 @@ namespace JPEG
             this.input = input;
         }
 
-        public short[] encodeACRunLength()
+        public Bitstream encodeACRunLength()
         {
             List<pairValues> pairList = new List<pairValues>();
             pairValues[] pairArray;
@@ -145,7 +145,7 @@ namespace JPEG
                     
                 }
                 //nur so viele bits von rechts nehmen wie in kategorie sagt
-                pairArray[i].merged = ByteZusammenfassen(pairArray[i].zeros, pairArray[i].category);
+                pairArray[i].merged = connectBytes(pairArray[i].zeros, pairArray[i].category);
                 streamArray[i] = pairArray[i].merged;
             }
 
@@ -162,22 +162,19 @@ namespace JPEG
                     encodedList = huffmantable[pairArray[i].merged];
                 for (int z = 0; z < encodedList.Count; z++)
                     outputStream.AddBit(encodedList[z]);
+                for (int z = 0; z < pairArray[i].category; z++)
+                    outputStream.AddBit(getBit(pairArray[i].value, z));
+
             }
 
-
-            solutionArray = new short[pairArray.Length * 2];
-
-            for(int i = 0; i<pairArray.Length; i++)
-            {
-                solutionArray[arrayCounter] = pairArray[i].zeros;
-                solutionArray[arrayCounter + 1] = pairArray[i].value;
-                arrayCounter += 2;
-            }
-
-            return solutionArray;
+            return outputStream;
         }
 
-    
+        public bool getBit(short s, int bitnum)
+        {
+            var bit = (s & (1 << bitnum)) != 0;
+            return bit;
+        }
 
         public byte ByteZusammenfassen(byte zahl1,byte zahl2)
         {
@@ -185,7 +182,12 @@ namespace JPEG
             returnbyte = swtichsup(zahl1,16,32,64,128);
             returnbyte = (byte)(returnbyte+ swtichsup(zahl2, 1, 2, 4, 8));
             return returnbyte;
+            
+        }
 
+        public byte connectBytes(byte zahl1, byte zahl2)
+        {
+            return (byte)(zahl1 << 4 | (0xf & zahl2));
         }
         private byte swtichsup(byte zahl,byte Rzahl, byte Rzahl2, byte Rzahl3, byte Rzahl4)
         {

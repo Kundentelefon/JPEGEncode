@@ -639,11 +639,8 @@ namespace JPEG
         {
             byte[] arry = {57,45,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,30,1,0,0,0,0,0 };
             RunLengthEncoder coder = new RunLengthEncoder(arry);
-            short[] test = coder.encodeACRunLength();
-            foreach (short value in test)
-            {
-                System.Console.WriteLine(value);
-            }
+            Bitstream test = coder.encodeACRunLength();
+            Console.WriteLine(test);
             Console.ReadKey();
         }
 
