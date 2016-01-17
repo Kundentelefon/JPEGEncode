@@ -15,25 +15,38 @@ namespace JPEG
 
         public static Byte[] QTYStandard =
         {
-            16,  11,  10,  16,  24,  40,  51,  61,
-            12,  12,  14,  19,  26,  58,  60,  55,
-            14,  13,  16,  24,  40,  57,  69,  56,
-            14,  17,  22,  29,  51,  87,  80,  62,
-            18,  22,  37,  56,  68, 109, 103,  77,
-            24,  35,  55,  64,  81, 104, 113,  92,
-            49,  64,  78,  87, 103, 121, 120, 101,
-            72,  92,  95,  98, 112, 100, 103,  99
+            16, 11, 10, 16, 24, 40, 51, 61,
+            12, 12, 14, 19, 26, 58, 60, 55,
+            14, 13, 16, 24, 40, 57, 69, 56,
+            14, 17, 22, 29, 51, 87, 80, 62,
+            18, 22, 37, 56, 68, 109, 103, 77,
+            24, 35, 55, 64, 81, 104, 113, 92,
+            49, 64, 78, 87, 103, 121, 120, 101,
+            72, 92, 95, 98, 112, 100, 103, 99
         };
+
         public static Byte[] QTCrCbStandard =
         {
-            17,  18,  24,  47,  99,  99,  99,  99,
-            18,  21,  26,  66,  99,  99,  99,  99,
-            24,  26,  56,  99,  99,  99,  99,  99,
-            47,  66,  99,  99,  99,  99,  99,  99,
-            99,  99,  99,  99,  99,  99,  99,  99,
-            99,  99,  99,  99,  99,  99,  99,  99,
-            99,  99,  99,  99,  99,  99,  99,  99,
-            99,  99,  99,  99,  99,  99,  99,  99
+            17, 18, 24, 47, 99, 99, 99, 99,
+            18, 21, 26, 66, 99, 99, 99, 99,
+            24, 26, 56, 99, 99, 99, 99, 99,
+            47, 66, 99, 99, 99, 99, 99, 99,
+            99, 99, 99, 99, 99, 99, 99, 99,
+            99, 99, 99, 99, 99, 99, 99, 99,
+            99, 99, 99, 99, 99, 99, 99, 99,
+            99, 99, 99, 99, 99, 99, 99, 99
+        };
+
+        public static Byte[] ZigZagTable =
+        {
+            0, 1, 5, 6, 14, 15, 27, 28,
+            2, 4, 7, 13, 16, 26, 29, 42,
+            3, 8, 12, 17, 25, 30, 41, 43,
+            9, 11, 18, 24, 31, 40, 44, 53,
+            10, 19, 23, 32, 39, 45, 52, 54,
+            20, 22, 33, 38, 46, 51, 55, 60,
+            21, 34, 37, 47, 50, 56, 59, 61,
+            35, 36, 48, 49, 57, 58, 62, 63
         };
 
         private static void PictureStart(Bitstream bs)
@@ -81,12 +94,26 @@ namespace JPEG
             byte QTY = 0; // Bit 0-3: Number of QTable. Bit 4-7 precission. -> Table for Y with precision of 8 bit
             byte QTCbCr = 1; // 1 (quantization table for CB,CR)
 
+            byte[] outputYTable = new byte[64]; // 64*(precision+1)
+            byte[] outputCrCbTable = new byte[64];
+
+            for (int i = 0; i < 64; i++)
+            {
+                //position at position i from zigzag = temp
+                outputYTable[ZigZagTable[i]] = QTYStandard[i];
+            }
+
+            for (int i = 0; i < 64; i++)
+            {
+                outputCrCbTable[ZigZagTable[i]] = QTCrCbStandard[i];
+            }
+
             bs.AddShort(marker);
             bs.AddShort(length);
             bs.AddByteSpecial(QTY);
-            bs.WriteByteArray(bs, QTYStandard, 0);
+            bs.WriteByteArray(bs, outputYTable, 0);
             bs.AddByteSpecial(QTCbCr);
-            bs.WriteByteArray(bs, QTCrCbStandard, 0);
+            bs.WriteByteArray(bs, outputCrCbTable, 0);
         }
 
         private static void SOF0Head(Bitstream bs, ushort pHeight, ushort pWidth)
@@ -293,7 +320,7 @@ namespace JPEG
             DHTHeadStandard(bs);
             DHTHead(bs);
             SOS(bs);
-            //PictureEnd(bs);
+            PictureEnd(bs);
         }
 
     }

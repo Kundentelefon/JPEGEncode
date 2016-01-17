@@ -129,6 +129,13 @@ namespace JPEG
                 {
                     pairArray[i].category = 0;
                 }
+
+                if (pairArray[i].value < 0)
+                {
+                    pairArray[i].value = (short)(~absValue);
+                    
+                }
+                //nur so viele bits von rechts nehmen wie in kategorie sagt
             }
 
 
