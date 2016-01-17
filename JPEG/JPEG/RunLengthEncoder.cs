@@ -24,6 +24,8 @@ namespace JPEG
             List<pairValues> pairList = new List<pairValues>();
             pairValues[] pairArray;
             MemoryStream stream;
+            HuffmanEncoder coder = new HuffmanEncoder();
+            SortedList<byte, List<bool>> huffmantable;
             byte[] streamArray;
             short[] solutionArray;
             
@@ -149,6 +151,8 @@ namespace JPEG
 
 
             stream = new MemoryStream(streamArray);
+            coder.PrepareEncoding(stream);
+            huffmantable = coder.getHuffmanTable();
 
 
             solutionArray = new short[pairArray.Length * 2];
