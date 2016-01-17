@@ -10,17 +10,17 @@ namespace JPEG
     class RunLengthEncoder
     {
         byte[] input;
-        struct pairValues {public byte zeros; public byte value; }
+        struct pairValues {public byte zeros; public byte category; public short value; }
         public RunLengthEncoder(byte[] input)
         {
             this.input = input;
         }
 
-        public byte[] encodeACRunLength()
+        public short[] encodeACRunLength()
         {
             List<pairValues> pairList = new List<pairValues>();
             pairValues[] pairArray;
-            byte[] solutionArray;
+            short[] solutionArray;
             
             byte zeroCounter = 0;
             pairValues tempValue = new pairValues();
@@ -56,9 +56,84 @@ namespace JPEG
                 }
             }
 
+            
             int arrayCounter = 0;
             pairArray = pairList.ToArray();
-            solutionArray = new byte[pairArray.Length * 2];
+            pairList.Clear();
+
+            for(int i = 0; i<pairArray.Length; i++)
+            {
+                int absValue = Math.Abs(pairArray[i].value);
+
+                if (absValue >= 16384)
+                {
+                    pairArray[i].category = 15;
+                }
+                else if (absValue >= 8192)
+                {
+                    pairArray[i].category = 14;
+                }
+                else if (absValue >= 4096 )
+                {
+                    pairArray[i].category = 13;
+                }
+                else if (absValue >= 2048 )
+                {
+                    pairArray[i].category = 12;
+                }
+                else if (absValue >= 1024 )
+                {
+                    pairArray[i].category = 11;
+                }
+                else if (absValue>= 512 )
+                {
+                    pairArray[i].category = 10;
+                }
+                else if (absValue >= 256 )
+                {
+                    pairArray[i].category = 9;
+                }
+                else if (absValue >= 128 )
+                {
+                    pairArray[i].category = 8;
+                }
+                else if (absValue>= 64 )
+                {
+                    pairArray[i].category = 7;
+                }
+                else if (absValue>= 32 )
+                {
+                    pairArray[i].category = 6;
+                }
+                else if (absValue>= 16 )
+                {
+                    pairArray[i].category = 5;
+                }
+                else if (absValue>= 8 )
+                {
+                    pairArray[i].category = 4;
+                }
+                else if (absValue >= 4 )
+                {
+                    pairArray[i].category = 3;
+                }
+                else if (absValue >= 2)
+                { 
+                    pairArray[i].category = 2;
+                }
+                else if (pairArray[i].value == 1 || pairArray[i].value == -1)
+                {
+                    pairArray[i].category = 1;
+                }
+                else if (pairArray[i].value == 0)
+                {
+                    pairArray[i].category = 0;
+                }
+            }
+
+
+
+            solutionArray = new short[pairArray.Length * 2];
 
             for(int i = 0; i<pairArray.Length; i++)
             {
@@ -70,7 +145,7 @@ namespace JPEG
             return solutionArray;
         }
 
-
+        //positiv und dann bitweise invertieren
 
     }
 }
