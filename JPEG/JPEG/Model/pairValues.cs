@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JPEG.Model
 {
-    class pairValues
+    struct pairValues
     {
         public byte merged; public byte zeros; public byte category; public short value;
     }
