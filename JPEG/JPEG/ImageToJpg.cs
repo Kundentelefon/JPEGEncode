@@ -7,7 +7,7 @@ namespace JPEG
         public void PPMtoJpg(string imageSrc, string imagedest)
         {
             Bitstream bs = new Bitstream();
-            Color3[,] col3 = new Color3[,] {};
+            
             PlainFormatReader pfr = new PlainFormatReader(imageSrc);
             Mathloc ml = new Mathloc();
 
@@ -16,8 +16,10 @@ namespace JPEG
             int height = pic.Head.pixelMaxY;
             int width = pic.Head.pixelMaxX;
 
+            Color3[,] col3 = new Color3[height,width];
+            byte[] colors = new byte[3];
+
             //convert RGB to YUV for each pixel
-            byte[] colors = {};
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
@@ -37,13 +39,13 @@ namespace JPEG
             PictureHead.CreateJPGHead(bs, (ushort)height, (ushort)width);
 
             //TODO: DCT
-            for (int y = 0; y < height; y += 8)
+            for (int y = 0; y < height; y ++)
             {
-                for (int x = 0; x < width; x += 8)
+                for (int x = 0; x < width; x ++)
                 {
-                    bs.AddByte(col3[y, x].a);
-                    bs.AddByte(col3[y, x].b);
-                    bs.AddByte(col3[y, x].c);
+                    //bs.AddByte(col3[y, x].a);
+                    //bs.AddByte(col3[y, x].b);
+                    //bs.AddByte(col3[y, x].c);
                 }
             }
 
