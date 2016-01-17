@@ -35,13 +35,13 @@ namespace JPEG
                 }
             }
 
-            float[,] yArray = new float[width,height]; // width and height vertauscht
-            float[,] uArray = new float[width,height];
+            float[,] yArray = new float[width, height]; // width and height vertauscht
+            float[,] uArray = new float[width, height];
             float[,] vArray = new float[width, height];
 
-            for (int i = 0; i < height; i++)
+            for (int j = 0; j < height; j++)
             {
-                for (int j = 0; j < width; j++)
+                for (int i = 0; i < width; i++)
                 {
                     yArray[i, j] = (float)col3[j, i].a;
                     uArray[i, j] = (float)col3[j, i].b;
@@ -57,9 +57,9 @@ namespace JPEG
             PictureHead.CreateJPGHead(bs, (ushort)height, (ushort)width);
 
             //TODO: DCT
-            for (int x = 0; x < height; x++)
+            for (int y = 0; y < height; y++)
             {
-                for (int y = 0; y < width; y++)
+                for (int x = 0; x < width; x++)
                 {
                     bs.AddByte((byte)yArray[x, y]);
                     bs.AddByte((byte)uArray[x, y]);
