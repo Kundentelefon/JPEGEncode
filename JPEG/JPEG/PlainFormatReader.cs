@@ -91,9 +91,17 @@ namespace JPEG
             //output = output.Replace(" ", String.Empty);
             Regex rgx = new Regex("\\s+");
             output = rgx.Replace(output, " ");
+
+            //deletes first empty char
             if (Char.IsWhiteSpace(output[0]))
             {
                 output=output.Remove(0, 1);
+            }
+
+            //deletes last empty char
+            if (Char.IsWhiteSpace(output[output.Length-1]))
+            {
+                output = output.Remove(output.Length - 1, 1);
             }
             return Regex.Split(output, " ");
         }
