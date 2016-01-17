@@ -61,6 +61,7 @@
     <Compile Include="Model\Color3.cs" />
     <Compile Include="CompressionHandler.cs" />
     <Compile Include="Model\Knoten.cs" />
+    <Compile Include="Model\pairValues.cs" />
     <Compile Include="Model\PictureColorChannel.cs" />
     <Compile Include="PlainFormatReader.cs" />
     <Compile Include="PPMreader.cs" />

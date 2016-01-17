@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using JPEG.Model;
 using System.Threading.Tasks;
 
 namespace JPEG
@@ -11,13 +12,15 @@ namespace JPEG
     class RunLengthEncoder
     {
         byte[] input;
-        struct pairValues { public byte merged; public byte zeros; public byte category; public short value; }
+        //struct pairValues { public byte merged; public byte zeros; public byte category; public short value; }
         
 
         public RunLengthEncoder(byte[] input)
         {
             this.input = input;
         }
+
+
 
         public Bitstream encodeACRunLength()
         {
@@ -27,7 +30,7 @@ namespace JPEG
             HuffmanEncoder coder = new HuffmanEncoder();
             SortedList<byte, List<bool>> huffmantable;
             byte[] streamArray;
-            short[] solutionArray;
+         
             
             byte zeroCounter = 0;
             pairValues tempValue = new pairValues();
@@ -64,7 +67,6 @@ namespace JPEG
             }
 
             
-            int arrayCounter = 0;
             pairArray = pairList.ToArray();
             streamArray = new byte[pairArray.Length];
             pairList.Clear();

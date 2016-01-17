@@ -114,7 +114,7 @@ namespace JPEG
             if (node.isLeaf)
             {
                 node.depth = 0;
-                depthList.Values[currentDepth].Add(node);
+                depthList[currentDepth].Add(node);
             }
             else
             {
