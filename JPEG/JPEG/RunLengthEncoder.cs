@@ -151,7 +151,7 @@ namespace JPEG
 
 
             stream = new MemoryStream(streamArray);
-            coder.PrepareEncoding(stream);
+            coder.PrepareEncodingRightsided(stream);
             huffmantable = coder.getHuffmanTable();
 
 
