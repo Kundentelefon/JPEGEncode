@@ -11,171 +11,194 @@ namespace JPEG
      
     class RunLengthEncoder
     {
-        byte[] input;
+        List<byte[]> input;
         //struct pairValues { public byte merged; public byte zeros; public byte category; public short value; }
         
 
-        public RunLengthEncoder(byte[] input)
+        public RunLengthEncoder(List<byte[]> input)
         {
             this.input = input;
-        }
+}
 
-
-
-        public Bitstream encodeACRunLength()
+        public List<Bitstream> encodeACRunLength()
         {
             List<pairValues> pairList = new List<pairValues>();
-            pairValues[] pairArray;
             MemoryStream stream;
             HuffmanEncoder coder = new HuffmanEncoder();
             SortedList<byte, List<bool>> huffmantable;
+            List<Bitstream> finalStreamList = new List<Bitstream>();
             byte[] streamArray;
-         
-            
-            byte zeroCounter = 0;
-            pairValues tempValue = new pairValues();
-            for (int i = 1; i<input.Length; i++)
+
+            for (int g = 0; g < input.Count; g++)
             {
-                if(i == input.Length-1 && input[i] == 0)
+                byte zeroCounter = 0;
+                pairValues tempValue = new pairValues();
+                for (int i = 1; i < input[g].Length; i++)
                 {
-                    tempValue.zeros = 0;
-                    tempValue.value = 0;
-                    pairList.Add(tempValue);
+                    if (i == input[g].Length - 1 && input[g][i] == 0)
+                    {
+                        tempValue.zeros = 0;
+                        tempValue.value = 0;
+                        pairList.Add(tempValue);
+                    }
+
+                    if (zeroCounter == 16)
+                    {
+                        tempValue.zeros = 15;
+                        tempValue.value = 0;
+                        pairList.Add(tempValue);
+
+                        zeroCounter = 0;
+                    }
+
+                    else if (input[g][i] == 0)
+                    {
+                        zeroCounter++;
+                    }
+                    else
+                    {
+                        tempValue.zeros = zeroCounter;
+                        zeroCounter = 0;
+                        tempValue.value = input[g][i];
+                        pairList.Add(tempValue);
+
+                    }
                 }
 
-                if(zeroCounter == 16)
-                {
-                    tempValue.zeros = 15;
-                    tempValue.value = 0;
-                    pairList.Add( tempValue);
-                  
-                    zeroCounter = 0;
-                }
 
-                else if(input[i] == 0)
-                {
-                    zeroCounter++;
-                }
-                else
-                {
-                    tempValue.zeros = zeroCounter;
-                    zeroCounter = 0;
-                    tempValue.value = input[i];
-                    pairList.Add(tempValue);
-                   
-                }
-            }
-
-            
-            pairArray = pairList.ToArray();
-            streamArray = new byte[pairArray.Length];
-            pairList.Clear();
-            
-
-            for(int i = 0; i<pairArray.Length; i++)
-            {
-                int absValue = Math.Abs(pairArray[i].value);
-
-                if (absValue >= 16384)
-                {
-                    pairArray[i].category = 15;
-                }
-                else if (absValue >= 8192)
-                {
-                    pairArray[i].category = 14;
-                }
-                else if (absValue >= 4096 )
-                {
-                    pairArray[i].category = 13;
-                }
-                else if (absValue >= 2048 )
-                {
-                    pairArray[i].category = 12;
-                }
-                else if (absValue >= 1024 )
-                {
-                    pairArray[i].category = 11;
-                }
-                else if (absValue>= 512 )
-                {
-                    pairArray[i].category = 10;
-                }
-                else if (absValue >= 256 )
-                {
-                    pairArray[i].category = 9;
-                }
-                else if (absValue >= 128 )
-                {
-                    pairArray[i].category = 8;
-                }
-                else if (absValue>= 64 )
-                {
-                    pairArray[i].category = 7;
-                }
-                else if (absValue>= 32 )
-                {
-                    pairArray[i].category = 6;
-                }
-                else if (absValue>= 16 )
-                {
-                    pairArray[i].category = 5;
-                }
-                else if (absValue>= 8 )
-                {
-                    pairArray[i].category = 4;
-                }
-                else if (absValue >= 4 )
-                {
-                    pairArray[i].category = 3;
-                }
-                else if (absValue >= 2)
-                { 
-                    pairArray[i].category = 2;
-                }
-                else if (pairArray[i].value == 1 || pairArray[i].value == -1)
-                {
-                    pairArray[i].category = 1;
-                }
-                else if (pairArray[i].value == 0)
-                {
-                    pairArray[i].category = 0;
-                }
-
-                if (pairArray[i].value < 0)
-                {
-                    pairArray[i].value = (short)(~absValue);
-                    
-                }
-                //nur so viele bits von rechts nehmen wie in kategorie sagt
-                pairArray[i].merged = connectBytes(pairArray[i].zeros, pairArray[i].category);
-                streamArray[i] = pairArray[i].merged;
-            }
+                pairValues[] pairArray = pairList.ToArray();
+                streamArray = new byte[pairArray.Length];
+                pairList.Clear();
 
 
-            stream = new MemoryStream(streamArray);
-            coder.PrepareEncodingRightsided(stream);
-            huffmantable = coder.getHuffmanTable();
-            List<bool> encodedList = new List<bool>();
-            Bitstream outputStream = new Bitstream();
+                for (int i = 0; i < pairArray.Length; i++)
+                {
+                    pairArray[i].category = getCategory(pairArray[i].value);
 
-            for (int i = 0;i < pairArray.Length;i++ )
-            {
-                
+                    if (pairArray[i].value < 0)
+                    {
+                        pairArray[i].value = (short)(~(-pairArray[i].value));
+
+                    }
+                    //nur so viele bits von rechts nehmen wie in kategorie sagt
+                    pairArray[i].merged = connectBytes(pairArray[i].zeros, pairArray[i].category);
+                    streamArray[i] = pairArray[i].merged;
+                }
+
+
+                stream = new MemoryStream(streamArray);
+                coder.PrepareEncodingRightsided(stream);
+                huffmantable = coder.getHuffmanTable();
+                List<bool> encodedList = new List<bool>();
+                Bitstream outputStream = new Bitstream();
+
+                for (int i = 0; i < pairArray.Length; i++)
+                {
+                    outputStream = DCEncoding(outputStream,g);
+
                     encodedList = huffmantable[pairArray[i].merged];
-                for (int z = 0; z < encodedList.Count; z++)
-                    outputStream.AddBit(encodedList[z]);
-                for (int z = 0; z < pairArray[i].category; z++)
-                    outputStream.AddBit(getBit(pairArray[i].value, z));
+                    for (int z = 0; z < encodedList.Count; z++)
+                        outputStream.AddBit(encodedList[z]);
+                    for (int z = 0; z < pairArray[i].category; z++)
+                        outputStream.AddBit(getBit(pairArray[i].value, z));
 
+                }
+
+                finalStreamList.Add(outputStream);
             }
-
-            return outputStream;
+            return finalStreamList;
         }
 
         public bool getBit(short s, int bitnum)
         {
             var bit = (s & (1 << bitnum)) != 0;
             return bit;
+        }
+
+        public byte getCategory(short input)
+        {
+            int absValue = Math.Abs(input);
+
+            if (absValue >= 16384)
+            {
+                return 15;
+            }
+            else if (absValue >= 8192)
+            {
+                return 14;
+            }
+            else if (absValue >= 4096)
+            {
+                return 13;
+            }
+            else if (absValue >= 2048)
+            {
+                return 12;
+            }
+            else if (absValue >= 1024)
+            {
+                return 11;
+            }
+            else if (absValue >= 512)
+            {
+                return 10;
+            }
+            else if (absValue >= 256)
+            {
+                return 9;
+            }
+            else if (absValue >= 128)
+            {
+                return 8;
+            }
+            else if (absValue >= 64)
+            {
+                return 7;
+            }
+            else if (absValue >= 32)
+            {
+                return 6;
+            }
+            else if (absValue >= 16)
+            {
+                return 5;
+            }
+            else if (absValue >= 8)
+            {
+                return 4;
+            }
+            else if (absValue >= 4)
+            {
+                return 3;
+            }
+            else if (absValue >= 2)
+            {
+                return 2;
+            }
+            else if (absValue == 1)
+            {
+                return 1;
+            }
+            else if (absValue == 0)
+            {
+                return 0;
+            }
+            return 16;
+        }
+
+        public Bitstream DCEncoding (Bitstream stream,int inputValue)
+        {
+            byte[] array = getDCDifferenceArray(input);
+            pairDC pair = new pairDC();
+            pair.value = array[inputValue] ;
+            pair.category = getCategory(pair.value);
+            for(int z = 0; z<pair.category; z++)
+            {
+                stream.AddBit(getBit(pair.value, z));
+            }
+
+
+            return stream;
         }
 
         public byte ByteZusammenfassen(byte zahl1,byte zahl2)
@@ -185,6 +208,19 @@ namespace JPEG
             returnbyte = (byte)(returnbyte+ swtichsup(zahl2, 1, 2, 4, 8));
             return returnbyte;
             
+        }
+
+        public byte[] getDCDifferenceArray(List<byte[]> input)
+        {
+            byte[] array = new byte[input.Count];
+            byte lastDC = 0;
+            for(int i = 0; i<input.Count;i++)
+            {
+                byte curDC = input[i][0];
+                array[i] = (byte)(curDC - lastDC);
+                lastDC = curDC;
+            }
+            return array;
         }
 
         public byte connectBytes(byte zahl1, byte zahl2)
