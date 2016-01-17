@@ -43,6 +43,6 @@ namespace JPEG
 
             //new ImageToJpg().PPMtoJpg(@"C:\Users\Skylake\Desktop\PPMTest.ppm", @"C:\Users\Skylake\Desktop\BitstreamTest.jpg");
         }
-		
-	}
+
+    }
 }
