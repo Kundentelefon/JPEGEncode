@@ -154,12 +154,14 @@ namespace JPEG
             coder.PrepareEncodingRightsided(stream);
             huffmantable = coder.getHuffmanTable();
             List<bool> encodedList = new List<bool>();
+            Bitstream outputStream = new Bitstream();
 
             for (int i = 0;i < pairArray.Length;i++ )
             {
-                if (huffmantable.ContainsKey(pairArray[i].merged))
-                    encodedList = huffmantable.TryGetValue(pairArray[i].merged);
-               
+                
+                    encodedList = huffmantable[pairArray[i].merged];
+                for (int z = 0; z < encodedList.Count; z++)
+                    outputStream.AddBit(encodedList[z]);
             }
 
 
