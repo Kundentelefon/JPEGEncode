@@ -13,7 +13,8 @@ namespace JPEG
     {
         //Variables & Constructors
         public static SortedList<byte, List<bool>> huffmanTable;
-        public SortedList<int, HuffmanNode> depthList;
+        public List<List<HuffmanNode>> depthList;
+        public int maximumDepth;
 
         public HuffmanEncoder()
         {
@@ -27,6 +28,16 @@ namespace JPEG
         {
             List<HuffmanNode> allLeafNodes = ReadToSortedList(stream);
             HuffmanNode rootNode = CreateTreeFromSortedList(allLeafNodes);
+            ConvertTreeToTable(new List<bool>(), rootNode);
+
+            return huffmanTable;
+        }
+
+        public SortedList<byte, List<bool>> PrepareEncodingRightsided(MemoryStream stream)
+        {
+            List<HuffmanNode> allLeafNodes = ReadToSortedList(stream);
+            HuffmanNode rootNode = CreateTreeFromSortedList(allLeafNodes);
+            rootNode = ReorderTreeToRightSide(rootNode);
             ConvertTreeToTable(new List<bool>(), rootNode);
 
             return huffmanTable;
@@ -77,35 +88,26 @@ namespace JPEG
         //NOITCE: the lowest non-leaf node consists of two leafs with the lowest-frequency-leaf (total) as the right child
         public HuffmanNode ReorderTreeToRightSide(HuffmanNode root)
         {
-            depthList = new SortedList<int, HuffmanNode>();
+            depthList = new List<List<HuffmanNode>>();
+            maximumDepth = 0;
             GoThroughTree(root, 0);
-            int maxdepth = depthList.Keys.Max();
-            List<HuffmanNode> levelList = new List<HuffmanNode>();
 
-            for (int i = maxdepth; i > 0; i--)
+            for (int i = maximumDepth; i > 0; i--)
             {
-                levelList.Clear();
-                foreach (int key in depthList.Keys)
-                {
-                    if (key == i)
-                    {
-                        levelList.Add(depthList.Values[depthList.Keys.IndexOf(key)]);
-                        depthList.RemoveAt(depthList.Keys.IndexOf(key));
-                    }
-                }
-                levelList.Sort((nodeOne, nodeTwo) => nodeOne.depth.CompareTo(nodeTwo.depth));
+                depthList[i].Sort((nodeOne, nodeTwo) => nodeOne.depth.CompareTo(nodeTwo.depth));
 
-                while (levelList.Count > 0)
+                while (depthList[i].Count > 0)
                 {
-                    HuffmanNode newNode = new HuffmanNode(levelList[levelList.Count - 2], levelList[levelList.Count-1]);
-                    newNode.depth = newNode.right.depth;
-                    depthList.Add(i - 1, newNode);
+                    HuffmanNode newNode = new HuffmanNode(depthList[i][depthList.Count - 2], depthList[i][depthList.Count - 1]);
+                    newNode.depth = newNode.right.depth + 1;
+                    depthList[i-1].Add(newNode);
 
-                    levelList.RemoveAt(levelList.Count-1);
-                    levelList.RemoveAt(levelList.Count-1);
+                    depthList[i].RemoveAt(depthList[i].Count-1);
+                    depthList[i].RemoveAt(depthList[i].Count-1);
                 }
             }
-            return depthList[0];
+
+            return depthList[0][0];
         }
 
         public void GoThroughTree(HuffmanNode node, int currentDepth)
@@ -113,7 +115,10 @@ namespace JPEG
             if (node.isLeaf)
             {
                 node.depth = 0;
-                depthList.Add(currentDepth, node);
+                depthList[currentDepth].Add(node);
+
+                if (currentDepth > maximumDepth)
+                    maximumDepth = currentDepth;
             }
             else
             {

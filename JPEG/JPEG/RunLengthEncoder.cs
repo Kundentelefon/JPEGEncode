@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using JPEG.Model;
 using System.Threading.Tasks;
 
 namespace JPEG
@@ -11,7 +12,7 @@ namespace JPEG
     class RunLengthEncoder
     {
         byte[] input;
-        struct pairValues { public byte merged; public byte zeros; public byte category; public short value; }
+        //struct pairValues { public byte merged; public byte zeros; public byte category; public short value; }
         
 
         public RunLengthEncoder(byte[] input)
@@ -19,13 +20,17 @@ namespace JPEG
             this.input = input;
         }
 
-        public short[] encodeACRunLength()
+
+
+        public Bitstream encodeACRunLength()
         {
             List<pairValues> pairList = new List<pairValues>();
             pairValues[] pairArray;
             MemoryStream stream;
+            HuffmanEncoder coder = new HuffmanEncoder();
+            SortedList<byte, List<bool>> huffmantable;
             byte[] streamArray;
-            short[] solutionArray;
+         
             
             byte zeroCounter = 0;
             pairValues tempValue = new pairValues();
@@ -62,7 +67,6 @@ namespace JPEG
             }
 
             
-            int arrayCounter = 0;
             pairArray = pairList.ToArray();
             streamArray = new byte[pairArray.Length];
             pairList.Clear();
@@ -143,27 +147,36 @@ namespace JPEG
                     
                 }
                 //nur so viele bits von rechts nehmen wie in kategorie sagt
-                pairArray[i].merged = ByteZusammenfassen(pairArray[i].zeros, pairArray[i].category);
+                pairArray[i].merged = connectBytes(pairArray[i].zeros, pairArray[i].category);
                 streamArray[i] = pairArray[i].merged;
             }
 
 
             stream = new MemoryStream(streamArray);
+            coder.PrepareEncodingRightsided(stream);
+            huffmantable = coder.getHuffmanTable();
+            List<bool> encodedList = new List<bool>();
+            Bitstream outputStream = new Bitstream();
 
-
-            solutionArray = new short[pairArray.Length * 2];
-
-            for(int i = 0; i<pairArray.Length; i++)
+            for (int i = 0;i < pairArray.Length;i++ )
             {
-                solutionArray[arrayCounter] = pairArray[i].zeros;
-                solutionArray[arrayCounter + 1] = pairArray[i].value;
-                arrayCounter += 2;
+                
+                    encodedList = huffmantable[pairArray[i].merged];
+                for (int z = 0; z < encodedList.Count; z++)
+                    outputStream.AddBit(encodedList[z]);
+                for (int z = 0; z < pairArray[i].category; z++)
+                    outputStream.AddBit(getBit(pairArray[i].value, z));
+
             }
 
-            return solutionArray;
+            return outputStream;
         }
 
-    
+        public bool getBit(short s, int bitnum)
+        {
+            var bit = (s & (1 << bitnum)) != 0;
+            return bit;
+        }
 
         public byte ByteZusammenfassen(byte zahl1,byte zahl2)
         {
@@ -171,7 +184,12 @@ namespace JPEG
             returnbyte = swtichsup(zahl1,16,32,64,128);
             returnbyte = (byte)(returnbyte+ swtichsup(zahl2, 1, 2, 4, 8));
             return returnbyte;
+            
+        }
 
+        public byte connectBytes(byte zahl1, byte zahl2)
+        {
+            return (byte)(zahl1 << 4 | (0xf & zahl2));
         }
         private byte swtichsup(byte zahl,byte Rzahl, byte Rzahl2, byte Rzahl3, byte Rzahl4)
         {
