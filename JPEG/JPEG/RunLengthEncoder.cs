@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace JPEG
@@ -10,7 +11,9 @@ namespace JPEG
     class RunLengthEncoder
     {
         byte[] input;
-        struct pairValues {public byte zeros; public byte category; public short value; }
+        struct pairValues { public byte merged; public byte zeros; public byte category; public short value; }
+        
+
         public RunLengthEncoder(byte[] input)
         {
             this.input = input;
@@ -20,6 +23,8 @@ namespace JPEG
         {
             List<pairValues> pairList = new List<pairValues>();
             pairValues[] pairArray;
+            MemoryStream stream;
+            byte[] streamArray;
             short[] solutionArray;
             
             byte zeroCounter = 0;
@@ -59,7 +64,9 @@ namespace JPEG
             
             int arrayCounter = 0;
             pairArray = pairList.ToArray();
+            streamArray = new byte[pairArray.Length];
             pairList.Clear();
+            
 
             for(int i = 0; i<pairArray.Length; i++)
             {
@@ -136,8 +143,12 @@ namespace JPEG
                     
                 }
                 //nur so viele bits von rechts nehmen wie in kategorie sagt
+                pairArray[i].merged = ByteZusammenfassen(pairArray[i].zeros, pairArray[i].category);
+                streamArray[i] = pairArray[i].merged;
             }
 
+
+            stream = new MemoryStream(streamArray);
 
 
             solutionArray = new short[pairArray.Length * 2];
@@ -152,6 +163,7 @@ namespace JPEG
             return solutionArray;
         }
 
+    
 
         public byte ByteZusammenfassen(byte zahl1,byte zahl2)
         {
