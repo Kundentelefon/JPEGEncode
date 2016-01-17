@@ -639,12 +639,19 @@ namespace JPEG
         {
             byte[] arry = {57,45,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,30,1,0,0,0,0,0 };
             RunLengthEncoder coder = new RunLengthEncoder(arry);
-            byte[] test = coder.encodeACRunLength();
+            short[] test = coder.encodeACRunLength();
             foreach (byte value in test)
             {
                 System.Console.WriteLine(value);
             }
             Console.ReadKey();
+        }
+
+        public void bytezusammenfassenTest()
+        {
+            byte[] nix = { };
+            RunLengthEncoder en = new RunLengthEncoder(nix);
+            byte test=en.ByteZusammenfassen((byte)11,(byte)3);
         }
         //public void bonustest()
         //{

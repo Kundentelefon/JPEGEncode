@@ -145,6 +145,106 @@ namespace JPEG
             return solutionArray;
         }
 
+
+        public byte ByteZusammenfassen(byte zahl1,byte zahl2)
+        {
+            byte returnbyte;
+            returnbyte = swtichsup(zahl1,16,32,64,128);
+            returnbyte = (byte)(returnbyte+ swtichsup(zahl2, 1, 2, 4, 8));
+            return returnbyte;
+
+        }
+        private byte swtichsup(byte zahl,byte Rzahl, byte Rzahl2, byte Rzahl3, byte Rzahl4)
+        {
+            byte returnbyte= 0;
+            switch (zahl)
+            {
+                case (0):
+                    {
+                        returnbyte = 0;
+                        break;
+                    }
+                case (1):
+                    {
+                        returnbyte = Rzahl;
+                        break;
+                    }
+                case (2):
+                    {
+                        returnbyte = Rzahl2;
+                        break;
+                    }
+                case (3):
+                    {
+                        returnbyte = (byte)(Rzahl + Rzahl2);
+                        break;
+                    }
+                case (4):
+                    {
+                        returnbyte = Rzahl3;
+                        break;
+                    }
+                case (5):
+                    {
+                        returnbyte = (byte)(Rzahl + Rzahl3); ;
+                        break;
+                    }
+                case (6):
+                    {
+                        returnbyte = (byte)(Rzahl2 + Rzahl3); ;
+                        break;
+                    }
+                case (7):
+                    {
+                        returnbyte = (byte)(Rzahl + Rzahl2 + Rzahl3);
+                        break;
+                    }
+                case (8):
+                    {
+                        returnbyte = Rzahl4;
+                        break;
+                    }
+                case (9):
+                    {
+                        returnbyte = (byte)(Rzahl + Rzahl4);
+                        break;
+                    }
+                case (10):
+                    {
+                        returnbyte = (byte)(Rzahl2 + Rzahl4);
+                        break;
+                    }
+                case (11):
+                    {
+                        returnbyte = (byte)(Rzahl + Rzahl2 + Rzahl4);
+                        break;
+                    }
+                case (12):
+                    {
+                        returnbyte = (byte)(Rzahl3 + Rzahl4);
+                        break;
+                    }
+                case (13):
+                    {
+                        returnbyte = (byte)(Rzahl + Rzahl3 + Rzahl4);
+                        break;
+                    }
+                case (14):
+                    {
+                        returnbyte = (byte)(Rzahl2 + Rzahl3 + Rzahl4);
+                        break;
+                    }
+                case (15):
+                    {
+                        returnbyte = (byte)(Rzahl + Rzahl2 + Rzahl3 + Rzahl4);
+                        break;
+                    }
+                default:
+                    break;
+            }
+            return returnbyte;
+        }
+
         //positiv und dann bitweise invertieren
 
     }
