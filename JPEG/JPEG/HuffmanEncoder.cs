@@ -90,7 +90,7 @@ namespace JPEG
         {
             depthList = new List<List<HuffmanNode>>();
             maximumDepth = 0;
-            GoThroughTree(root, 0);
+            GoThroughTree(root);
 
             for (int i = maximumDepth; i > 0; i--)
             {
@@ -98,23 +98,29 @@ namespace JPEG
 
                 while (depthList[i].Count > 0)
                 {
-                    HuffmanNode newNode = new HuffmanNode(depthList[i][depthList.Count - 2], depthList[i][depthList.Count - 1]);
+                    HuffmanNode newNode = new HuffmanNode(depthList[i][depthList[i].Count - 2], depthList[i][depthList[i].Count - 1]);
                     newNode.depth = newNode.right.depth + 1;
-                    depthList[i-1].Add(newNode);
+                    depthList[i - 1].Add(newNode);
 
-                    depthList[i].RemoveAt(depthList[i].Count-1);
-                    depthList[i].RemoveAt(depthList[i].Count-1);
+                    depthList[i].RemoveAt(depthList[i].Count - 1);
+                    depthList[i].RemoveAt(depthList[i].Count - 1);
                 }
             }
 
             return depthList[0][0];
         }
 
-        public void GoThroughTree(HuffmanNode node, int currentDepth)
+
+
+        public void GoThroughTree(HuffmanNode node, int currentDepth = 0)
         {
             if (node.isLeaf)
             {
                 node.depth = 0;
+
+                while (depthList.Count <= currentDepth)
+                    depthList.Add(new List<HuffmanNode>());
+
                 depthList[currentDepth].Add(node);
 
                 if (currentDepth > maximumDepth)
