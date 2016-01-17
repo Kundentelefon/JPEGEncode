@@ -153,6 +153,14 @@ namespace JPEG
             stream = new MemoryStream(streamArray);
             coder.PrepareEncodingRightsided(stream);
             huffmantable = coder.getHuffmanTable();
+            List<bool> encodedList = new List<bool>();
+
+            for (int i = 0;i < pairArray.Length;i++ )
+            {
+                if (huffmantable.ContainsKey(pairArray[i].merged))
+                    encodedList = huffmantable.TryGetValue(pairArray[i].merged);
+               
+            }
 
 
             solutionArray = new short[pairArray.Length * 2];
