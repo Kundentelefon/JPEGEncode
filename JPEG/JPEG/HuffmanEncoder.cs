@@ -32,6 +32,16 @@ namespace JPEG
             return huffmanTable;
         }
 
+        public SortedList<byte, List<bool>> PrepareEncodingRightsided(MemoryStream stream)
+        {
+            List<HuffmanNode> allLeafNodes = ReadToSortedList(stream);
+            HuffmanNode rootNode = CreateTreeFromSortedList(allLeafNodes);
+            rootNode = ReorderTreeToRightSide(rootNode);
+            ConvertTreeToTable(new List<bool>(), rootNode);
+
+            return huffmanTable;
+        }
+
         //Reads the stream, creates a Leaf node for every symbol with its respective frequency in it and places them in a sorted List<>
         public List<HuffmanNode> ReadToSortedList(MemoryStream stream) 
         {
