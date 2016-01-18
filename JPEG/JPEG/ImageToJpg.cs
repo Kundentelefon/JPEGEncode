@@ -48,10 +48,16 @@ namespace JPEG
                     vArray[i, j] = (float)col3[j, i].c;
                 }
             }
+            var yarry = aufteilen(yArray);
+            var uarry = aufteilen(uArray);
+            var varry = aufteilen(vArray);
 
-            DCT.DCTdirect(yArray);
-            DCT.DCTdirect(uArray);
-            DCT.DCTdirect(vArray);
+            for (int i = 0; i < ((height * width) / 64); i++)
+            {
+                DCT.DCTdirect(yarry[i]);
+                DCT.DCTdirect(uarry[i]);
+                DCT.DCTdirect(varry[i]);
+            }
 
             //create JPG head
             PictureHead.CreateJPGHead(bs, (ushort)height, (ushort)width);
@@ -76,8 +82,8 @@ namespace JPEG
 
         public float[][,] aufteilen(float[,]input)
         {
-            float[][,] returnarry= new float[(input.Length* input.GetLength(0))/64][,];
-            for (int i = 0; i < input.Length; i=i+8)
+            float[][,] returnarry= new float[(input.GetLength(1) * input.GetLength(0))/64][,];
+            for (int i = 0; i < input.GetLength(1); i=i+8)
             {
                 for (int ia = 0; ia < input.GetLength(0); )
                 {
@@ -90,10 +96,30 @@ namespace JPEG
                         }
                     }
                     ia = ia + 8;
-                    returnarry[(i*input.Length+ia*8)/64]= temparry;
+                    returnarry[(i*input.GetLength(0) + ia *8)/64 -1]= temparry;
                 }
             }
             return returnarry;
         }
+
+        public float[,] bringTogether(float[][,] input, int width, int height)
+        {
+            float[,] returnArray = new float[width, height];
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                for (int x = 0; x < 8; x++)
+                {
+                    for (int y = 0; y < 8; y++)
+                    {
+                        if (returnArray.Length == width)
+                            y = y * 8 * i;
+                        returnArray[x, y] = input[i][x, y];
+                    }
+                }
+            }
+            return returnArray;
+        }
+
     }
 }
