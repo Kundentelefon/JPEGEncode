@@ -91,8 +91,8 @@ namespace JPEG
 
                 HuffmanEncoder coder = new HuffmanEncoder();
                 SortedList<byte, List<bool>> huffmantable = new SortedList<byte, List<bool>>();
-                MemoryStream stream = new MemoryStream(acArray);
-                coder.PrepareEncodingRightsided(stream);
+                //MemoryStream stream = new MemoryStream(acArray);
+                //coder.PrepareEncodingRightsided(stream);
                 huffmantable = coder.getHuffmanTable();
                 RLEobj.huffmantablesAC = huffmantable;
                 List<bool> encodedList = new List<bool>();

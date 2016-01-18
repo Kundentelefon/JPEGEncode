@@ -69,13 +69,13 @@ namespace JPEG
             byte[,] uArrayB = new byte[width, height];
             byte[,] vArrayB = new byte[width, height];
 
-            for (int j = 0; j < height; j++)
+            for (int i = 0; i < width/8; i++)
             {
-                for (int i = 0; i < width; i++)
+                for (int j = 0; j < height/8; j++)
                 {
-                    yArrayB[i, j] = (byte)yArray[j, i];
-                    uArrayB[i, j] = (byte)uArray[j, i];
-                    vArrayB[i, j] = (byte)vArray[j, i];
+                    yArrayB[i, j] = (byte)yArray[i, j];
+                    uArrayB[i, j] = (byte)uArray[i, j];
+                    vArrayB[i, j] = (byte)vArray[i, j];
                 }
             }
 
