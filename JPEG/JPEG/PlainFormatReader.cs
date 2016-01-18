@@ -51,6 +51,14 @@ namespace JPEG
 
             head.pixelMaxY = height;
             head.pixelMaxX = width;
+            if (height % 8 == 0)
+                head.fillY = 0;
+            else
+                head.fillY = 8 - height % 8;
+            if (width % 8 == 0)
+                head.fillX = 0;
+            else
+                head.fillX = 8 - width % 8;
 
             return head;
         }

@@ -13,6 +13,9 @@ namespace JPEG
         public int pixelMaxX;
         public int pixelMaxY;
 
+        public int fillX;
+        public int fillY;
+
         public static Byte[] QTYStandard =
         {
             16, 11, 10, 16, 24, 40, 51, 61,
