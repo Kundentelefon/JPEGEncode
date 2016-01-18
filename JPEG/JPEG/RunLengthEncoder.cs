@@ -23,13 +23,13 @@ namespace JPEG
         public RLEObject encodeACRunLength()
         {
             List<pairValues> pairList = new List<pairValues>();
-            MemoryStream stream;
             RLEObject RLEobj = new RLEObject();
           
           
             List<Bitstream> finalStreamList = new List<Bitstream>();
             byte[] streamArray;
 
+            short[] acArray = getACArray(input);
             short[] dcDifferenceArray = getDCDifferenceArray(input);
             var dcCategoryArray = dcDifferenceArray.Select(getCategory).ToArray();
 
@@ -91,10 +91,10 @@ namespace JPEG
 
                 HuffmanEncoder coder = new HuffmanEncoder();
                 SortedList<byte, List<bool>> huffmantable = new SortedList<byte, List<bool>>();
-                stream = new MemoryStream(streamArray);
+                MemoryStream stream = new MemoryStream(acArray);
                 coder.PrepareEncodingRightsided(stream);
                 huffmantable = coder.getHuffmanTable();
-                RLEobj.huffmantablesAC.Add(huffmantable);
+                RLEobj.huffmantablesAC = huffmantable;
                 List<bool> encodedList = new List<bool>();
                 Bitstream outputStream = new Bitstream();
 
@@ -109,7 +109,7 @@ namespace JPEG
                 pair.category = getCategory(pair.value); //huffman codieren
                 List<bool> encodedListDC = new List<bool>();
                 encodedListDC = hufmantable[pair.category];
-                RLEobj.huffmantablesDC.Add(hufmantable);
+                RLEobj.huffmantablesDC = (hufmantable);
 
                 for (int z = 0; z < encodedListDC.Count; z++)
                     outputStream.AddBit(encodedListDC[z]);
@@ -233,6 +233,20 @@ namespace JPEG
                 array[i] = (short)(curDC - lastDC);
                 lastDC = curDC;
             }
+            return array;
+        }
+
+        public short[] getACArray(List<byte[]> input)
+        {
+            List<short> list = new List<short>();
+            for (int g = 0; g<input.Count; g++)
+            {
+                for(int i = 0; i<input[g].Length; i++)
+                {
+                    list.Add(input[g][i]);
+                }
+            }
+            short[] array = list.ToArray();
             return array;
         }
 

@@ -647,7 +647,7 @@ namespace JPEG
            
             //test[0].WriteToFile("C:/Users/Maddin/Desktop/jeptest.txt");
            
-            Console.ReadKey();
+           // Console.ReadKey();
         }
 
         //public void bytezusammenfassenTest()
