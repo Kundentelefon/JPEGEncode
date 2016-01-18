@@ -46,7 +46,7 @@ namespace JPEG
             width = int.Parse(xy[0]);
             height = int.Parse(xy[1]);
 
-            //not used but  must be read so only the body remains in reader
+            //not used but must be read so only the body remains in reader
             string maxColor = reader.ReadLine();
 
             head.pixelMaxY = height;
@@ -59,8 +59,9 @@ namespace JPEG
         PictureData ReadPictureData()
         {
             PictureData output = new PictureData();
-            output.PictureYX = new Color3[height, width];
             String[] values = PrepareValues();
+
+            output.PictureYX = new Color3[height, width];
 
             int yCount = 0;
             int xCount = 0;
@@ -74,6 +75,41 @@ namespace JPEG
                     xCount = 0;
                     yCount++;
                 }
+            }
+
+
+            if (height % 8 != 0 || width % 8 != 0)
+            {
+                PictureData filledOutput = new PictureData();
+                int targetHeight;
+                int targetWidth;
+                int fillright = 0;
+                int fillbottom = 0;
+
+                if (height % 8 != 0)
+                    fillbottom = 8 - height % 8;
+                targetHeight = height + fillbottom;
+                
+                if (width % 8 != 0)
+                    fillright = 8 - width % 8;
+                targetWidth = width + fillright;
+
+                filledOutput.PictureYX = new Color3[targetHeight, targetWidth];
+
+                for (int h = 0; h < targetHeight; h++)
+                {
+                    for (int w = 0; w < targetWidth; w++)
+                    {
+                        if (w >= width)
+                            filledOutput.PictureYX[h, w] = filledOutput.PictureYX[h, width - 1];
+                        else if (h >= height)
+                            filledOutput.PictureYX[h, w] = filledOutput.PictureYX[height - 1, w];
+                        else
+                            filledOutput.PictureYX[h, w] = output.PictureYX[h, w];
+                    }
+                }
+                return filledOutput;
+
             }
 
             return output;
