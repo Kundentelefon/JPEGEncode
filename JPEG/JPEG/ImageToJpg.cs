@@ -34,7 +34,7 @@ namespace JPEG
                     col3[y, x].c = colors[2]; // V
                 }
             }
-
+            //convert float array to byte array
             float[,] yArray = new float[width, height]; // width and height vertauscht
             float[,] uArray = new float[width, height];
             float[,] vArray = new float[width, height];
@@ -48,17 +48,45 @@ namespace JPEG
                     vArray[i, j] = (float)col3[j, i].c;
                 }
             }
+
+            //get float [number of 8x8][8x8]
             var yarry = aufteilen(yArray);
             var uarry = aufteilen(uArray);
             var varry = aufteilen(vArray);
 
+            //DCTDirect
             for (int i = 0; i < ((height * width) / 64); i++)
             {
-                DCT.DCTdirect(yarry[i]);
-                DCT.DCTdirect(uarry[i]);
-                DCT.DCTdirect(varry[i]);
+                yArray = DCT.DCTdirect(yarry[i]);
+                uArray = DCT.DCTdirect(uarry[i]);
+                vArray = DCT.DCTdirect(varry[i]);
             }
 
+            //convert float array to byte array
+            byte[,] yArrayB = new byte[width, height];
+            byte[,] uArrayB = new byte[width, height];
+            byte[,] vArrayB = new byte[width, height];
+
+            for (int j = 0; j < height; j++)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    yArrayB[i, j] = (byte)yArray[j, i];
+                    uArrayB[i, j] = (byte)uArray[j, i];
+                    vArrayB[i, j] = (byte)vArray[j, i];
+                }
+            }
+
+            byte[] yArrayB2 = new byte[width * height];
+            byte[] uArrayB2 = new byte[width * height];
+            byte[] vArrayB2 = new byte[width * height];
+
+            for (int i = 0; i < (height * width); i++)
+            {
+                yArrayB2 = ml.ZickZackScanByte(yArrayB);
+                uArrayB2 = ml.ZickZackScanByte(uArrayB);
+                vArrayB2 = ml.ZickZackScanByte(vArrayB);
+            }
 
             //create JPG head
             PictureHead.CreateJPGHead(bs, (ushort)height, (ushort)width);
