@@ -284,12 +284,12 @@ namespace JPEG
             ushort length = 12; // 6 + 2 * (number of components)
             byte NROFComponents = 3; // Number of Components in Picture 1 or 3 
             byte IdY = 1; // component ID
-            byte HTY = 0x01; // Bits 0-3: AC Table
+            byte HTY = 0x11; // Bits 0-3: AC Table
             byte IdCb = 2;
             //TODO: überprüfe ob richtig eingesetztes HT
-            byte HTCb = 0x10; // Bits 4-7: DC Table
+            byte HTCb = 0x11; // Bits 4-7: DC Table
             byte IdCr = 3;
-            byte HTCr = 0x10; // 0x11 would be AC and DC
+            byte HTCr = 0x11; // 0x11 would be AC and DC
             byte SS = 0; // start of spectral or prediction selection
             byte SE = 63; // end of spectral selection
             byte BF = 0; // successiv approcimation
