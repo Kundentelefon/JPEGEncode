@@ -13,8 +13,8 @@ namespace JPEG
             Mathloc ml = new Mathloc();
             Picture pic = pfr.ReadPicture();
 
-            int height = pic.Head.pixelMaxY + pic.Head.fillY;
-            int width = pic.Head.pixelMaxX + pic.Head.fillX;
+            int height = pic.Head.pixelMaxY;
+            int width = pic.Head.pixelMaxX;
 
             Color3[,] col3 = new Color3[height,width];
             byte[] colors = new byte[3];

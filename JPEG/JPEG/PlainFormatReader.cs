@@ -49,8 +49,6 @@ namespace JPEG
             //not used but must be read so only the body remains in reader
             string maxColor = reader.ReadLine();
 
-            head.pixelMaxY = height;
-            head.pixelMaxX = width;
             if (height % 8 == 0)
                 head.fillY = 0;
             else
@@ -59,6 +57,9 @@ namespace JPEG
                 head.fillX = 0;
             else
                 head.fillX = 8 - width % 8;
+
+            head.pixelMaxY = height + head.fillY;
+            head.pixelMaxX = width + head.fillX;
 
             return head;
         }
