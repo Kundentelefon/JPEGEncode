@@ -18,14 +18,14 @@ namespace JPEG
 		{
 			Test test = new Test();
 
-            //test.testLengthEncoder();
+            test.testLengthEncoder();
 
             //var testresult = test.testZickZackbyte();
             //var testresult2 = test.conversionTest();
 
             //Test.BitTest();
-            test.HuffmanDepthTest();
-            test.HuffmanMergeBaum();
+            //test.HuffmanDepthTest();
+            //test.HuffmanMergeBaum();
 
             //Bitstream bs = new Bitstream();
             //PictureHead.CreateJPGHead(bs, 900, 1600);

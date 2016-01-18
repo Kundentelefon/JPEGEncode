@@ -24,10 +24,13 @@ namespace JPEG
         {
             List<pairValues> pairList = new List<pairValues>();
             MemoryStream stream;
-            HuffmanEncoder coder = new HuffmanEncoder();
-            SortedList<byte, List<bool>> huffmantable;
+          
+          
             List<Bitstream> finalStreamList = new List<Bitstream>();
             byte[] streamArray;
+
+            short[] dcDifferenceArray = getDCDifferenceArray(input);
+            var dcCategoryArray = dcDifferenceArray.Select(getCategory).ToArray();
 
             for (int g = 0; g < input.Count; g++)
             {
@@ -85,16 +88,37 @@ namespace JPEG
                     streamArray[i] = pairArray[i].merged;
                 }
 
-
+                HuffmanEncoder coder = new HuffmanEncoder();
+                SortedList<byte, List<bool>> huffmantable;
                 stream = new MemoryStream(streamArray);
                 coder.PrepareEncodingRightsided(stream);
                 huffmantable = coder.getHuffmanTable();
                 List<bool> encodedList = new List<bool>();
                 Bitstream outputStream = new Bitstream();
 
+
+                pairDC pair = new pairDC();
+                pair.value = dcDifferenceArray[g];
+                MemoryStream hufstream = new MemoryStream(dcCategoryArray);
+                HuffmanEncoder coderDC = new HuffmanEncoder();
+                SortedList<byte, List<bool>> hufmantable;
+                coderDC.PrepareEncodingRightsided(hufstream);
+                hufmantable = coderDC.getHuffmanTable();
+                pair.category = getCategory(pair.value); //huffman codieren
+                List<bool> encodedListDC = new List<bool>();
+                encodedListDC = hufmantable[pair.category];
+
+                for (int z = 0; z < encodedListDC.Count; z++)
+                    outputStream.AddBit(encodedListDC[z]);
+
+                for (int z = 0; z < pair.category; z++)
+                {
+                    outputStream.AddBit(getBit(pair.value, z));
+                }
+
+
                 for (int i = 0; i < pairArray.Length; i++)
                 {
-                    outputStream = DCEncoding(outputStream,g);
 
                     encodedList = huffmantable[pairArray[i].merged];
                     for (int z = 0; z < encodedList.Count; z++)
@@ -186,21 +210,6 @@ namespace JPEG
             return 16;
         }
 
-        public Bitstream DCEncoding (Bitstream stream,int inputValue)
-        {
-            byte[] array = getDCDifferenceArray(input);
-            pairDC pair = new pairDC();
-            pair.value = array[inputValue] ;
-            pair.category = getCategory(pair.value);
-            for(int z = 0; z<pair.category; z++)
-            {
-                stream.AddBit(getBit(pair.value, z));
-            }
-
-
-            return stream;
-        }
-
         public byte ByteZusammenfassen(byte zahl1,byte zahl2)
         {
             byte returnbyte;
@@ -210,14 +219,14 @@ namespace JPEG
             
         }
 
-        public byte[] getDCDifferenceArray(List<byte[]> input)
+        public short[] getDCDifferenceArray(List<byte[]> input)
         {
-            byte[] array = new byte[input.Count];
-            byte lastDC = 0;
+            short[] array = new short[input.Count];
+            short lastDC = 0;
             for(int i = 0; i<input.Count;i++)
             {
-                byte curDC = input[i][0];
-                array[i] = (byte)(curDC - lastDC);
+                short curDC = input[i][0];
+                array[i] = (short)(curDC - lastDC);
                 lastDC = curDC;
             }
             return array;

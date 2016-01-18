@@ -638,18 +638,24 @@ namespace JPEG
         public void testLengthEncoder()
         {
             byte[] arry = {57,45,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,23,0,0,30,1,0,0,0,0,0 };
-            RunLengthEncoder coder = new RunLengthEncoder(arry);
-            Bitstream test = coder.encodeACRunLength();
-            Console.WriteLine(test);
+            byte[] arry2 = { 102, 63, 2, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 30, 1, 0, 0, 0, 0, 0 };
+            List<byte[]> arrylist = new List<byte[]>();
+            arrylist.Add(arry);
+            arrylist.Add(arry2);
+            RunLengthEncoder coder = new RunLengthEncoder(arrylist);
+            List<Bitstream> test = coder.encodeACRunLength();
+            string s =test[0].ToString();
+            //test[0].WriteToFile("C:/Users/Maddin/Desktop/jeptest.txt");
+            Console.WriteLine(s);
             Console.ReadKey();
         }
 
-        public void bytezusammenfassenTest()
-        {
-            byte[] nix = { };
-            RunLengthEncoder en = new RunLengthEncoder(nix);
-            byte test=en.ByteZusammenfassen((byte)11,(byte)3);
-        }
+        //public void bytezusammenfassenTest()
+        //{
+        //    byte[] nix = { };
+        //    RunLengthEncoder en = new RunLengthEncoder(nix);
+        //    byte test=en.ByteZusammenfassen((byte)11,(byte)3);
+        //}
         //public void bonustest()
         //{
         //    float[] test = new float[64];
