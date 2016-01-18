@@ -48,12 +48,15 @@ namespace JPEG
                     vArray[i, j] = (float)col3[j, i].c;
                 }
             }
+            var yarry = aufteilen(yArray);
+            var uarry = aufteilen(uArray);
+            var varry = aufteilen(vArray);
 
-            for (int i = 0; i < ((height * width) / 8); i++)
+            for (int i = 0; i < ((height * width) / 64); i++)
             {
-                DCT.DCTdirect(aufteilen(yArray)[i]);
-                DCT.DCTdirect(aufteilen(uArray)[i]);
-                DCT.DCTdirect(aufteilen(vArray)[i]);
+                DCT.DCTdirect(yarry[i]);
+                DCT.DCTdirect(uarry[i]);
+                DCT.DCTdirect(varry[i]);
             }
 
             //create JPG head
