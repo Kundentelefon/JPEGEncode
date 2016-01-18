@@ -93,7 +93,7 @@ namespace JPEG
                         }
                     }
                     ia = ia + 8;
-                    returnarry[(i*input.Length+ia*8)/64]= temparry;
+                    returnarry[(i*input.GetLength(0) + ia *8)/64 -1]= temparry;
                 }
             }
             return returnarry;

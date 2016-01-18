@@ -41,8 +41,8 @@ namespace JPEG
             //test.bonustest();
             //test.PerformanceTest();
 
-            new ImageToJpg().PPMtoJpg(@"C:\Users\Skylake\Desktop\blocks.ppm", @"C:\Users\Skylake\Desktop\BitstreamTest.jpg");
-		}
+            new ImageToJpg().PPMtoJpg(@"C:\Users\sebas\Desktop\blocks.ppm", @"C:\Users\sebas\Desktop\BitstreamTest.jpg");
+        }
 		
 	}
 }
