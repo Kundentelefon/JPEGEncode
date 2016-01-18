@@ -76,8 +76,8 @@ namespace JPEG
 
         public float[][,] aufteilen(float[,]input)
         {
-            float[][,] returnarry= new float[(input.Length* input.GetLength(0))/64][,];
-            for (int i = 0; i < input.Length; i=i+8)
+            float[][,] returnarry= new float[(input.GetLength(1) * input.GetLength(0))/64][,];
+            for (int i = 0; i < input.GetLength(1); i=i+8)
             {
                 for (int ia = 0; ia < input.GetLength(0); )
                 {
