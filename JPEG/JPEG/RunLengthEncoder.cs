@@ -29,7 +29,7 @@ namespace JPEG
             List<Bitstream> finalStreamList = new List<Bitstream>();
             byte[] streamArray;
 
-            short[] acArray = getACArray(input);
+            byte[] acArray = getACArray(input);
             short[] dcDifferenceArray = getDCDifferenceArray(input);
             var dcCategoryArray = dcDifferenceArray.Select(getCategory).ToArray();
 
@@ -236,18 +236,67 @@ namespace JPEG
             return array;
         }
 
-        public short[] getACArray(List<byte[]> input)
+        public byte[] getACArray(List<byte[]> input)
         {
             List<short> list = new List<short>();
+            pairValues tempValue = new pairValues();
+            List<pairValues> pairList = new List<pairValues>();
+            byte zeroCounter = 0;
             for (int g = 0; g<input.Count; g++)
             {
-                for(int i = 0; i<input[g].Length; i++)
+                for(int i = 1; i<input[g].Length; i++)
                 {
-                    list.Add(input[g][i]);
+                    if (i == input[g].Length - 1 && input[g][i] == 0)
+                    {
+                        tempValue.zeros = 0;
+                        tempValue.value = 0;
+                        pairList.Add(tempValue);
+                    }
+
+                    if (zeroCounter == 16)
+                    {
+                        tempValue.zeros = 15;
+                        tempValue.value = 0;
+                        pairList.Add(tempValue);
+
+                        zeroCounter = 0;
+                    }
+
+                    else if (input[g][i] == 0)
+                    {
+                        zeroCounter++;
+                    }
+                    else
+                    {
+                        tempValue.zeros = zeroCounter;
+                        zeroCounter = 0;
+                        tempValue.value = input[g][i];
+                        pairList.Add(tempValue);
+
+                    }
                 }
             }
+            byte[] streamArray;
             short[] array = list.ToArray();
-            return array;
+            pairValues[] pairArray = pairList.ToArray();
+            streamArray = new byte[pairArray.Length];
+            pairList.Clear();
+
+
+            for (int i = 0; i < pairArray.Length; i++)
+            {
+                pairArray[i].category = getCategory(pairArray[i].value);
+
+                if (pairArray[i].value < 0)
+                {
+                    pairArray[i].value = (short)(~(-pairArray[i].value));
+
+                }
+                //nur so viele bits von rechts nehmen wie in kategorie sagt
+                pairArray[i].merged = connectBytes(pairArray[i].zeros, pairArray[i].category);
+                streamArray[i] = pairArray[i].merged;
+            }
+            return streamArray;
         }
 
         public byte connectBytes(byte zahl1, byte zahl2)
