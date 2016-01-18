@@ -49,9 +49,12 @@ namespace JPEG
                 }
             }
 
-            DCT.DCTdirect(yArray);
-            DCT.DCTdirect(uArray);
-            DCT.DCTdirect(vArray);
+            for (int i = 0; i < ((height * width) / 8); i++)
+            {
+                DCT.DCTdirect(aufteilen(yArray)[i]);
+                DCT.DCTdirect(aufteilen(uArray)[i]);
+                DCT.DCTdirect(aufteilen(vArray)[i]);
+            }
 
             //create JPG head
             PictureHead.CreateJPGHead(bs, (ushort)height, (ushort)width);
@@ -95,5 +98,25 @@ namespace JPEG
             }
             return returnarry;
         }
+
+        public float[,] bringTogether(float[][,] input, int width, int height)
+        {
+            float[,] returnArray = new float[width, height];
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                for (int x = 0; x < 8; x++)
+                {
+                    for (int y = 0; y < 8; y++)
+                    {
+                        if (returnArray.Length == width)
+                            y = y * 8 * i;
+                        returnArray[x, y] = input[i][x, y];
+                    }
+                }
+            }
+            return returnArray;
+        }
+
     }
 }
