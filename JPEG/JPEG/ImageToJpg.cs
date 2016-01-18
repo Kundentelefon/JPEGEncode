@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 
@@ -80,7 +82,18 @@ namespace JPEG
             
 
         }
-
+        public MemoryStream DCzeug(List<byte[]> Input)
+        {
+            MemoryStream stream = new MemoryStream();
+            foreach (var item in Input)
+            {
+                for (int i = 1; i < item.Length; i++)
+                {
+                    stream.WriteByte(item[i]);
+                }
+            }
+            return stream;
+        } 
         public float[][,] aufteilen(float[,]input)
         {
             float[][,] returnarry= new float[(input.GetLength(1) * input.GetLength(0))/64][,];
