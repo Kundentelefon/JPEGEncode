@@ -93,7 +93,7 @@ namespace JPEG
                 SortedList<byte, List<bool>> huffmantable = new SortedList<byte, List<bool>>();
                 stream = new MemoryStream(streamArray);
                 coder.PrepareEncodingRightsided(stream);
-                 huffmantable = coder.getHuffmanTable();
+                huffmantable = coder.getHuffmanTable();
                 RLEobj.huffmantablesAC.Add(huffmantable);
                 List<bool> encodedList = new List<bool>();
                 Bitstream outputStream = new Bitstream();
