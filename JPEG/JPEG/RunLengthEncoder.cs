@@ -20,10 +20,11 @@ namespace JPEG
             this.input = input;
 }
 
-        public List<Bitstream> encodeACRunLength()
+        public RLEObject encodeACRunLength()
         {
             List<pairValues> pairList = new List<pairValues>();
             MemoryStream stream;
+            RLEObject RLEobj = new RLEObject();
           
           
             List<Bitstream> finalStreamList = new List<Bitstream>();
@@ -89,10 +90,11 @@ namespace JPEG
                 }
 
                 HuffmanEncoder coder = new HuffmanEncoder();
-                SortedList<byte, List<bool>> huffmantable;
+                SortedList<byte, List<bool>> huffmantable = new SortedList<byte, List<bool>>();
                 stream = new MemoryStream(streamArray);
                 coder.PrepareEncodingRightsided(stream);
-                huffmantable = coder.getHuffmanTable();
+                 huffmantable = coder.getHuffmanTable();
+                RLEobj.huffmantablesAC.Add(huffmantable);
                 List<bool> encodedList = new List<bool>();
                 Bitstream outputStream = new Bitstream();
 
@@ -101,12 +103,13 @@ namespace JPEG
                 pair.value = dcDifferenceArray[g];
                 MemoryStream hufstream = new MemoryStream(dcCategoryArray);
                 HuffmanEncoder coderDC = new HuffmanEncoder();
-                SortedList<byte, List<bool>> hufmantable;
+                SortedList<byte, List<bool>> hufmantable = new SortedList<byte, List<bool>>();
                 coderDC.PrepareEncodingRightsided(hufstream);
                 hufmantable = coderDC.getHuffmanTable();
                 pair.category = getCategory(pair.value); //huffman codieren
                 List<bool> encodedListDC = new List<bool>();
                 encodedListDC = hufmantable[pair.category];
+                RLEobj.huffmantablesDC.Add(hufmantable);
 
                 for (int z = 0; z < encodedListDC.Count; z++)
                     outputStream.AddBit(encodedListDC[z]);
@@ -130,7 +133,8 @@ namespace JPEG
 
                 finalStreamList.Add(outputStream);
             }
-            return finalStreamList;
+            RLEobj.bitstreams = finalStreamList;
+            return RLEobj;
         }
 
         public bool getBit(short s, int bitnum)

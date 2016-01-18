@@ -643,10 +643,10 @@ namespace JPEG
             arrylist.Add(arry);
             arrylist.Add(arry2);
             RunLengthEncoder coder = new RunLengthEncoder(arrylist);
-            List<Bitstream> test = coder.encodeACRunLength();
-            string s =test[0].ToString();
+            RLEObject test = coder.encodeACRunLength();
+           
             //test[0].WriteToFile("C:/Users/Maddin/Desktop/jeptest.txt");
-            Console.WriteLine(s);
+           
             Console.ReadKey();
         }
 

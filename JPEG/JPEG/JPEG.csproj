@@ -64,6 +64,7 @@
     <Compile Include="Model\pairDC.cs" />
     <Compile Include="Model\pairValues.cs" />
     <Compile Include="Model\PictureColorChannel.cs" />
+    <Compile Include="Model\RLEObject.cs" />
     <Compile Include="PlainFormatReader.cs" />
     <Compile Include="PPMreader.cs" />
     <Compile Include="ReaderWriter.cs" />
