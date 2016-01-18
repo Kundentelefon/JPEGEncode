@@ -59,6 +59,7 @@ namespace JPEG
                 DCT.DCTdirect(varry[i]);
             }
 
+
             //create JPG head
             PictureHead.CreateJPGHead(bs, (ushort)height, (ushort)width);
 
