@@ -612,6 +612,77 @@ namespace JPEG
             }
             return (returnArray);
         }
+
+
+        public byte[] Zickzackdre(byte[,] InputByteArray)
+        {
+            byte[] returnarray = { 64 };
+            returnarray[0]= InputByteArray[0,0];
+            returnarray[1] = InputByteArray[1, 0];
+            returnarray[2] = InputByteArray[0, 1];
+            returnarray[3] = InputByteArray[0, 2];
+            returnarray[4] = InputByteArray[1, 1];
+            returnarray[5] = InputByteArray[2, 0];
+            returnarray[6] = InputByteArray[3, 0];
+            returnarray[7] = InputByteArray[2, 1];
+            returnarray[8] = InputByteArray[1, 2];
+            returnarray[9] = InputByteArray[0, 3];
+            returnarray[10] = InputByteArray[0, 4];
+            returnarray[11] = InputByteArray[1, 3];
+            returnarray[12] = InputByteArray[2, 2];
+            returnarray[13] = InputByteArray[3, 1];
+            returnarray[14] = InputByteArray[4, 0];
+            returnarray[15] = InputByteArray[5, 0];
+            returnarray[16] = InputByteArray[4, 1];
+            returnarray[17] = InputByteArray[3, 2];
+            returnarray[18] = InputByteArray[2, 3];
+            returnarray[19] = InputByteArray[1, 4];
+            returnarray[20] = InputByteArray[0, 5];
+            returnarray[21] = InputByteArray[0, 6];
+            returnarray[22] = InputByteArray[1, 5];
+            returnarray[23] = InputByteArray[2, 4];
+            returnarray[24] = InputByteArray[3, 3];
+            returnarray[25] = InputByteArray[4, 2];
+            returnarray[26] = InputByteArray[5, 1];
+            returnarray[27] = InputByteArray[6, 0];
+            returnarray[28] = InputByteArray[7, 0];
+            returnarray[29] = InputByteArray[6, 1];
+            returnarray[30] = InputByteArray[5, 2];
+            returnarray[31] = InputByteArray[4, 3];
+            returnarray[32] = InputByteArray[3, 4];
+            returnarray[33] = InputByteArray[2, 5];
+            returnarray[34] = InputByteArray[1, 6];
+            returnarray[35] = InputByteArray[0, 7];
+            returnarray[36] = InputByteArray[1, 7];
+            returnarray[37] = InputByteArray[2, 6];
+            returnarray[38] = InputByteArray[3, 5];
+            returnarray[39] = InputByteArray[4, 4];
+            returnarray[40] = InputByteArray[5, 3];
+            returnarray[41] = InputByteArray[6, 2];
+            returnarray[42] = InputByteArray[7, 1];
+            returnarray[43] = InputByteArray[7, 2];
+            returnarray[44] = InputByteArray[6, 3];
+            returnarray[45] = InputByteArray[5, 4];
+            returnarray[46] = InputByteArray[4, 5];
+            returnarray[47] = InputByteArray[3, 6];
+            returnarray[48] = InputByteArray[2, 7];
+            returnarray[49] = InputByteArray[3, 7];
+            returnarray[50] = InputByteArray[4, 6];
+            returnarray[51] = InputByteArray[5, 5];
+            returnarray[52] = InputByteArray[6, 4];
+            returnarray[53] = InputByteArray[7, 3];
+            returnarray[54] = InputByteArray[7, 4];
+            returnarray[55] = InputByteArray[6, 5];
+            returnarray[56] = InputByteArray[5, 6];
+            returnarray[57] = InputByteArray[4 ,7];
+            returnarray[58] = InputByteArray[5, 7];
+            returnarray[59] = InputByteArray[6, 6];
+            returnarray[60] = InputByteArray[7, 5];
+            returnarray[61] = InputByteArray[7, 6];
+            returnarray[62] = InputByteArray[6, 7];
+            returnarray[63] = InputByteArray[7, 7];
+            return returnarray;
+        }
         /// <summary>
         /// nimmt input byte arry schreibt es in ein double array um und führt die umrechnung von RGB nach YUV aus
         /// daraufhin wird die das double array in ein byte Array umgewandelt und zurückgegeben 
